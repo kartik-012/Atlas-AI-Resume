@@ -697,8 +697,8 @@ if (isProd) {
   app.use(vite.middlewares);
 }
 
-// Listen on Port 3000
-if (process.env.NODE_ENV !== "test") {
+// Listen on Port 3000 (skip on Vercel)
+if (process.env.NODE_ENV !== "test" && !process.env.VERCEL) {
   app.listen(3000, "0.0.0.0", () => {
     console.log("Atlas AI server listening on http://0.0.0.0:3000");
   });
