@@ -1,10 +1,10 @@
 {
-  "projectId": "gen-lang-client-0281920932",
-  "appId": "1:380062684453:web:e36ab8d79f52c47c8376cc",
-  "apiKey": "AIzaSyC5NFKEXq3xJLiXgr2zMjYxOolwfPCwLQA",
-  "authDomain": "gen-lang-client-0281920932.firebaseapp.com",
-  "storageBucket": "gen-lang-client-0281920932.firebasestorage.app",
-  "messagingSenderId": "380062684453",
-  "measurementId": "",
-  "oAuthClientId": "380062684453-916r5ejiovfgd832sduvaq7jc6raoqfm.apps.googleusercontent.com"
+  "projectId": "atlas-ai-resume",
+  "appId": "1:699931461247:web:778c08e44c1e9bee80614a",
+  "apiKey": "AIzaSyAMye6ladM9f8zCZcITapqqwj030zx33ts",
+  "authDomain": "atlas-ai-resume.firebaseapp.com",
+  "storageBucket": "atlas-ai-resume.firebasestorage.app",
+  "messagingSenderId": "699931461247",
+  "measurementId": "G-N38K9P7FGH",
+  "oAuthClientId": ""
 }
