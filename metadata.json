@@ -1,0 +1,6 @@
+{
+  "name": "Atlas AI Resume",
+  "description": "A premium, interactive AI-powered resume and chatbot portal for recruiters.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

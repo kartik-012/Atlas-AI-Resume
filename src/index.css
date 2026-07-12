@@ -1,0 +1,410 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "DM Sans", "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --animate-spin-slow: spin 8s linear infinite;
+}
+
+/* ─── Base Resets ─── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+}
+
+pre, code, .font-mono {
+  font-family: var(--font-mono);
+}
+
+/* ─── Missing Text Size Utilities ─── */
+.text-xxs  { font-size: 0.65rem;  line-height: 0.95rem; }
+.text-2xs  { font-size: 0.6875rem; line-height: 1rem; }
+.text-3xs  { font-size: 0.5625rem; line-height: 0.8rem; }
+.text-4xs  { font-size: 0.5rem;   line-height: 0.7rem; }
+
+/* ─── Custom Scrollbar (dark themed) ─── */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  transition: background 0.2s;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Light mode scrollbar variant */
+.custom-scrollbar-light::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.custom-scrollbar-light::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Thin scrollbar override */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+/* ─── Global Entrance Animations ─── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInBottom {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gentlePulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.6; }
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out both;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.4s ease-out both;
+}
+
+.animate-slide-in-bottom {
+  animation: slideInBottom 0.5s ease-out both;
+}
+
+.animate-count-up {
+  animation: countUp 0.6s ease-out both;
+}
+
+.animate-gentle-pulse {
+  animation: gentlePulse 2s ease-in-out infinite;
+}
+
+/* Staggered animation delays */
+.delay-75  { animation-delay: 75ms; }
+.delay-150 { animation-delay: 150ms; }
+.delay-225 { animation-delay: 225ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* ─── Splash Screen ─── */
+@keyframes splashFadeOut {
+  0%   { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; }
+}
+
+@keyframes splashLogoEntry {
+  0%   { opacity: 0; transform: scale(0.8) translateY(10px); }
+  50%  { opacity: 1; transform: scale(1.02) translateY(-2px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes splashBarFill {
+  0%   { width: 0%; }
+  100% { width: 100%; }
+}
+
+/* ─── Google Sign-In Button Styles ─── */
+.gsi-material-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  height: 44px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+}
+
+.gsi-material-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15);
+}
+
+.gsi-material-button-state {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.2s;
+  opacity: 0;
+}
+
+.gsi-material-button:hover .gsi-material-button-state {
+  opacity: 0.06;
+  background: white;
+}
+
+.gsi-material-button-content-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gsi-material-button-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.gsi-material-button-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.gsi-material-button-contents {
+  white-space: nowrap;
+}
+
+/* ─── Page Transition ─── */
+.view-transition-enter {
+  animation: fadeInUp 0.35s ease-out both;
+}
+
+/* ─── Respect Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Print Styles ─── */
+@media print {
+  /* 1. Reset page margins for maximum paper usage */
+  @page {
+    margin: 0.4in;
+    size: A4 portrait;
+  }
+
+  /* 2. Strip backgrounds & borders from html/body */
+  html, body {
+    background: white !important;
+    color: black !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 3. Hide EVERYTHING except the resume canvas */
+  body > * {
+    display: none !important;
+  }
+
+  /* 4. But show the root React mount */
+  #root {
+    display: block !important;
+  }
+
+  /* 5. Hide all chrome: navbar, footer, chatbot, splash, toolbar */
+  header,
+  footer,
+  nav,
+  #splash-screen,
+  #chatbot-trigger,
+  #chatbot-window {
+    display: none !important;
+  }
+
+  /* 6. Strip the main app wrapper — just let content flow */
+  #root > div {
+    display: block !important;
+    min-height: auto !important;
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* 7. Strip the <main> container constraints */
+  main {
+    display: block !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  main > div {
+    min-height: auto !important;
+    height: auto !important;
+  }
+
+  /* 7b. Allow transition wrapper to show and flow */
+  .view-transition-enter {
+    display: block !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* 8. Strip the PDF viewer root container */
+  #pdf-viewer-root {
+    display: block !important;
+    overflow: visible !important;
+    height: auto !important;
+    min-height: auto !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: white !important;
+    padding: 0 !important;
+  }
+
+  /* 9. Hide the toolbar completely */
+  #pdf-viewer-root > div:first-child {
+    display: none !important;
+  }
+
+  /* 10. Strip the scroll container + zoom wrapper */
+  #pdf-viewer-root > div:last-child {
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: white !important;
+    display: block !important;
+    height: auto !important;
+  }
+
+  #pdf-viewer-root > div:last-child > div {
+    transform: none !important;
+  }
+
+  /* 11. The actual paper canvas */
+  #pdf-paper-canvas {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+    height: auto !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: white !important;
+    opacity: 1 !important;
+    transform: none !important;
+    position: relative !important;
+    page-break-inside: auto !important;
+  }
+
+  /* 12. Force BOTH pages visible for printing */
+  #pdf-paper-canvas > div {
+    display: block !important;
+    visibility: visible !important;
+    height: auto !important;
+    overflow: visible !important;
+    page-break-inside: avoid;
+  }
+
+  /* 13. Page 2 starts on a new sheet */
+  #pdf-paper-canvas > div:nth-child(2) {
+    page-break-before: always;
+  }
+
+  /* 14. Kill ambient background orbs */
+  .fixed.inset-0 {
+    display: none !important;
+  }
+}
+
+/* ─── Skeleton Loading Shimmer ─── */
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.03) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+/* ─── Gradient Text Helper ─── */
+.gradient-text {
+  background: linear-gradient(135deg, #4FC0D0, #1B6B93);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

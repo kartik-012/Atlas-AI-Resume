@@ -1,0 +1,63 @@
+{
+  "visits": 425,
+  "questionsAsked": 16,
+  "timeSpent": 9990,
+  "projectsOpened": 1,
+  "resumeDownloads": 10,
+  "dailyVisits": [
+    {
+      "date": "Mon",
+      "count": 0
+    },
+    {
+      "date": "Tue",
+      "count": 0
+    },
+    {
+      "date": "Wed",
+      "count": 0
+    },
+    {
+      "date": "Thu",
+      "count": 0
+    },
+    {
+      "date": "Fri",
+      "count": 0
+    },
+    {
+      "date": "Sat",
+      "count": 0
+    },
+    {
+      "date": "Sun",
+      "count": 425
+    }
+  ],
+  "popularQueries": [
+    {
+      "query": "Explain his projects",
+      "count": 1
+    },
+    {
+      "query": "Who is Kartik?",
+      "count": 3
+    },
+    {
+      "query": "why is this drive ?",
+      "count": 1
+    },
+    {
+      "query": "what is there in google drive ?",
+      "count": 1
+    },
+    {
+      "query": "why u have google drive option ?",
+      "count": 1
+    },
+    {
+      "query": "what are main reson to hire him",
+      "count": 1
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+[
+  {
+    "id": "profile-summary",
+    "title": "Summary & Overview",
+    "source": "Resume.pdf",
+    "content": "Kartik Raikar is an AI & Machine Learning undergraduate student (BE, 2023 - Present) at a Visvesvaraya Technological University (VTU) affiliated institute. Summarized: AI & Machine Learning undergraduate passionate about Software Development, Backend Engineering, Artificial Intelligence, and scalable systems. Experienced in developing full-stack web applications, AI-powered platforms, and machine learning solutions using Java, Python, React, FastAPI, MongoDB, and modern AI frameworks. Strong problem-solving skills with growing expertise in Data Structures and Algorithms. Contact Email: kartikraikar2005@gmail.com, Phone: , Github: https://github.com/kartikraikar2005, LinkedIn: https://linkedin.com/in/kartik-raikar."
+  },
+  {
+    "id": "education",
+    "title": "Education & Institution",
+    "source": "Resume.pdf",
+    "content": "Education: Kartik is pursuing a Bachelor of Engineering (BE) in Artificial Intelligence & Machine Learning (2023 - Present) under Visvesvaraya Technological University (VTU). He is passionate about systems, data structures, and algorithms."
+  },
+  {
+    "id": "skills-languages",
+    "title": "Skills - Programming Languages",
+    "source": "Resume.pdf",
+    "content": "Technical Programming Languages: Kartik is highly proficient in Java, Python, C++, JavaScript, SQL."
+  },
+  {
+    "id": "skills-web-dev",
+    "title": "Skills - Frontend & Backend Frameworks",
+    "source": "Resume.pdf",
+    "content": "Web Development Stack: Frontend: React.js, HTML, CSS, TailwindCSS, Vite, Framer Motion. Backend: FastAPI, Node.js, Express.js, REST APIs. Database systems include: MongoDB, MySQL, Neo4j."
+  },
+  {
+    "id": "skills-ai-ml",
+    "title": "Skills - AI, Machine Learning, & NLP",
+    "source": "Resume.pdf",
+    "content": "AI, Machine Learning, and Deep Learning Skills: Kartik possesses practical experience with Scikit-learn, NumPy, Pandas, LangChain, Sentence Transformers, Claude/GPT APIs, Cohere API, NLP, Deep Learning. Tools of the trade: Git, GitHub, VS Code, Postman, Render, Vercel."
+  },
+  {
+    "id": "project-debate-arena-summary",
+    "title": "Debate Arena - Overview",
+    "source": "Debate Arena.pdf",
+    "content": "Project Details for \"Debate Arena\": Tech Stack: React, FastAPI, MongoDB, Advanced LLM APIs, TailwindCSS. Brief: An AI-powered multi-agent debate platform with real-time argument generation and interactive courtroom visualization.. GitHub: https://github.com/kartikraikar2005/debate-arena. Demo: https://debate-arena.kartik.dev."
+  },
+  {
+    "id": "project-debate-arena-details",
+    "title": "Debate Arena - Core Architecture",
+    "source": "README.md",
+    "content": "In-depth Project Implementation: \"Debate Arena\" Details: Debate Arena is a cutting-edge platform where multiple AI agents engage in structured debates on user-defined topics. Powered by state-of-the-art language models, agents adopt specific personas, research evidence, counter arguments, and deliver persuasive arguments. The frontend features a beautiful, courtroom-inspired interface with real-time streaming, animations, and sentiment analysis overlays.. Accomplishments & Achievements: Built an AI-powered multi-agent debate platform with real-time argument generation. Integrated advanced language model APIs for intelligent response generation and persona synthesis. Designed responsive courtroom-inspired frontend using React and TailwindCSS. Developed high-performance backend REST APIs using FastAPI."
+  },
+  {
+    "id": "project-rag-auditor-summary",
+    "title": "RAG Hallucination Auditor - Overview",
+    "source": "RAG Hallucination Auditor.pdf",
+    "content": "Project Details for \"RAG Hallucination Auditor\": Tech Stack: Python, FastAPI, Cohere, Sentence Transformers, Numpy. Brief: An AI tool to detect, analyze, and mitigate hallucinations in Retrieval-Augmented Generation systems using semantic similarity.. GitHub: https://github.com/kartikraikar2005/rag-hallucination-auditor. Demo: https://rag-auditor.kartik.dev."
+  },
+  {
+    "id": "project-rag-auditor-details",
+    "title": "RAG Hallucination Auditor - Core Architecture",
+    "source": "README.md",
+    "content": "In-depth Project Implementation: \"RAG Hallucination Auditor\" Details: The RAG Hallucination Auditor is a diagnostic utility for production LLM pipelines. It intercepts retrieved knowledge chunks and compared generated text outputs, using Sentence Transformers to compute fine-grained semantic overlap and check for factual inconsistency, external knowledge injection, or contradiction.. Accomplishments & Achievements: Developed an AI tool to detect hallucinations in Retrieval-Augmented Generation systems. Implemented high-accuracy semantic similarity scoring using Sentence Transformers. Compared retrieved knowledge with generated responses to improve reliability. Created REST APIs and an interactive benchmark testing dashboard."
+  },
+  {
+    "id": "project-numpygpt-summary",
+    "title": "NumPyGPT - Overview",
+    "source": "NumPyGPT.pdf",
+    "content": "Project Details for \"NumPyGPT\": Tech Stack: TypeScript, React, Deep Learning, Vite, TailwindCSS. Brief: A complete GPT model implemented completely from scratch without external ML libraries, featuring a rich training dashboard.. GitHub: https://github.com/kartikraikar2005/numpygpt. Demo: https://numpygpt.kartik.dev."
+  },
+  {
+    "id": "project-numpygpt-details",
+    "title": "NumPyGPT - Core Architecture",
+    "source": "README.md",
+    "content": "In-depth Project Implementation: \"NumPyGPT\" Details: NumPyGPT is an educational masterpiece designed to demystify generative pre-trained transformers. Every single operation - including Matrix Multiplication, Multi-Head Attention, Layer Normalization, Softmax, FeedForward layers, and Backpropagation - is coded manually. The UI offers a brilliant visual walkthrough of activations, weights, gradients, and attention head maps as text flows through the network.. Accomplishments & Achievements: Implemented a GPT model completely from scratch without ML libraries. Developed Matrix Multiplication, Attention, LayerNorm, Softmax, and Backpropagation manually. Created an interactive visualization dashboard for transformer architecture."
+  },
+  {
+    "id": "project-misinformation-tree-summary",
+    "title": "Misinformation Family Tree AI - Overview",
+    "source": "Misinformation Family Tree AI.pdf",
+    "content": "Project Details for \"Misinformation Family Tree AI\": Tech Stack: FastAPI, Neo4j, NLP, Python, React. Brief: An AI system for tracing the origin, evolution, and propagation routes of fake news using graph databases and semantic NLP.. GitHub: https://github.com/kartikraikar2005/misinformation-family-tree. Demo: https://misinfo-tree.kartik.dev."
+  },
+  {
+    "id": "project-misinformation-tree-details",
+    "title": "Misinformation Family Tree AI - Core Architecture",
+    "source": "README.md",
+    "content": "In-depth Project Implementation: \"Misinformation Family Tree AI\" Details: This advanced NLP project models the viral spread of fake news. By analyzing news articles and social media feeds, it clusters similar claims, detects mutations in narrative, and structures propagation pathways inside a Neo4j graph database. Users can explore claim 'genealogies' to pinpoint source accounts and propagation hubs.. Accomplishments & Achievements: Designed an AI system for tracing the origin and evolution of fake news. Used graph-based visualization (Neo4j) to analyze misinformation propagation pathways. Integrated modern NLP techniques for semantic relationship detection and clustering."
+  },
+  {
+    "id": "achievement-hackathon",
+    "title": "Achievement: MSME Hackathon 6.0 Participant",
+    "source": "Achievements.pdf",
+    "content": "Kartik's Official Achievement: \"MSME Hackathon 6.0 Participant\" - Description: Participated in the prestigious national MSME Hackathon 6.0, designing AI-powered enterprise solutions."
+  },
+  {
+    "id": "achievement-ai-apps",
+    "title": "Achievement: LLM & FastAPI Specialist",
+    "source": "Achievements.pdf",
+    "content": "Kartik's Official Achievement: \"LLM & FastAPI Specialist\" - Description: Successfully built and deployed multiple production-ready AI applications powered by LLMs and high-performance backends."
+  },
+  {
+    "id": "achievement-google-course",
+    "title": "Achievement: Google AI Agents Graduate",
+    "source": "Achievements.pdf",
+    "content": "Kartik's Official Achievement: \"Google AI Agents Graduate\" - Description: Completed Google's elite AI Agents Intensive Course, mastering advanced multi-agent architectures, function calling, and prompt orchestration."
+  },
+  {
+    "id": "achievement-backend-db",
+    "title": "Achievement: Scalable Systems Creator",
+    "source": "Achievements.pdf",
+    "content": "Kartik's Official Achievement: \"Scalable Systems Creator\" - Description: Developed and optimized scalable backend web servers utilizing FastAPI and MongoDB with advanced caching structures."
+  },
+  {
+    "id": "achievement-dsa-practice",
+    "title": "Achievement: Competitive Programming Enthusiast",
+    "source": "Achievements.pdf",
+    "content": "Kartik's Official Achievement: \"Competitive Programming Enthusiast\" - Description: Actively practicing Data Structures and Algorithms on LeetCode and HackerRank, maintaining strong problem-solving skills."
+  },
+  {
+    "id": "certification-google-agent",
+    "title": "Certification: Google AI Agents Intensive Course Certificate",
+    "source": "Certificate.pdf",
+    "content": "Official Certification of Kartik Raikar: \"Google AI Agents Intensive Course Certificate\" issued by Google Developers."
+  },
+  {
+    "id": "certification-kaggle-agent",
+    "title": "Certification: Kaggle AI Agents Certificate",
+    "source": "Certificate.pdf",
+    "content": "Official Certification of Kartik Raikar: \"Kaggle AI Agents Certificate\" issued by Kaggle / Google."
+  },
+  {
+    "id": "certification-harvard-cs50",
+    "title": "Certification: Harvard CS50 Computer Science Certificate",
+    "source": "Certificate.pdf",
+    "content": "Official Certification of Kartik Raikar: \"Harvard CS50 Computer Science Certificate\" issued by Harvard University (edX)."
+  },
+  {
+    "id": "certification-nptel-cert",
+    "title": "Certification: NPTEL AI/ML Certifications",
+    "source": "Certificate.pdf",
+    "content": "Official Certification of Kartik Raikar: \"NPTEL AI/ML Certifications\" issued by NPTEL India."
+  }
+]
