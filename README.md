@@ -35,7 +35,7 @@ Atlas AI Resume is a production-quality, ultra-premium, full-stack AI Resume Por
 - **Dual-Engine Search**: Performs cosine similarity vector lookups with automatic fallback to keyword term overlap to guarantee offline reliability.
 - **Server-Sent Events (SSE)**: Streams chatbot responses word-by-word for a fluid, ChatGPT-like conversational experience.
 
----
+
 
 ## 📂 Project Directory Structure
 
