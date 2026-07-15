@@ -36,7 +36,6 @@ Atlas AI Resume is a production-quality, ultra-premium, full-stack AI Resume Por
 - **Server-Sent Events (SSE)**: Streams chatbot responses word-by-word for a fluid, ChatGPT-like conversational experience.
 
 
-
 ## 📂 Project Directory Structure
 
 ```text
