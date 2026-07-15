@@ -100,7 +100,6 @@ Atlas AI Resume is a production-quality, ultra-premium, full-stack AI Resume Por
    ```
 
 
-
 ## ☁️ Production Deployment Walkthrough
 
 To accommodate different platform designs, Kartik's portfolio is built with decoupled microservice compatibility:
