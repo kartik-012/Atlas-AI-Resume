@@ -4,7 +4,6 @@ Atlas AI Resume is a production-quality, ultra-premium, full-stack AI Resume Por
 
 ## 🚀 Key Features
 
-
 - **Interactive PDF Viewer**: Displays a high-fidelity, fully typeset responsive resume with page pagination, real-time keyword highlights, zoom controls, and a direct download/print trigger.
 - **SaaS Dashboard (Extra Tabs)**:
   - **Projects Console**: Interactive grid showcasing Kartik's systems with a dedicated "Ask AI" trigger that automatically focuses the chat agent on that specific project.
