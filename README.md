@@ -17,8 +17,8 @@ Atlas AI Resume is a production-quality, ultra-premium, full-stack AI Resume Por
   - Features typing indicators, auto-scroll, message timestamps, and suggested follow-up questions.
   - Custom markdown, tables, bullet-list rendering, and syntax-highlighted code panels.
   - Displays dynamic **Confidence Scores** & clickable **Source Citations** (e.g. `Resume.pdf`, `README.md`, `Certificate.pdf`).
-    
 
+    
 ## 🛠️ Full-Stack Technology Stack
 
 ### Frontend Architecture
