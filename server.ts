@@ -588,7 +588,7 @@ app.post("/api/chat", apiLimiter, async (req, res) => {
 
   // Fallback direct answers if Gemini API Key is missing or invalid
   if (!ai) {
-    res.write(`data: ${JSON.stringify({ chunk: "🤖 **[Atlas AI Active]** " })}\n\n`);
+    res.write(`data: ${JSON.stringify({ chunk: "🤖 **[Atlas AI Active]**\n\n" })}\n\n`);
     
     const cleanLowerQuery = query.trim().toLowerCase();
     let textReply = "";
@@ -918,20 +918,23 @@ I'm ready to answer any questions about Kartik's engineering background, project
 Which area would you like to explore?`;
     }
 
+    // Clean any leading ### Header line so response starts directly with 🤖 **[Atlas AI Active]** followed by the answer body
+    const cleanedReply = textReply.replace(/^###\s+[^\n]*\n+/, "");
+
     // Stream the fallback text with natural, comfortable reading cadence
-    const words = textReply.split(" ");
+    const words = cleanedReply.split(" ");
     for (let i = 0; i < words.length; i++) {
       const word = words[i];
       res.write(`data: ${JSON.stringify({ chunk: word + " " })}\n\n`);
       
       // Natural human-readable pacing
-      let delay = 26;
+      let delay = 22;
       if (word.endsWith(".") || word.endsWith("?") || word.endsWith("!")) {
-        delay = 55;
-      } else if (word.endsWith(":") || word.includes("\n")) {
         delay = 45;
-      } else if (word.endsWith(",")) {
+      } else if (word.endsWith(":") || word.includes("\n")) {
         delay = 35;
+      } else if (word.endsWith(",")) {
+        delay = 28;
       }
       await new Promise(resolve => setTimeout(resolve, delay));
     }
