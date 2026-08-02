@@ -4,8 +4,9 @@
  */
 
 import { useState, useEffect, FormEvent } from "react";
-import { Compass, Navigation, Milestone, MessageSquare, Activity, Layers, Flag, Globe, Github, ExternalLink, Sparkles, Send, Upload, RefreshCw, Trash2, Mail, Phone, MapPin, Check, Copy } from "lucide-react";
+import { Compass, Navigation, Milestone, MessageSquare, Activity, Layers, Flag, Globe, Github, Linkedin, ExternalLink, Sparkles, Send, Upload, RefreshCw, Trash2, Mail, Phone, MapPin, Check, Copy } from "lucide-react";
 import { resumeData, Project, Certification } from "../data/resumeData";
+
 
 interface DashboardProps {
   onAskAIAboutProject: (projectTitle: string) => void;
@@ -47,6 +48,7 @@ export default function Dashboard({ onAskAIAboutProject, onTrackAction }: Dashbo
   const [skillsLoaded, setSkillsLoaded] = useState<boolean>(false);
   const [typingText, setTypingText] = useState<string>("");
   const [phraseIndex, setPhraseIndex] = useState<number>(0);
+  const [certFilter, setCertFilter] = useState<"all" | "ai" | "cloud" | "data" | "security" | "dev">("all");
 
   const typingPhrases = [
     "Compiling matrix: Python, FastAPI, React, Node.js, and Vector Databases...",
@@ -487,35 +489,93 @@ export default function Dashboard({ onAskAIAboutProject, onTrackAction }: Dashbo
         {activeTab === "certificates" && (
           <div className="space-y-6">
             <div className="border-b border-white/10 pb-4">
-              <h2 className="text-xl font-extrabold text-white">Professional Certifications</h2>
+              <h2 className="text-xl font-extrabold text-white">Certifications & Credentials</h2>
               <p className="text-xs text-slate-400 mt-1">
-                Verified accreditations highlighting core strengths in AI orchestration, NLP, and software foundations.
+                A verified record of specialized mastery spanning Oracle GenAI, AWS ML, Azure Cloud, Cisco, Deloitte, IBM, and enterprise development simulations.
               </p>
             </div>
 
+            {/* Category Filter Pills */}
+            <div className="flex flex-wrap gap-2">
+              {(["all", "ai", "cloud", "data", "security", "dev"] as const).map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setCertFilter(cat)}
+                  className={`rounded-full px-3 py-1.5 text-xxs font-bold transition-all ${
+                    certFilter === cat
+                      ? "bg-[#1B6B93] text-white shadow-lg shadow-[#1B6B93]/30"
+                      : "border border-white/15 bg-white/5 text-slate-400 hover:text-white hover:border-white/30"
+                  }`}
+                >
+                  {cat === "all" ? "All Credentials" :
+                   cat === "ai" ? "AI & ML" :
+                   cat === "cloud" ? "Cloud" :
+                   cat === "data" ? "Data Analytics" :
+                   cat === "security" ? "Cybersecurity" : "Full-Stack & Dev"}
+                </button>
+              ))}
+              <span className="ml-auto text-xxs text-slate-500 self-center font-mono">
+                {resumeData.certifications.filter(c => certFilter === "all" || c.category === certFilter).length} credentials
+              </span>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {resumeData.certifications.map((c) => (
+              {resumeData.certifications
+                .filter(c => certFilter === "all" || c.category === certFilter)
+                .map((c) => (
                 <div
                   key={c.id}
-                  className="flex items-center justify-between rounded-xl bg-white/5 border border-white/10 p-4 hover:border-[#1B6B93]/30 transition"
+                  className="group relative flex flex-col rounded-2xl bg-white/[0.04] border border-white/10 p-5 hover:border-[#1B6B93]/50 hover:bg-white/[0.07] transition-all duration-300 overflow-hidden"
+                  style={{ ['--cert-color' as string]: c.brandColor }}
                 >
-                  <div className="flex items-start space-x-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#1B6B93]/10 text-[#4FC0D0] border border-[#1B6B93]/20">
-                      <Milestone className="h-5 w-5" />
+                  {/* Subtle colored top accent line */}
+                  <div className="absolute inset-x-0 top-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: c.brandColor }} />
+
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <CertIssuerBadge issuerKey={c.issuerKey} brandColor={c.brandColor} />
+                      <div>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{c.issuer}</p>
+                        <p className="text-xxs font-mono text-slate-500">Issued {c.date}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-xs sm:text-sm font-bold text-white leading-snug font-display">
-                        {c.title}
-                      </h3>
-                      <p className="text-xxs text-slate-400 mt-0.5 font-mono">
-                        ISSUER: {c.issuer.toUpperCase()}
-                      </p>
-                    </div>
+                    <span className="shrink-0 inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-4xs font-bold uppercase tracking-wider text-emerald-400">
+                      <span>✓</span> Verified
+                    </span>
                   </div>
 
-                  <span className="rounded bg-white/10 px-2 py-1 text-3xs font-extrabold text-slate-400 border border-white/5 uppercase font-mono tracking-wider">
-                    Verified
-                  </span>
+                  <h3 className="mt-3 text-xs font-bold text-white leading-snug group-hover:text-[#4FC0D0] transition-colors">
+                    {c.title}
+                  </h3>
+                  <p className="mt-1.5 text-xxs text-slate-400 leading-relaxed line-clamp-2">{c.description}</p>
+
+                  <div className="flex flex-wrap gap-1.5 mt-3">
+                    {c.skills.map((skill) => (
+                      <span key={skill} className="rounded-md border border-white/10 bg-black/20 px-1.5 py-0.5 text-4xs font-medium text-slate-400">{skill}</span>
+                    ))}
+                  </div>
+
+                  {c.credentialId && (
+                    <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
+                      <span className="text-4xs font-mono text-slate-500 truncate max-w-[160px]" title={c.credentialId}>
+                        ID: {c.credentialId}
+                      </span>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(c.credentialId!);
+                          onTrackAction('copy_credential', { id: c.id });
+                        }}
+                        className="text-3xs font-bold text-slate-400 hover:text-white border border-white/10 hover:border-[#1B6B93]/50 bg-black/20 hover:bg-[#1B6B93]/20 px-2 py-0.5 rounded transition"
+                      >
+                        Copy ID
+                      </button>
+                    </div>
+                  )}
+                  {!c.credentialId && (
+                    <div className="mt-4 pt-3 border-t border-white/5">
+                      <span className="text-3xs font-semibold text-slate-500">Official Training Credential</span>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -1008,76 +1068,213 @@ export default function Dashboard({ onAskAIAboutProject, onTrackAction }: Dashbo
         {activeTab === "contact" && (
           <div className="space-y-6">
             <div className="border-b border-white/10 pb-4">
-              <h2 className="text-xl font-extrabold text-white">Direct Engagement Card</h2>
+              <h2 className="text-xl font-extrabold text-white">Direct Contact</h2>
               <p className="text-xs text-slate-400 mt-1">
-                Establish contacts with Kartik Raikar immediately. Schedule reviews, interviews, or project collaborations.
+                Reach out to Kartik directly via email, phone, or LinkedIn. He's open to AI/ML roles, collaborations, and interviews.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Left Contact Card Grid */}
-              <div className="space-y-4 rounded-xl bg-white/5 border border-white/10 p-5">
-                <h3 className="text-sm font-bold text-white mb-2">Connect Directly</h3>
-                
-                <button
-                  onClick={() => handleCopy(resumeData.email, "email")}
-                  className="flex items-center space-x-3 w-full rounded-lg bg-black/30 p-3.5 border border-white/10 hover:border-indigo-500/30 transition text-left"
-                >
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                    <Mail className="h-4.5 w-4.5" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-3xs font-extrabold text-slate-500 uppercase">Official Email</p>
-                    <p className="text-xs font-bold text-white truncate mt-0.5">{resumeData.email}</p>
-                  </div>
-                  {copiedLabel === "email" ? <Check className="h-4 w-4 text-emerald-400 shrink-0" /> : <Copy className="h-3.5 w-3.5 text-slate-500 shrink-0" />}
-                </button>
-
-                <button
-                  onClick={() => handleCopy(resumeData.phone, "phone")}
-                  className="flex items-center space-x-3 w-full rounded-lg bg-black/30 p-3.5 border border-white/10 hover:border-indigo-500/30 transition text-left"
-                >
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                    <Phone className="h-4.5 w-4.5" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-3xs font-extrabold text-slate-500 uppercase">Phone / Telegram</p>
-                    <p className="text-xs font-bold text-white truncate mt-0.5">{resumeData.phone}</p>
-                  </div>
-                  {copiedLabel === "phone" ? <Check className="h-4 w-4 text-emerald-400 shrink-0" /> : <Copy className="h-3.5 w-3.5 text-slate-500 shrink-0" />}
-                </button>
-
-                <div className="flex items-center space-x-3 w-full rounded-lg bg-black/30 p-3.5 border border-white/10">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                    <MapPin className="h-4.5 w-4.5" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {/* Email Card */}
+              <div className="group relative overflow-hidden rounded-2xl border border-white/15 bg-white/5 p-5 hover:border-[#1B6B93]/50 hover:bg-white/[0.08] transition-all duration-300">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-white/90 shadow-md">
+                    <svg viewBox="0 0 48 48" className="h-6 w-6">
+                      <path fill="#EA4335" d="M24 24.5L6 11.2V37c0 1.7 1.3 3 3 3h30c1.7 0 3-1.3 3-3V11.2L24 24.5z" />
+                      <path fill="#4285F4" d="M42 11.2V8c0-1.7-1.3-3-3-3H9C7.3 5 6 6.3 6 8v3.2l18 13.3 18-13.3z" />
+                      <path fill="#34A853" d="M6 11.2L24 24.5 6 37.8V11.2z" />
+                      <path fill="#FBBC05" d="M42 11.2L24 24.5 42 37.8V11.2z" />
+                    </svg>
                   </div>
                   <div>
-                    <p className="text-3xs font-extrabold text-slate-500 uppercase">Current Location</p>
-                    <p className="text-xs font-bold text-white mt-0.5">{resumeData.location}</p>
+                    <p className="text-3xs font-bold uppercase tracking-widest text-slate-500">Email Address</p>
+                    <p className="text-xs font-bold text-white mt-0.5">{resumeData.email}</p>
                   </div>
+                </div>
+                <div className="flex gap-2 mt-4">
+                  <a
+                    href={`https://mail.google.com/mail/?view=cm&fs=1&to=${resumeData.email}&su=AI%20Engineering%20Opportunity%20-%20Kartik%20Raikar`}
+                    target="_blank" rel="noreferrer"
+                    className="flex-1 flex items-center justify-center gap-1.5 rounded-xl bg-white text-neutral-900 text-xxs font-bold px-3 py-2 hover:bg-neutral-100 transition"
+                  >
+                    Open Gmail ↗
+                  </a>
+                  <button
+                    onClick={() => handleCopy(resumeData.email, "email")}
+                    className="px-3 py-2 rounded-xl border border-white/15 bg-white/10 text-xxs font-semibold text-white hover:bg-white/20 transition"
+                  >
+                    {copiedLabel === "email" ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                  </button>
                 </div>
               </div>
 
-              {/* Direct email quick drafter */}
-              <div className="rounded-xl bg-white/5 border border-white/10 p-5 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-sm font-bold text-white mb-2">Generate Recruiter Invite</h3>
-                  <p className="text-xxs text-slate-400 mb-4">
-                    Instantly draft an invitation in your local mail client with pre-filled details to contact Kartik!
-                  </p>
+              {/* Phone/WhatsApp Card */}
+              <div className="group relative overflow-hidden rounded-2xl border border-white/15 bg-white/5 p-5 hover:border-emerald-500/30 hover:bg-white/[0.08] transition-all duration-300">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-500 shadow-md">
+                    <svg viewBox="0 0 24 24" className="h-5 w-5 fill-white">
+                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-3xs font-bold uppercase tracking-widest text-slate-500">Phone / WhatsApp</p>
+                    <p className="text-xs font-bold text-white mt-0.5">{resumeData.phone}</p>
+                  </div>
                 </div>
-                <a
-                  href={`mailto:${resumeData.email}?subject=Invitation to Interview / Collaboration - Kartik Raikar&body=Hello Kartik,%0D%0A%0D%0AI reviewed your Atlas AI Resume portal and was highly impressed with your projects (especially NumPyGPT and Debate Arena). I would like to schedule a conversation with you.%0D%0A%0D%0ABest regards,%0D%0A[Recruiter Name]%0D%0A[Company Name]`}
-                  className="flex items-center justify-center space-x-1.5 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 py-3 text-xs font-bold text-white shadow-lg shadow-indigo-600/20 transition text-center"
-                >
-                  <Send className="h-4 w-4" />
-                  <span>Draft Recruiter Invitation</span>
-                </a>
+                <div className="flex gap-2 mt-4">
+                  <a
+                    href={`https://wa.me/918660910358?text=Hi%20Kartik,%20I%20saw%20your%20AI%20portfolio%20and%20would%20love%20to%20connect!`}
+                    target="_blank" rel="noreferrer"
+                    className="flex-1 flex items-center justify-center gap-1.5 rounded-xl bg-emerald-500 text-white text-xxs font-bold px-3 py-2 hover:bg-emerald-600 transition"
+                  >
+                    WhatsApp 💬
+                  </a>
+                  <a
+                    href="tel:+918660910358"
+                    className="px-3 py-2 rounded-xl border border-white/15 bg-white/10 text-xxs font-semibold text-white hover:bg-white/20 transition"
+                  >
+                    Call 📞
+                  </a>
+                  <button
+                    onClick={() => handleCopy(resumeData.phone, "phone")}
+                    className="px-3 py-2 rounded-xl border border-white/15 bg-white/10 text-xxs font-semibold text-white hover:bg-white/20 transition"
+                  >
+                    {copiedLabel === "phone" ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                  </button>
+                </div>
+              </div>
+
+              {/* GitHub Card */}
+              <a
+                href={resumeData.github} target="_blank" rel="noreferrer"
+                className="group relative overflow-hidden rounded-2xl border border-white/15 bg-white/5 p-5 flex items-center justify-between hover:border-white/40 hover:bg-white/[0.08] transition-all duration-300"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-neutral-900 border border-white/15 shadow-md">
+                    <Github className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-3xs font-bold uppercase tracking-widest text-slate-500">GitHub Codebase</p>
+                    <p className="text-xs font-bold text-white mt-0.5">@kartikraikar2005</p>
+                  </div>
+                </div>
+                <div className="h-8 w-8 flex items-center justify-center rounded-xl border border-white/15 bg-white/10 text-white transition-transform group-hover:translate-x-0.5">
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </div>
+              </a>
+
+              {/* LinkedIn Card */}
+              <a
+                href={resumeData.linkedin} target="_blank" rel="noreferrer"
+                className="group relative overflow-hidden rounded-2xl border border-white/15 bg-white/5 p-5 flex items-center justify-between hover:border-[#0077B5]/50 hover:bg-white/[0.08] transition-all duration-300"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0077B5] shadow-md">
+                    <Linkedin className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-3xs font-bold uppercase tracking-widest text-slate-500">LinkedIn Network</p>
+                    <p className="text-xs font-bold text-white mt-0.5">@kartik-raikar-kr</p>
+                  </div>
+                </div>
+                <div className="h-8 w-8 flex items-center justify-center rounded-xl border border-white/15 bg-white/10 text-white transition-transform group-hover:translate-x-0.5">
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </div>
+              </a>
+
+              {/* Location & Availability HUD */}
+              <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-3xs font-mono font-bold uppercase tracking-widest text-slate-500">GEO LOCATION</span>
+                    <MapPin className="h-3.5 w-3.5 text-rose-400" />
+                  </div>
+                  <p className="mt-2 text-sm font-bold text-white">{resumeData.location}</p>
+                  <p className="text-xxs font-mono text-slate-500 mt-1">15.8497° N, 74.4977° E</p>
+                </div>
+                <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.05] p-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-3xs font-mono font-bold uppercase tracking-widest text-slate-500">AVAILABILITY</span>
+                    <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                  </div>
+                  <p className="mt-2 text-sm font-bold text-emerald-400">Open for AI/ML Roles</p>
+                  <p className="text-xxs text-slate-400 mt-1">Full-Time · Remote · Onsite</p>
+                </div>
               </div>
             </div>
+
+            {/* Quick draft invite */}
+            <a
+              href={`mailto:${resumeData.email}?subject=AI%20Engineering%20Opportunity%20-%20Kartik%20Raikar&body=Hello%20Kartik,%0D%0A%0D%0AI%20reviewed%20your%20Atlas%20AI%20Resume%20portal%20and%20was%20highly%20impressed%20with%20your%20work%20on%20NumPyGPT%20and%20the%20RAG%20Hallucination%20Auditor.%20I%20would%20love%20to%20schedule%20a%20conversation.%0D%0A%0D%0ABest%20regards,%0D%0A[Your%20Name]%0D%0A[Company]`}
+              className="flex items-center justify-center space-x-2 w-full rounded-2xl bg-gradient-to-r from-[#1B6B93] to-[#4FC0D0] hover:opacity-90 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#1B6B93]/20 transition"
+            >
+              <Send className="h-4 w-4" />
+              <span>Draft Recruiter Invitation via Email</span>
+            </a>
           </div>
         )}
       </div>
     </div>
   );
+}
+
+// ─── CertIssuerBadge ──────────────────────────────────────────────────
+function CertIssuerBadge({ issuerKey, brandColor }: { issuerKey: string; brandColor: string }) {
+  const base = "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl shadow-md text-white font-black text-xs";
+  switch (issuerKey) {
+    case "oracle":
+      return (
+        <div className={base} style={{ background: brandColor }}>
+          <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+            <path d="M16.5 4H7.5C3.36 4 0 7.36 0 11.5s3.36 7.5 7.5 7.5h9c4.14 0 7.5-3.36 7.5-7.5S20.64 4 16.5 4zm-.18 11.52H7.68c-2.21 0-4-1.79-4-4s1.79-4 4-4h8.64c2.21 0 4 1.79 4 4s-1.79 4-4 4z" />
+          </svg>
+        </div>
+      );
+    case "aws":
+      return (
+        <div className={base} style={{ background: "#232F3E" }}>
+          <span style={{ color: brandColor }} className="font-black text-[10px] tracking-tight">AWS</span>
+        </div>
+      );
+    case "microsoft":
+      return (
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white p-2 shadow-md border border-white/20">
+          <svg viewBox="0 0 24 24" className="h-6 w-6">
+            <path fill="#F25022" d="M1 1h10v10H1z" />
+            <path fill="#7FBA00" d="M13 1h10v10H13z" />
+            <path fill="#00A4EF" d="M1 13h10v10H1z" />
+            <path fill="#FFB900" d="M13 13h10v10H13z" />
+          </svg>
+        </div>
+      );
+    case "ibm":
+      return <div className={base} style={{ background: brandColor }}>IBM</div>;
+    case "cisco":
+      return (
+        <div className={base} style={{ background: brandColor }}>
+          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <path d="M4 14v4M8 11v7M12 8v10M16 11v7M20 14v4" />
+          </svg>
+        </div>
+      );
+    case "deloitte":
+      return (
+        <div className={`${base} bg-black border border-white/15`}>
+          D<span style={{ color: brandColor }}>.</span>
+        </div>
+      );
+    case "tata":
+      return <div className={base} style={{ background: brandColor }}>TATA</div>;
+    case "tcs":
+      return (
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white border border-white/20 shadow-md font-black text-[10px]">
+          <span style={{ color: brandColor }}>tcs</span>
+          <span className="text-black">iON</span>
+        </div>
+      );
+    default:
+      return (
+        <div className={base} style={{ background: brandColor }}>⚡</div>
+      );
+  }
 }
