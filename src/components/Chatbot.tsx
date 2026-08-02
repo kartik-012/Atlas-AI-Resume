@@ -287,6 +287,37 @@ const sizeClasses = {
   }
 };
 
+const WELCOME_MESSAGE_CONTENT = `👋 Hello! I'm Atlas AI.
+
+I'm a Retrieval-Augmented Generation (RAG) powered AI assistant trained on Kartik Raikar's verified resume, AI projects, certifications, portfolio, and technical experience.
+
+I can instantly answer recruiter questions using grounded information instead of generic AI responses.
+
+Feel free to ask about:
+
+• AI Engineering experience
+• Projects & architecture
+• Technical skills
+• Certifications
+• Internship readiness
+• Interview questions
+• Career achievements
+
+How can I help you today?`;
+
+const RECRUITER_SUGGESTED_PROMPTS = [
+  "💼 Why should I hire Kartik?",
+  "🚀 Tell me about AtlasOS.",
+  "🤖 Explain all AI projects.",
+  "📜 Show all certifications.",
+  "🧠 What LLM technologies has he worked with?",
+  "💻 What programming languages and frameworks does he know?",
+  "🎯 Ask Kartik an interview question.",
+  "📄 Summarize Kartik's resume.",
+  "☁️ Explain his cloud and deployment experience.",
+  "🏆 What makes him different from other candidates?"
+];
+
 export default function Chatbot({
   isOpen,
   setIsOpen,
@@ -300,7 +331,7 @@ export default function Chatbot({
     {
       id: "welcome",
       role: "assistant",
-      content: "Hello! 👋 I'm **Atlas AI**, Kartik Raikar's candidate representative.\n\nI'm ready to answer any questions about Kartik's engineering background, projects (**AtlasOS**, **NumPyGPT**, **Debate Arena**, **RagaAI Catalyst**, **Atlas AI Resume**), **13 industry certifications**, and technical interview questions.\n\nHow can I help you today?",
+      content: WELCOME_MESSAGE_CONTENT,
       timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
     }
   ]);
@@ -314,13 +345,7 @@ export default function Chatbot({
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
   const [activeResponseId, setActiveResponseId] = useState<string | null>(null);
 
-  const [suggestedQuestions, setSuggestedQuestions] = useState<string[]>([
-    "Why hire Kartik?",
-    "How does AtlasOS work?",
-    "Explain NumPyGPT from scratch",
-    "Tell me about his 13 certifications",
-    "How to schedule an interview?"
-  ]);
+  const [suggestedQuestions, setSuggestedQuestions] = useState<string[]>(RECRUITER_SUGGESTED_PROMPTS);
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const latestMessageRef = useRef<HTMLDivElement>(null);
@@ -594,17 +619,11 @@ export default function Chatbot({
       {
         id: "welcome",
         role: "assistant",
-        content: "Chat session refreshed. What would you like to explore about Kartik's engineering projects, credentials, or interview background?",
+        content: WELCOME_MESSAGE_CONTENT,
         timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
       }
     ]);
-    setSuggestedQuestions([
-      "Why hire Kartik?",
-      "How does AtlasOS work?",
-      "Explain NumPyGPT from scratch",
-      "Tell me about his 13 certifications",
-      "How to schedule an interview?"
-    ]);
+    setSuggestedQuestions(RECRUITER_SUGGESTED_PROMPTS);
     onTrackAction("clear_chat");
   };
 
@@ -685,9 +704,15 @@ export default function Chatbot({
                       Candidate Rep
                     </span>
                   </div>
-                  <p className="text-[10px] font-medium leading-none mt-0.5 text-slate-400 truncate">
-                    Grounded on Kartik's Resume & Projects
-                  </p>
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    <span 
+                      className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 px-1.5 py-0.5 text-[9px] font-semibold text-emerald-400 cursor-help hover:bg-emerald-500/20 transition group"
+                      title="Responses are generated only from verified resume knowledge using Retrieval-Augmented Generation (RAG)."
+                    >
+                      <span className="font-bold text-[9.5px]">✓</span>
+                      <span>RAG Powered</span>
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -929,6 +954,18 @@ export default function Chatbot({
                   {q}
                 </button>
               ))}
+            </div>
+
+            {/* ─── Trust Indicator (Above Input Box) ─── */}
+            <div className={`flex items-center gap-1.5 px-3.5 py-1.5 border-t select-none transition-colors ${
+              isDarkMode 
+                ? "bg-[#080D1A]/90 border-cyan-500/15 text-slate-300" 
+                : "bg-slate-50 border-slate-200 text-slate-600"
+            }`}>
+              <span className="text-emerald-400 font-bold text-[11px] leading-none">✓</span>
+              <span className="text-[10px] sm:text-[10.5px] font-medium tracking-tight leading-none">
+                Responses are grounded only in verified resume data.
+              </span>
             </div>
 
             {/* ─── Input Box ─── */}

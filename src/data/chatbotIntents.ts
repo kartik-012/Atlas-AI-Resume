@@ -146,8 +146,8 @@ Proven ability to deliver complex architectures from scratch—including writing
   },
   {
     id: "resume_summary",
-    exactMatches: ["resume summary", "summarize resume", "summary of resume", "show resume"],
-    patterns: ["resume summary", "summarize resume", "summary of resume"],
+    exactMatches: ["resume summary", "summarize resume", "summary of resume", "show resume", "summarize kartik's resume", "summarize kartiks resume", "summarize kartik resume", "summarize kartik's resume."],
+    patterns: ["resume summary", "summarize resume", "summary of resume", "summarize kartik"],
     handler: () => `### Resume Summary
 
 • **Education**: B.E. in AI & ML (2023–2027) from Jain College of Engineering, Belagavi (VTU) — **8.5 CGPA**.
@@ -431,8 +431,8 @@ Kartik Raikar began his engineering journey driven by a curiosity for how artifi
   // ==================== 4. TECHNICAL SKILLS & STACK ====================
   {
     id: "technical_skills",
-    exactMatches: ["technical skills", "skills", "tech skills", "skill set", "technology stack"],
-    patterns: ["technical stack & skills", "technical skills", "skillset", "skills summary", "technology stack"],
+    exactMatches: ["technical skills", "skills", "tech skills", "skill set", "technology stack", "what programming languages and frameworks does he know", "what programming languages and frameworks does he know?"],
+    patterns: ["technical stack & skills", "technical skills", "skillset", "skills summary", "technology stack", "programming languages and frameworks"],
     handler: () => `### Technical Stack & Skills
 
 • **Languages**: Python (95%), TypeScript (90%), JavaScript (90%), Java (80%), C++ (75%), SQL (85%)
@@ -522,8 +522,8 @@ Kartik designs complete end-to-end architectures:
   },
   {
     id: "llm_skills",
-    exactMatches: ["llm skills", "large language model skills", "llm stack"],
-    patterns: ["large language model skills", "llm skills", "large language models"],
+    exactMatches: ["llm skills", "large language model skills", "llm stack", "what llm technologies has he worked with", "what llm technologies has he worked with?"],
+    patterns: ["large language model skills", "llm skills", "large language models", "llm technologies"],
     handler: () => `### Large Language Model Skills
 
 • **Model Integration**: Google Gemini 2.5 Flash, OpenAI GPT-4o, Anthropic Claude 3.5, LiteLLM unified gateway.
@@ -542,8 +542,8 @@ Kartik designs complete end-to-end architectures:
   },
   {
     id: "cloud_skills",
-    exactMatches: ["cloud skills", "cloud technologies", "cloud stack"],
-    patterns: ["cloud technologies", "cloud skills", "cloud platforms"],
+    exactMatches: ["cloud skills", "cloud technologies", "cloud stack", "explain his cloud and deployment experience", "explain his cloud and deployment experience."],
+    patterns: ["cloud technologies", "cloud skills", "cloud platforms", "cloud and deployment experience"],
     handler: () => `### Cloud Technologies
 
 • ☁️ **Oracle Cloud Infrastructure (OCI)**: Triple certified (OCI GenAI Professional, AI Foundations, Foundations).
@@ -805,8 +805,8 @@ Google's enterprise open-source framework for building and deploying machine lea
   // ==================== 6. ALL PROJECTS & SYSTEM DESIGN ====================
   {
     id: "projects",
-    exactMatches: ["projects", "all projects", "what did you build", "list projects", "project comparison"],
-    patterns: ["complete project portfolio", "all projects", "list of projects", "project comparison"],
+    exactMatches: ["projects", "all projects", "what did you build", "list projects", "project comparison", "explain all ai projects", "explain all ai projects."],
+    patterns: ["complete project portfolio", "all projects", "list of projects", "project comparison", "explain all ai projects"],
     handler: () => `### Complete Project Portfolio
 
 1. 🌐 **Atlas AI Resume**: Interactive RAG portfolio with Recruiter Telemetry Console & KB Studio.
@@ -952,8 +952,8 @@ All projects follow modern clean architecture:
   // ==================== 7. ATLASOS ====================
   {
     id: "atlasos",
-    exactMatches: ["atlasos", "atlas os", "project atlasos", "why atlasos"],
-    patterns: ["project spotlight: atlasos", "atlasos", "atlas os", "why atlasos"],
+    exactMatches: ["atlasos", "atlas os", "project atlasos", "why atlasos", "tell me about atlasos", "tell me about atlasos."],
+    patterns: ["project spotlight: atlasos", "atlasos", "atlas os", "why atlasos", "tell me about atlasos"],
     handler: () => `### Project Spotlight: AtlasOS
 
 • 🧠 **Overview**: Multi-tenant AI Memory Operating System providing hierarchical, contextual memory management for autonomous AI agents.
@@ -1514,8 +1514,8 @@ Maintains regular commit activity across multiple AI and full-stack repositories
   // ==================== 15. CERTIFICATIONS ====================
   {
     id: "certifications",
-    exactMatches: ["certifications", "certificates", "credentials", "licenses", "summarize certifications"],
-    patterns: ["certifications", "13 certifications", "credentials", "summarize certifications"],
+    exactMatches: ["certifications", "certificates", "credentials", "licenses", "summarize certifications", "show all certifications", "show all certifications."],
+    patterns: ["certifications", "13 certifications", "credentials", "summarize certifications", "show all certifications"],
     handler: () => `### Certifications
 
 • ☁️ **Oracle (3x)**: OCI AI Foundations, OCI GenAI Professional, OCI Foundations (Sep 2025)
@@ -1675,10 +1675,12 @@ Thank you for your interest in connecting with **Kartik Raikar**! He is actively
     id: "why_hire_kartik",
     exactMatches: [
       "why should we hire you", "why should we hire you?", "why should i hire you",
+      "why should i hire kartik", "why should i hire kartik?",
       "why are you the right candidate", "why should i shortlist you", "what makes you different",
+      "what makes him different from other candidates", "what makes him different from other candidates?",
       "what value can you bring"
     ],
-    patterns: ["why hire", "why should we hire", "reasons to hire", "why you", "pitch yourself", "right candidate", "shortlist you"],
+    patterns: ["why hire", "why should we hire", "reasons to hire", "why you", "pitch yourself", "right candidate", "shortlist you", "different from other candidates"],
     handler: () => `### Why Hire Kartik Raikar? (Top 5 Reasons)
 
 1. 🛠️ **Systems-Level AI Rigor**: Hand-coded Transformer architecture from first principles in **NumPyGPT** without PyTorch/TensorFlow.
@@ -1878,11 +1880,12 @@ Kartik's profile provides **high alignment (90%+ ATS match)** for:
       "interview me", "conduct hr interview", "conduct technical interview",
       "conduct ai engineer interview", "conduct python interview", "conduct system design interview",
       "ask coding questions", "ask behavioral questions", "evaluate my answers", "give interview feedback",
-      "ask technical questions", "ask hr questions"
+      "ask technical questions", "ask hr questions",
+      "ask kartik an interview question", "ask kartik an interview question."
     ],
     patterns: [
       "mock interview", "ai mock interview", "technical interview mode", "hr interview mode",
-      "conduct interview", "interview feedback", "coding questions"
+      "conduct interview", "interview feedback", "coding questions", "ask kartik an interview question"
     ],
     handler: () => `### AI Mock Interview Simulator
 
