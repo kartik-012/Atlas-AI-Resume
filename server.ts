@@ -1169,29 +1169,31 @@ Do NOT wrap the response in markdown code blocks like \`\`\`json. Return pure JS
 
 // ==================== VITE & STATIC SERVING ====================
 
-const isProd = process.env.NODE_ENV === "production";
+if (!process.env.VERCEL) {
+  const isProd = process.env.NODE_ENV === "production";
 
-if (isProd) {
-  // Production: Serve pre-built client assets
-  const distPath = path.join(__dirname, "dist");
-  app.use(express.static(distPath));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(distPath, "index.html"));
-  });
-} else {
-  // Development: Mount Vite server middleware
-  const vite = await createViteServer({
-    server: { middlewareMode: true },
-    appType: "spa",
-  });
-  app.use(vite.middlewares);
-}
+  if (isProd) {
+    // Production: Serve pre-built client assets
+    const distPath = path.join(__dirname, "dist");
+    app.use(express.static(distPath));
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(distPath, "index.html"));
+    });
+  } else {
+    // Development: Mount Vite server middleware
+    const vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: "spa",
+    });
+    app.use(vite.middlewares);
+  }
 
-// Listen on Port 3000 (skip on Vercel)
-if (process.env.NODE_ENV !== "test" && !process.env.VERCEL) {
-  app.listen(3000, "0.0.0.0", () => {
-    console.log("Atlas AI server listening on http://0.0.0.0:3000");
-  });
+  // Listen on Port 3000 (skip on Vercel)
+  if (process.env.NODE_ENV !== "test") {
+    app.listen(3000, "0.0.0.0", () => {
+      console.log("Atlas AI server listening on http://0.0.0.0:3000");
+    });
+  }
 }
 
 // Export for testing

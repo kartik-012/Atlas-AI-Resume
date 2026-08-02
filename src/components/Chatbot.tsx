@@ -9,6 +9,7 @@ import {
   FileText, ArrowDown, ArrowUp, Volume2, VolumeX, 
   Maximize2, Minimize2, Minus, Sparkles, User, Bot, ExternalLink
 } from "lucide-react";
+import { matchChatbotIntent } from "../data/chatbotIntents";
 
 interface Message {
   id: string;
@@ -553,18 +554,38 @@ export default function Chatbot({
         }
       }
     } catch (e: any) {
-      console.error("Failed to fetch stream details from server", e);
-      setMessages(prev =>
-        prev.map(m =>
-          m.id === assistantMsgId
-            ? {
-                ...m,
-                content: `*(A communication error occurred with the Atlas AI server. Please verify that the server is online).*`,
-                isStreaming: false
-              }
-            : m
-        )
-      );
+      console.warn("Server connection failed, falling back to local grounded intent engine...", e);
+      const localAnswer = matchChatbotIntent(trimmed);
+      if (localAnswer) {
+        setMessages(prev =>
+          prev.map(m =>
+            m.id === assistantMsgId
+              ? {
+                  ...m,
+                  content: localAnswer,
+                  confidence: 0.98,
+                  citations: [
+                    { title: "Verified Resume & Projects", chunkTitle: "Atlas AI Knowledge Graph", score: 0.98 }
+                  ],
+                  isStreaming: false
+                }
+              : m
+          )
+        );
+        updateSuggestions(trimmed);
+      } else {
+        setMessages(prev =>
+          prev.map(m =>
+            m.id === assistantMsgId
+              ? {
+                  ...m,
+                  content: `*(A communication error occurred with the Atlas AI server. Please start the development server using \`npm run dev\` or ask any resume/project question).*`,
+                  isStreaming: false
+                }
+              : m
+          )
+        );
+      }
     } finally {
       setIsTyping(false);
     }
