@@ -611,7 +611,7 @@ app.post("/api/chat", apiLimiter, async (req, res) => {
 • 🐙 **GitHub**: [github.com/kartik-012](https://github.com/kartik-012)
 • 📧 **Email**: [kartikraikar2005@gmail.com](mailto:kartikraikar2005@gmail.com)
 • 📱 **Phone / WhatsApp**: [+91 8660910358](tel:+918660910358)
-• 🌐 **Portfolio**: [kartikraikar.dev](https://kartikraikar.dev)
+• 🌐 **Portfolio**: [kartikportfolio-eta.vercel.app](https://kartikportfolio-eta.vercel.app/)
 • 🤖 **Atlas AI Resume**: [atlas-ai-resume.vercel.app](https://atlas-ai-resume.vercel.app/)
 
 *Feel free to connect on LinkedIn or message Kartik directly!*`;
@@ -638,7 +638,7 @@ app.post("/api/chat", apiLimiter, async (req, res) => {
 • 📧 **Email**: [kartikraikar2005@gmail.com](mailto:kartikraikar2005@gmail.com)
 • 📱 **Phone / WhatsApp**: [+91 8660910358](tel:+918660910358)
 • 💼 **LinkedIn**: [linkedin.com/in/kartik-raikar-kr](https://www.linkedin.com/in/kartik-raikar-kr)
-• 🌐 **Portfolio**: [kartikraikar.dev](https://kartikraikar.dev)
+• 🌐 **Portfolio**: [kartikportfolio-eta.vercel.app](https://kartikportfolio-eta.vercel.app/)
 
 *Kartik actively checks his inbox and responds to recruiter and engineering inquiries promptly!*`;
 
@@ -959,7 +959,7 @@ KARTIK'S VERIFIED GROUND TRUTH FACTS:
 - Education: B.E. in AI & Machine Learning at Jain College of Engineering, Belagavi, VTU (2023–2027, CGPA: 8.5/10.0)
 - Email: kartikraikar2005@gmail.com | Phone/WhatsApp: +91 8660910358
 - Location: Belagavi, Karnataka, India (Available for Remote, Hybrid, or Onsite roles worldwide)
-- GitHub: https://github.com/kartik-012 | LinkedIn: https://www.linkedin.com/in/kartik-raikar-kr | Portfolio: https://kartikraikar.dev | Atlas AI Resume: https://atlas-ai-resume.vercel.app/
+- GitHub: https://github.com/kartik-012 | LinkedIn: https://www.linkedin.com/in/kartik-raikar-kr | Portfolio: https://kartikportfolio-eta.vercel.app/ | Atlas AI Resume: https://atlas-ai-resume.vercel.app/
 - 5 Major Projects:
   1. Atlas AI Resume: Production RAG-Powered AI Portfolio & Recruiter Telemetry Console (React 19, TypeScript, Node.js, Express, Gemini RAG, Vector Search, TailwindCSS)
   2. AtlasOS: Multi-Tenant AI Memory Operating System (FastAPI, Python 3.11, PostgreSQL 15 RLS, Qdrant Vector DB, Redis 7, Next.js 14, Celery, RoBERTa-large-MNLI Contradiction Detection)

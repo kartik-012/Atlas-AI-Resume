@@ -942,7 +942,7 @@ All projects follow modern clean architecture:
     patterns: ["project demonstration", "live demo", "try demos"],
     handler: () => `### Live Project Demonstrations
 
-1. 🌐 **Atlas AI Resume**: [kartik-raikar.dev](https://kartik-raikar.dev)
+1. 🌐 **Atlas AI Resume**: [atlas-ai-resume.vercel.app](https://atlas-ai-resume.vercel.app/)
 2. 🌌 **AtlasOS**: [atlasos.kartik.dev](https://atlasos.kartik.dev)
 3. ⚖️ **Debate Arena**: [debate-arena.kartik.dev](https://debate-arena.kartik.dev)
 4. 🐍 **NumPyGPT**: [numpygpt.kartik.dev](https://numpygpt.kartik.dev)
@@ -1583,7 +1583,7 @@ Maintains regular commit activity across multiple AI and full-stack repositories
     patterns: ["portfolio website", "portfolio", "online portfolio", "portfolio projects"],
     handler: () => `### Portfolio Website
 
-• 🌐 **Live Website**: [kartik-raikar.dev](https://kartik-raikar.dev)
+• 🌐 **Live Website**: [kartikportfolio-eta.vercel.app](https://kartikportfolio-eta.vercel.app/)
 • 🚀 **Interactive Features**: Built-in RAG AI representative, interactive PDF resume viewer, Recruiter Telemetry Console, and project live demos.`
   },
   {

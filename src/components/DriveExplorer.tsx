@@ -217,7 +217,7 @@ To view your OWN Google Drive, click the "Connect Google Drive" button at the to
 Pursuing Bachelor of Engineering in Artificial Intelligence & Machine Learning.
 Email: kartikraikar2005@gmail.com
 Location: Bangalore, India
-Portfolio: https://kartikraikar.dev
+Portfolio: https://kartikportfolio-eta.vercel.app/
 GitHub: https://github.com/kartik-012
 
 This is Kartik's official resume document. To view the fully formatted PDF version with interactive components, double-click this file or use the navigation bar tabs.`,

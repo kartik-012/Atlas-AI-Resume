@@ -81,7 +81,7 @@ export const resumeData: ResumeData = {
   location: "Belagavi, Karnataka, India",
   github: "https://github.com/kartik-012",
   linkedin: "https://www.linkedin.com/in/kartik-raikar-kr",
-  portfolio: "https://kartikraikar.dev",
+  portfolio: "https://kartikportfolio-eta.vercel.app/",
   summary: "AI & Machine Learning undergraduate passionate about Software Development, Backend Engineering, Artificial Intelligence, and scalable systems. Experienced in developing full-stack web applications, AI-powered platforms, and machine learning solutions using Java, Python, React, FastAPI, MongoDB, and modern AI frameworks. Strong problem-solving skills with growing expertise in Data Structures and Algorithms.",
   education: {
     degree: "Bachelor of Engineering (B.E.)",
