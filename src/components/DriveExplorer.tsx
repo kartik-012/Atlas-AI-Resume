@@ -217,8 +217,8 @@ To view your OWN Google Drive, click the "Connect Google Drive" button at the to
 Pursuing Bachelor of Engineering in Artificial Intelligence & Machine Learning.
 Email: kartikraikar2005@gmail.com
 Location: Bangalore, India
-Portfolio: https://kartik-raikar.dev
-GitHub: https://github.com/kartikraikar2005
+Portfolio: https://kartikraikar.dev
+GitHub: https://github.com/kartik-012
 
 This is Kartik's official resume document. To view the fully formatted PDF version with interactive components, double-click this file or use the navigation bar tabs.`,
 
@@ -254,7 +254,7 @@ DEVELOPER TOOLS & INFRASTRUCTURE:
   "file-proj-atlas-resume": `PROJECT PROFILE: ATLAS AI RESUME
 Tech Stack: React 19, TypeScript, Node.js, Express, Gemini API, RAG, Vector Search, TailwindCSS
 GitHub: https://github.com/kartik-012/Atlas-AI-Resume
-Demo: http://localhost:3000
+Demo: https://atlas-ai-resume.vercel.app/
 
 Description:
 A living, production RAG-powered interactive portfolio and recruiter telemetry console.

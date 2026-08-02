@@ -603,15 +603,16 @@ app.post("/api/chat", apiLimiter, async (req, res) => {
     ) {
       textReply = `### Kartik Raikar's LinkedIn & Professional Profiles
 
-• 💼 **LinkedIn Profile**: [linkedin.com/in/kartik-raikar-kr](https://linkedin.com/in/kartik-raikar-kr)
+• 💼 **LinkedIn Profile**: [linkedin.com/in/kartik-raikar-kr](https://www.linkedin.com/in/kartik-raikar-kr)
   - **Handle / ID**: \`@kartik-raikar-kr\`
   - **Status**: Open to AI/ML Engineering & Full-Stack Developer opportunities.
 
 **Other Direct Channels:**
-• 🐙 **GitHub**: [github.com/kartik-012](https://github.com/kartik-012) & [github.com/kartikraikar2005](https://github.com/kartikraikar2005)
+• 🐙 **GitHub**: [github.com/kartik-012](https://github.com/kartik-012)
 • 📧 **Email**: [kartikraikar2005@gmail.com](mailto:kartikraikar2005@gmail.com)
 • 📱 **Phone / WhatsApp**: [+91 8660910358](tel:+918660910358)
-• 🌐 **Portfolio**: [kartik-raikar.dev](https://kartik-raikar.dev)
+• 🌐 **Portfolio**: [kartikraikar.dev](https://kartikraikar.dev)
+• 🤖 **Atlas AI Resume**: [atlas-ai-resume.vercel.app](https://atlas-ai-resume.vercel.app/)
 
 *Feel free to connect on LinkedIn or message Kartik directly!*`;
 
@@ -619,11 +620,10 @@ app.post("/api/chat", apiLimiter, async (req, res) => {
     } else if (matchPattern(cleanLowerQuery, ["github", "git hub", "githb", "git", "repo", "repos", "repository", "repositories", "codebase", "source code", "open source", "leetcode", "hackerrank", "codechef"])) {
       textReply = `### Kartik Raikar's GitHub & Code Repositories
 
-• 🐙 **Primary GitHub**: [github.com/kartik-012](https://github.com/kartik-012)
-• 🐙 **Secondary GitHub**: [github.com/kartikraikar2005](https://github.com/kartikraikar2005)
+• 🐙 **GitHub Profile**: [github.com/kartik-012](https://github.com/kartik-012)
 
 **Top Open-Source Repositories:**
-1. 🌐 **Atlas AI Resume**: [github.com/kartik-012/Atlas-AI-Resume](https://github.com/kartik-012/Atlas-AI-Resume)
+1. 🌐 **Atlas AI Resume**: [github.com/kartik-012/Atlas-AI-Resume](https://github.com/kartik-012/Atlas-AI-Resume) (Live: [atlas-ai-resume.vercel.app](https://atlas-ai-resume.vercel.app/))
 2. 🌌 **AtlasOS (AI Memory OS)**: [github.com/kartik-012/AtlasOS](https://github.com/kartik-012/AtlasOS)
 3. ⚖️ **Debate Arena (3D Courtroom)**: [github.com/kartikraikar2005/debate-arena](https://github.com/kartikraikar2005/debate-arena)
 4. 🐍 **NumPyGPT (Scratch Transformer)**: [github.com/kartikraikar2005/numpygpt](https://github.com/kartikraikar2005/numpygpt)
@@ -637,7 +637,8 @@ app.post("/api/chat", apiLimiter, async (req, res) => {
 
 • 📧 **Email**: [kartikraikar2005@gmail.com](mailto:kartikraikar2005@gmail.com)
 • 📱 **Phone / WhatsApp**: [+91 8660910358](tel:+918660910358)
-• 💼 **LinkedIn**: [linkedin.com/in/kartik-raikar-kr](https://linkedin.com/in/kartik-raikar-kr)
+• 💼 **LinkedIn**: [linkedin.com/in/kartik-raikar-kr](https://www.linkedin.com/in/kartik-raikar-kr)
+• 🌐 **Portfolio**: [kartikraikar.dev](https://kartikraikar.dev)
 
 *Kartik actively checks his inbox and responds to recruiter and engineering inquiries promptly!*`;
 
@@ -958,7 +959,7 @@ KARTIK'S VERIFIED GROUND TRUTH FACTS:
 - Education: B.E. in AI & Machine Learning at Jain College of Engineering, Belagavi, VTU (2023–2027, CGPA: 8.5/10.0)
 - Email: kartikraikar2005@gmail.com | Phone/WhatsApp: +91 8660910358
 - Location: Belagavi, Karnataka, India (Available for Remote, Hybrid, or Onsite roles worldwide)
-- GitHub: https://github.com/kartikraikar2005 and https://github.com/kartik-012 | LinkedIn: https://linkedin.com/in/kartik-raikar-kr | Portfolio: https://kartik-raikar.dev
+- GitHub: https://github.com/kartik-012 | LinkedIn: https://www.linkedin.com/in/kartik-raikar-kr | Portfolio: https://kartikraikar.dev | Atlas AI Resume: https://atlas-ai-resume.vercel.app/
 - 5 Major Projects:
   1. Atlas AI Resume: Production RAG-Powered AI Portfolio & Recruiter Telemetry Console (React 19, TypeScript, Node.js, Express, Gemini RAG, Vector Search, TailwindCSS)
   2. AtlasOS: Multi-Tenant AI Memory Operating System (FastAPI, Python 3.11, PostgreSQL 15 RLS, Qdrant Vector DB, Redis 7, Next.js 14, Celery, RoBERTa-large-MNLI Contradiction Detection)

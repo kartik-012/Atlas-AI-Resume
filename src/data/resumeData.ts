@@ -79,9 +79,9 @@ export const resumeData: ResumeData = {
   email: "kartikraikar2005@gmail.com",
   phone: "+91 8660910358",
   location: "Belagavi, Karnataka, India",
-  github: "https://github.com/kartikraikar2005",
-  linkedin: "https://linkedin.com/in/kartik-raikar-kr",
-  portfolio: "https://kartik-raikar.dev",
+  github: "https://github.com/kartik-012",
+  linkedin: "https://www.linkedin.com/in/kartik-raikar-kr",
+  portfolio: "https://kartikraikar.dev",
   summary: "AI & Machine Learning undergraduate passionate about Software Development, Backend Engineering, Artificial Intelligence, and scalable systems. Experienced in developing full-stack web applications, AI-powered platforms, and machine learning solutions using Java, Python, React, FastAPI, MongoDB, and modern AI frameworks. Strong problem-solving skills with growing expertise in Data Structures and Algorithms.",
   education: {
     degree: "Bachelor of Engineering (B.E.)",
@@ -105,7 +105,7 @@ export const resumeData: ResumeData = {
       title: "Atlas AI Resume",
       techStack: ["React 19", "TypeScript", "Node.js", "Express", "Gemini API", "RAG", "Vector Search", "TailwindCSS", "Vite"],
       githubUrl: "https://github.com/kartik-012/Atlas-AI-Resume",
-      liveUrl: "http://localhost:3000",
+      liveUrl: "https://atlas-ai-resume.vercel.app/",
       description: "RAG-Powered AI Portfolio & Interactive Resume Assistant with Gemini 2.5 Flash, real-time Recruiter Telemetry Console, and dynamic Knowledge Base Admin Studio.",
       longDescription: "Atlas AI Resume transforms standard static resumes into a living, intelligent conversational agent and comprehensive recruiter telemetry console. Built with a dual-mode RAG engine utilizing Google Gemini 2.5 Flash and vector cosine similarity search over localized knowledge chunks. Features real-time recruiter telemetry tracking visits, queries, and project interactions, plus an interactive Knowledge Base Studio allowing live chunk indexing, semantic search testing, and system diagnostics.",
       keyPoints: [
@@ -367,7 +367,7 @@ export const resumeData: ResumeData = {
   languages: ["English (Fluent)", "Kannada (Native)", "Hindi (Conversational)"],
   codingProfiles: [
     { platform: "LeetCode", url: "https://leetcode.com/u/kartikraikar2005", handle: "kartikraikar2005" },
-    { platform: "GitHub", url: "https://github.com/kartikraikar2005", handle: "kartikraikar2005" },
+    { platform: "GitHub", url: "https://github.com/kartik-012", handle: "kartik-012" },
     { platform: "HackerRank", url: "https://hackerrank.com/kartikraikar2005", handle: "kartikraikar2005" },
     { platform: "CodeChef", url: "https://codechef.com/users/kartikraikar", handle: "kartikraikar" }
   ]
