@@ -4,7 +4,7 @@
  */ 
  
 import { useState, useEffect } from "react";  
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar"; 
 import PDFViewer from "./components/PDFViewer";
 import Dashboard from "./components/Dashboard";
 import DriveExplorer from "./components/DriveExplorer";
