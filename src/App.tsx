@@ -9,7 +9,7 @@ import PDFViewer from "./components/PDFViewer";
 import Dashboard from "./components/Dashboard";
 import DriveExplorer from "./components/DriveExplorer";
 import Chatbot from "./components/Chatbot";
-import { Compass } from "lucide-react";
+import { Compass } from "lucide-react"; 
 
 export default function App() {
   const [currentView, setCurrentView] = useState<"pdf" | "dashboard" | "drive">("pdf");
