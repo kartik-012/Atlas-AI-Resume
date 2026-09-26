@@ -53,6 +53,12 @@ export interface ResumeData {
     university: string;
     cgpa: string;
   };
+  preUniversity: {
+    course: string;
+    institution: string;
+    period: string;
+    percentage: string;
+  };
   skills: {
     languages: string[];
     frontend: string[];
@@ -60,11 +66,13 @@ export interface ResumeData {
     aiMl: string[];
     database: string[];
     tools: string[];
+    dataViz: string[];
   };
   projects: Project[];
   achievements: Achievement[];
   certifications: Certification[];
   languages: string[];
+  coursework: string[];
   codingProfiles: {
     platform: string;
     url: string;
@@ -75,29 +83,36 @@ export interface ResumeData {
 export const resumeData: ResumeData = {
   name: "Kartik Raikar",
   tagline: "Talk with my Resume.",
-  title: "AI & Machine Learning Engineer",
+  title: "AI Engineer — Generative AI — LLM Applications",
   email: "kartikraikar2005@gmail.com",
   phone: "+91 8660910358",
   location: "Belagavi, Karnataka, India",
   github: "https://github.com/kartik-012",
   linkedin: "https://www.linkedin.com/in/kartik-raikar-kr",
   portfolio: "https://kartikportfolio-eta.vercel.app/",
-  summary: "AI & Machine Learning undergraduate passionate about Software Development, Backend Engineering, Artificial Intelligence, and scalable systems. Experienced in developing full-stack web applications, AI-powered platforms, and machine learning solutions using Java, Python, React, FastAPI, MongoDB, and modern AI frameworks. Strong problem-solving skills with growing expertise in Data Structures and Algorithms.",
+  summary: "AI Engineer specializing in Generative AI, LLMs, RAG, and AI evaluation. Experienced in building production-oriented AI applications using Python, FastAPI, React.js, SQL, vector databases, and modern LLM tooling.",
   education: {
     degree: "Bachelor of Engineering (B.E.)",
-    major: "Artificial Intelligence & Machine Learning",
+    major: "Computer Science & Engineering (AI & ML)",
     institution: "Jain College of Engineering, Belagavi",
-    period: "2023 – 2027 (Expected)",
+    period: "Aug 2023 – Jul 2027",
     university: "Visvesvaraya Technological University (VTU)",
-    cgpa: "8.5 / 10.0"
+    cgpa: "8.50 / 10.0"
+  },
+  preUniversity: {
+    course: "Pre-University Course (PCM)",
+    institution: "Jain PU College, Belagavi",
+    period: "2021 – 2023",
+    percentage: "80%"
   },
   skills: {
-    languages: ["Python", "Java", "C++", "JavaScript", "TypeScript", "SQL"],
-    frontend: ["React.js", "Next.js 14", "React Three Fiber", "Three.js", "HTML5", "CSS3", "TailwindCSS", "Vite", "Framer Motion", "TypeScript"],
-    backend: ["FastAPI", "Node.js", "Express.js", "REST APIs", "WebSockets", "Server-Sent Events", "Celery", "SQLAlchemy"],
-    aiMl: ["Scikit-learn", "NumPy", "Pandas", "LangChain", "Sentence Transformers", "Claude API", "GPT-4o API", "Gemini API", "LiteLLM", "NLP", "Deep Learning", "RAG", "Vector Embeddings", "Generative AI", "NLI / Contradiction Detection", "Red-Teaming"],
-    database: ["PostgreSQL", "Qdrant Vector DB", "Redis", "MongoDB", "MySQL", "Async SQLite"],
-    tools: ["Docker", "Git", "GitHub", "VS Code", "Postman", "Render", "Vercel", "Power BI", "Docker Compose"]
+    languages: ["Python", "JavaScript", "TypeScript", "SQL"],
+    frontend: ["React.js", "Next.js", "TailwindCSS", "HTML5", "CSS3", "Vite"],
+    backend: ["FastAPI", "Node.js", "Express.js", "REST APIs", "WebSockets", "Server-Sent Events"],
+    aiMl: ["Generative AI", "LLMs", "RAG", "Transformers", "AI Evaluation", "Prompt Engineering", "Semantic Search", "Vector Search", "PyTorch", "Sentence Transformers"],
+    database: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Qdrant"],
+    tools: ["Git", "GitHub", "Docker", "Linux", "Postman", "VS Code", "GitHub Actions"],
+    dataViz: ["Power BI", "Tableau", "Microsoft Excel"]
   },
   projects: [
     {
@@ -106,92 +121,104 @@ export const resumeData: ResumeData = {
       techStack: ["React 19", "TypeScript", "Node.js", "Express", "Gemini API", "RAG", "Vector Search", "TailwindCSS", "Vite"],
       githubUrl: "https://github.com/kartik-012/Atlas-AI-Resume",
       liveUrl: "https://atlas-ai-resume.vercel.app/",
-      description: "RAG-Powered AI Portfolio & Interactive Resume Assistant with Gemini 2.5 Flash, real-time Recruiter Telemetry Console, and dynamic Knowledge Base Admin Studio.",
-      longDescription: "Atlas AI Resume transforms standard static resumes into a living, intelligent conversational agent and comprehensive recruiter telemetry console. Built with a dual-mode RAG engine utilizing Google Gemini 2.5 Flash and vector cosine similarity search over localized knowledge chunks. Features real-time recruiter telemetry tracking visits, queries, and project interactions, plus an interactive Knowledge Base Studio allowing live chunk indexing, semantic search testing, and system diagnostics.",
+      description: "RAG-Powered AI Portfolio & Interactive Resume Assistant with Gemini, real-time Recruiter Telemetry Console, and dynamic Knowledge Base Admin Studio.",
+      longDescription: "Atlas AI Resume transforms standard static resumes into a living, intelligent conversational agent and comprehensive recruiter telemetry console. Built with a dual-mode RAG engine utilizing Google Gemini and vector cosine similarity search over localized knowledge chunks. Features real-time recruiter telemetry tracking visits, queries, and project interactions, plus an interactive Knowledge Base Studio allowing live chunk indexing, semantic search testing, and system diagnostics.",
       keyPoints: [
-        "Architected dual-layer RAG pipeline with Gemini 2.5 Flash and custom vector cosine similarity search.",
+        "Architected dual-layer RAG pipeline with Gemini and custom vector cosine similarity search.",
         "Built interactive Recruiter Telemetry Console with real-time analytics, question monitoring, and time-tracking.",
         "Engineered Knowledge Base Admin Studio allowing dynamic chunk ingestion, embedding generation, and live retrieval diagnostics.",
-        "Created modern cyber-aesthetic interface with 13-credential filterable showcase, interactive skill visualizers, and recruiter invite drafter.",
+        "Created modern cyber-aesthetic interface with credential showcase, interactive skill visualizers, and recruiter invite drafter.",
         "Implemented strict grounding rules and token-bucket rate limiter to prevent prompt injection and model hallucinations."
       ]
     },
     {
-      id: "atlas-os",
-      title: "AtlasOS",
-      techStack: ["FastAPI", "Python 3.11", "PostgreSQL 15", "Qdrant", "Redis", "Next.js 14", "Celery", "Docker"],
-      githubUrl: "https://github.com/kartik-012/AtlasOS",
-      liveUrl: "https://atlasos.kartik.dev",
-      description: "Multi-Tenant AI Memory Operating System orchestrating hierarchical memory (working, episodic, semantic) with active NLI contradiction detection and immutable audit logs.",
-      longDescription: "AtlasOS is a production-grade, multi-tenant AI Memory Operating System designed to provide hierarchical, contextual memory management for autonomous AI agents. It orchestrates working memory (Redis with TTLs), episodic memory (Qdrant + Postgres vector search), and semantic memory with active contradiction detection powered by RoBERTa-large-MNLI. Enforces strict tenant isolation via PostgreSQL Row-Level Security (RLS) and scoped Qdrant filters, alongside background summarization pipelines via Celery.",
+      id: "aiops-rca",
+      title: "AIOps Root Cause Correlator – Incident Engine",
+      techStack: ["Python", "FastAPI", "PostgreSQL", "Redis", "NetworkX", "Three.js", "WebSockets", "pgvector"],
+      githubUrl: "https://github.com/kartik-012/aiops-rca",
+      liveUrl: "https://aiops-rca.kartik.dev",
+      description: "Autonomous incident correlation engine resolving cascading microservice alert storms in 0.78s with 100% Top-1 RCA accuracy across 30 benchmark scenarios.",
+      longDescription: "AIOps Root Cause Correlator is an autonomous incident correlation engine that resolves cascading microservice alert storms in 0.78s (down from 1–4 hours of manual tracing), achieving 100% Top-1 RCA accuracy across 30 benchmark scenarios. It implements dynamic EWMA anomaly detection (z > 2.0σ) with causal DAG traversal in NetworkX, isolating multi-root-cause failures with 100% precision/recall in false-positive alert suppression. Features a real-time 3D topology telemetry visualizer with Three.js/WebGL and streaming WebSockets, supporting counterfactual what-if blast radius simulation over PostgreSQL 16 + pgvector.",
       keyPoints: [
-        "Architected 3-tier memory engine: Ephemeral Working Memory (Redis), Historical Episodic Memory (Qdrant + Postgres), and Synthesized Semantic Memory.",
-        "Enforced multi-tenant boundary isolation using PostgreSQL Row-Level Security (RLS) at the database layer and scoped Qdrant vector filtering.",
-        "Implemented active contradiction detection evaluating incoming facts against semantic memories using RoBERTa-large-MNLI with policy conflict resolution.",
-        "Engineered background summarization pipelines and async task orchestration with Celery and Celery Beat.",
-        "Built Next.js 14 Developer Console featuring API key rotation, interactive memory explorers, and evaluation analytics."
+        "Resolves cascading microservice alert storms in 0.78s (down from 1–4 hours of manual tracing) with 100% Top-1 RCA accuracy across 30 benchmark scenarios.",
+        "Implemented dynamic EWMA anomaly detection (z > 2.0σ) with causal DAG traversal in NetworkX, achieving 100% precision/recall in false-positive alert suppression.",
+        "Built real-time 3D topology telemetry visualizer with Three.js/WebGL and streaming WebSockets for counterfactual what-if blast radius simulation.",
+        "Leverages PostgreSQL 16 + pgvector for efficient vector similarity storage and retrieval.",
+        "Designed for production-grade microservice environments with real-time incident response capabilities."
       ]
     },
     {
-      id: "debate-arena",
-      title: "Debate Arena",
-      techStack: ["Python 3.11", "FastAPI", "React 18", "React Three Fiber", "Three.js", "TailwindCSS", "Framer Motion", "Async SQLite"],
-      githubUrl: "https://github.com/kartikraikar2005/debate-arena",
-      liveUrl: "https://debate-arena.kartik.dev",
-      description: "AI-Powered Multi-LLM Debate Platform with 3D courtroom visualization in React Three Fiber, live strength scoring, automated fact-checking, and judicial bias auditing.",
-      longDescription: "Debate Arena is an adversarial debate platform staging multi-round debates between leading AI models (Gemini, GPT-4o, Claude 3.5). The debate is rendered in a live 3D courtroom using React Three Fiber with dynamic camera staging and glowing speaker podiums. Includes an independent AI judge, live strength scoring graphs, automated claim fact-checking, self-contradiction tracking, and judicial bias auditing via role-swap evaluation.",
+      id: "versionrag",
+      title: "VersionRAG – Documentation Intelligence",
+      techStack: ["Python 3.12", "FastAPI", "PostgreSQL", "pgvector", "React 18", "TypeScript", "Tailwind"],
+      githubUrl: "https://github.com/kartik-012/versionrag",
+      liveUrl: "https://versionrag.kartik.dev",
+      description: "Enterprise RAG architecture resolving cross-version code contamination, eliminating hallucinated deprecated API calls from 62.5% to 0.0% via version-partitioned vector indexing.",
+      longDescription: "VersionRAG is an enterprise RAG architecture that resolves cross-version code contamination, eliminating hallucinated deprecated API calls from 62.5% to 0.0% via database-enforced version-partitioned vector indexing. It features a structure-aware AST semantic diff engine detecting undocumented breaking changes with 94.2% accuracy, boosting retrieval precision @k=6 from 41.7% to 98.4% (+136%) at 5.4ms HNSW latency. Integrates a 4-step Chain-of-Version reasoning pipeline with live X-Ray diagnostic chunk inspection, Bcrypt-hashed OTP email auth, and resilient pgvector fallbacks.",
       keyPoints: [
-        "Built live 3D courtroom environment in React Three Fiber with dynamic podium illumination and camera choreography.",
-        "Orchestrated multi-turn adversarial debates across multiple LLM providers (Gemini, GPT-4o, Claude 3.5).",
-        "Engineered independent AI Judge evaluation with live strength scoring and multi-persona jury voting (Skeptic, Professor, Optimist).",
-        "Implemented judicial bias auditing by re-evaluating transcripts with swapped speaker roles to detect positional bias.",
-        "Integrated automated fact-checking and consistency tracking across multi-round debate arguments."
+        "Eliminated hallucinated deprecated API calls from 62.5% to 0.0% via database-enforced version-partitioned vector indexing.",
+        "Engineered structure-aware AST semantic diff engine detecting undocumented breaking changes with 94.2% accuracy.",
+        "Boosted retrieval precision @k=6 from 41.7% to 98.4% (+136%) at 5.4ms HNSW latency.",
+        "Integrated 4-step Chain-of-Version reasoning pipeline with live X-Ray diagnostic chunk inspection.",
+        "Implemented Bcrypt-hashed OTP email auth and resilient pgvector fallbacks for production reliability."
       ]
     },
     {
-      id: "numpygpt",
-      title: "NumPyGPT",
-      techStack: ["Python", "TypeScript", "React 19", "TailwindCSS", "Vite", "Express", "Gemini API", "Matrix Math"],
-      githubUrl: "https://github.com/kartikraikar2005/numpygpt",
-      liveUrl: "https://numpygpt.kartik.dev",
-      description: "GPT-Style Transformer Architecture Built from Scratch without ML frameworks, featuring interactive attention weight visualizers and Gemini NumPy code assistant.",
-      longDescription: "NumPyGPT demystifies generative pre-trained transformers by implementing every fundamental building block from first principles — Matrix Multiplication, Multi-Head Attention, Layer Normalization, Softmax, Feed-Forward layers, and Backpropagation — with zero ML framework dependencies. Paired with a conversational AI interface powered by Google Gemini and an interactive visualization dashboard rendering real-time attention heatmaps, token activations, and gradient flows.",
+      id: "github-mcp-toolkit",
+      title: "GitHub MCP Toolkit – Fault-Tolerant MCP Server",
+      techStack: ["Python", "FastMCP", "GitHub API", "Ollama", "Docker", "GitHub Actions"],
+      githubUrl: "https://github.com/kartik-012/github-mcp-toolkit",
+      liveUrl: "https://github-mcp.kartik.dev",
+      description: "Production-ready Anthropic Model Context Protocol (MCP) server for LLM-driven repository automation, semantic search, and deterministic issue triage with reversible write workflows.",
+      longDescription: "GitHub MCP Toolkit is a production-ready Anthropic Model Context Protocol (MCP) server for LLM-driven repository automation, semantic search, and deterministic issue triage with reversible write workflows. It eliminates a measured 14% blind bulk-mutation rate via a two-phase SHA-256 preview-token protocol requiring explicit human approval before mutating remote repository states. Improved intent execution accuracy from 64% to 100% and neutralized prompt injections across 20 adversarial test suites using ABAC security, circuit breakers, Saga rollback, and Pydantic validation.",
       keyPoints: [
-        "Implemented complete GPT transformer architecture from scratch without PyTorch or TensorFlow.",
-        "Hand-coded Multi-Head Attention (8 heads), Layer Normalization, Softmax, and Backpropagation algorithms.",
-        "Built generation pipeline with top-k sampling, temperature control, and token probability distributions.",
-        "Created interactive visualizer for attention weight heatmaps, token activations, and layer flow.",
-        "Integrated conversational Gemini AI assistant for natural language to NumPy code generation and explanation."
+        "Built production-ready MCP server for LLM-driven repository automation, semantic search, and deterministic issue triage.",
+        "Eliminated 14% blind bulk-mutation rate via two-phase SHA-256 preview-token protocol requiring explicit human approval.",
+        "Improved intent execution accuracy from 64% to 100% across 20 adversarial test suites.",
+        "Neutralized prompt injections using ABAC security, circuit breakers, Saga rollback, and Pydantic validation.",
+        "Implemented reversible write workflows with complete state rollback capabilities."
       ]
     },
     {
-      id: "ragaai-catalyst",
-      title: "RagaAI Catalyst",
-      techStack: ["Python", "FastAPI", "React", "WebSockets", "MongoDB", "LiteLLM", "Sentence Transformers", "Qdrant"],
-      githubUrl: "https://github.com/kartikraikar2005/ragaai-catalyst",
-      liveUrl: "https://catalyst.raga.ai",
-      description: "Enterprise LLM Evaluation & Guardrails Engine with automated metric scoring (Faithfulness, Relevance, Hallucination), agentic tracing, and red-teaming across 5+ LLMs.",
-      longDescription: "RagaAI Catalyst is an enterprise-grade evaluation and observability suite for LLM and RAG applications. Features automated metric evaluations (Faithfulness, Relevance, Toxicity, Hallucination scoring), real-time agentic execution tracing, prompt versioning and compilation, synthetic Q&A generation, dynamic guardrail enforcement, and automated red-teaming security scans against model vulnerabilities and biases.",
+      id: "apexrag",
+      title: "ApexRAG – RAG Retrieval Evaluation System",
+      techStack: ["Python", "FastAPI", "ChromaDB", "Sentence Transformers", "Ollama", "scikit-learn"],
+      githubUrl: "https://github.com/kartik-012/apexrag",
+      liveUrl: "https://apexrag.kartik.dev",
+      description: "Comprehensive RAG evaluation benchmark over 2,580 documentation chunks and 100 human-verified Q&A pairs, improving retrieval accuracy from 61% (BM25) to 85% (Cross-Encoder Re-ranking).",
+      longDescription: "ApexRAG is a comprehensive RAG evaluation benchmark built over 2,580 documentation chunks and 100 human-verified Q&A pairs on local CPU infrastructure to systematically isolate retrieval bottlenecks. It benchmarks 5 retrieval strategies, improving retrieval accuracy from 61% (BM25) to 85% (Cross-Encoder Re-ranking), establishing ranking quality as the primary bottleneck. Features elimination of data contamination and ID collisions using path-based hashing, and deploys a Logistic Regression query strategy router for dynamic retrieval optimization.",
       keyPoints: [
-        "Implemented automated evaluation metrics for RAG pipelines scoring Faithfulness (99.4%), Relevance, and Hallucination rates.",
-        "Engineered Agentic Tracing module tracking LLM interactions, token usage, tool executions, and decision graphs.",
-        "Built dynamic Guardrails Engine with fail conditions, regex checks, and automated response intervention.",
-        "Designed Automated Red-Teaming scanner detecting model vulnerabilities, biases, and harmful prompt attacks.",
-        "Supported multi-provider orchestration (OpenAI, Anthropic, Gemini, Grok, LiteLLM) with sub-45ms latency."
+        "Built comprehensive RAG evaluation benchmark over 2,580 documentation chunks and 100 human-verified Q&A pairs.",
+        "Benchmarked 5 retrieval strategies, improving accuracy from 61% (BM25) to 85% (Cross-Encoder Re-ranking).",
+        "Established ranking quality as the primary retrieval bottleneck through systematic analysis.",
+        "Eliminated data contamination and ID collisions using path-based hashing.",
+        "Deployed Logistic Regression query strategy router for dynamic retrieval optimization."
       ]
     }
   ],
   achievements: [
     {
-      id: "hackathon",
-      title: "MSME Hackathon 6.0 Participant",
-      description: "Participated in the prestigious national MSME Hackathon 6.0, designing AI-powered enterprise solutions for small and medium businesses.",
+      id: "vice-president",
+      title: "Vice President – AI & ML Department",
+      description: "Vice President of the Department of Artificial Intelligence & Machine Learning at Jain College of Engineering, Belagavi. Led departmental initiatives and coordinated technical and academic programs.",
+      icon: "🎖️"
+    },
+    {
+      id: "hack2future",
+      title: "Hack2Future 2.0 – IIIT Dharwad",
+      description: "Competed as part of Team Velora in Hack2Future 2.0, a national-level hackathon at IIIT Dharwad.",
       icon: "🏆"
+    },
+    {
+      id: "code-for-innovex",
+      title: "Code for Innovex – NITTE NMAM IT",
+      description: "Participated in Code for Innovex, a 24-hour national-level hackathon at NITTE NMAM Institute of Technology.",
+      icon: "💻"
     },
     {
       id: "oracle-certified",
       title: "Oracle AI & Cloud Certified",
-      description: "Earned 3 Oracle certifications: OCI AI Foundations, OCI GenAI Professional, and OCI Foundations Associate — all in September 2025.",
+      description: "Earned Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate certification.",
       icon: "🎯"
     },
     {
@@ -199,18 +226,6 @@ export const resumeData: ResumeData = {
       title: "AWS ML & AI Fundamentals Certified",
       description: "Completed AWS Skill Builder curriculum on core AI algorithms, SageMaker, Bedrock, and generative AI deployments on AWS cloud.",
       icon: "☁️"
-    },
-    {
-      id: "google-course",
-      title: "Google AI Agents Graduate",
-      description: "Completed Google's elite AI Agents Intensive Course on Kaggle, mastering advanced multi-agent architectures, function calling, and prompt orchestration.",
-      icon: "🎓"
-    },
-    {
-      id: "dsa-practice",
-      title: "Competitive Programming Enthusiast",
-      description: "Actively practicing Data Structures and Algorithms on LeetCode and HackerRank, maintaining strong problem-solving skills in Java and Python.",
-      icon: "💡"
     }
   ],
   certifications: [
@@ -219,152 +234,47 @@ export const resumeData: ResumeData = {
       title: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
       issuer: "Oracle",
       issuerKey: "oracle",
-      date: "Sep 2025",
+      date: "2025",
       category: "ai",
       skills: ["Generative AI", "Machine Learning", "OCI AI Services", "LLMs"],
       description: "Comprehensive certification verifying mastery of OCI Artificial Intelligence architectures, generative models, and machine learning foundation concepts.",
       brandColor: "#C74634"
     },
     {
-      id: "oracle-genai-professional-2025",
-      title: "Oracle Cloud Infrastructure 2025 Generative AI Certified Professional",
-      issuer: "Oracle",
-      issuerKey: "oracle",
-      date: "Sep 2025",
-      category: "ai",
-      skills: ["Fine-Tuning", "RAG Pipelines", "Vector Databases", "OCI GenAI Service"],
-      description: "Advanced professional certification in architecting, fine-tuning, and deploying enterprise Large Language Models and Retrieval-Augmented Generation systems on OCI.",
-      brandColor: "#C74634"
-    },
-    {
-      id: "oracle-cloud-foundations-2025",
-      title: "Oracle Cloud Infrastructure 2025 Certified Foundations Associate",
-      issuer: "Oracle",
-      issuerKey: "oracle",
-      date: "Sep 2025",
-      category: "cloud",
-      skills: ["Cloud Architecture", "OCI Compute", "Virtual Cloud Networks", "Identity & Access"],
-      description: "Core cloud computing certification validating deep understanding of enterprise OCI architecture, high availability, security, and cloud scalability.",
-      brandColor: "#C74634"
-    },
-    {
       id: "aws-ml-ai-fundamentals",
-      title: "AWS Training & Certification – Fundamentals of Machine Learning & AI",
+      title: "AWS Training & Certification – Fundamentals of Machine Learning and Artificial Intelligence",
       issuer: "Amazon Web Services (AWS)",
       issuerKey: "aws",
-      date: "Jun 2026",
+      date: "2026",
       category: "ai",
       skills: ["Machine Learning", "Amazon SageMaker", "Bedrock", "Computer Vision", "NLP"],
       description: "Completed AWS Skill Builder specialized curriculum on core AI algorithms, neural network design, model training, and generative AI deployments on AWS.",
       brandColor: "#FF9900"
     },
     {
-      id: "azure-cloud-concepts",
-      title: "Introduction to Microsoft Azure: Describe Cloud Concepts",
-      issuer: "Microsoft",
-      issuerKey: "microsoft",
-      date: "Aug 2025",
-      category: "cloud",
-      skills: ["Azure Architecture", "Serverless", "Cloud Security", "Hybrid Cloud"],
-      description: "Microsoft verified credential for cloud computing fundamentals, compute virtualization, storage topologies, and Azure governance frameworks.",
-      brandColor: "#0078D4"
-    },
-    {
       id: "tata-genai-analytics",
       title: "Tata – GenAI Powered Data Analytics Job Simulation",
       issuer: "Forage (Tata)",
       issuerKey: "tata",
-      date: "Jun 2026",
+      date: "2026",
       category: "data",
-      credentialId: "F75ka7LhKE2sJGxyF",
       skills: ["Generative AI", "Data Analytics", "Prompt Engineering", "Data Modeling"],
       description: "Hands-on job simulation leveraging cutting-edge Generative AI to automate exploratory data analysis, generate executive insights, and structure analytics workflows.",
       brandColor: "#005691"
-    },
-    {
-      id: "deloitte-analytics",
-      title: "Deloitte Data Analytics Job Simulation",
-      issuer: "Deloitte (Forage)",
-      issuerKey: "deloitte",
-      date: "Jul 2026",
-      category: "data",
-      credentialId: "68dcdda956c19017e850b83f",
-      skills: ["Data Analytics", "Forensic Technology", "Advanced Excel", "Data Cleaning"],
-      description: "Completed practical forensic data analysis simulation with Deloitte, conducting end-to-end data pipeline cleaning, statistical modeling, and insight dashboards.",
-      brandColor: "#86BC25"
-    },
-    {
-      id: "tata-data-visualisation",
-      title: "Tata – Data Visualisation: Empowering Business with Effective Insights",
-      issuer: "Forage (Tata)",
-      issuerKey: "tata",
-      date: "Jun 2026",
-      category: "data",
-      credentialId: "fRnWE6dTKBsSJyrg5",
-      skills: ["Data Visualization", "Executive Dashboards", "Data Cleaning", "Business Intelligence"],
-      description: "Executed practical enterprise data simulation building responsive C-suite visual dashboards, data validation pipelines, and strategic decision metrics.",
-      brandColor: "#005691"
-    },
-    {
-      id: "cisco-cybersecurity",
-      title: "Introduction to Cybersecurity",
-      issuer: "Cisco Networking Academy",
-      issuerKey: "cisco",
-      date: "Jun 2026",
-      category: "security",
-      skills: ["Cybersecurity", "Information Security", "Network Defense", "Threat Intelligence"],
-      description: "Foundational credential in enterprise security architectures, attack vectors, cryptographic protocols, defense-in-depth, and data privacy safeguards.",
-      brandColor: "#049FD9"
-    },
-    {
-      id: "tata-cybersecurity",
-      title: "Tata – Cybersecurity Analyst Job Simulation",
-      issuer: "Forage (Tata)",
-      issuerKey: "tata",
-      date: "Jun 2026",
-      category: "security",
-      credentialId: "oL6ptn27GNbizp9Ch",
-      skills: ["IAM Assessments", "Cybersecurity Strategy", "Solution Design", "Access Control"],
-      description: "Simulated enterprise security operations focusing on Identity and Access Management (IAM), vulnerability assessments, and mitigation solution design.",
-      brandColor: "#005691"
-    },
-    {
-      id: "ibm-process-mining",
-      title: "IBM Process Mining Project Journey",
-      issuer: "IBM Training",
-      issuerKey: "ibm",
-      date: "Sep 2025",
-      category: "data",
-      skills: ["Process Mining", "Workflow Optimization", "Enterprise Automation", "Process Discovery"],
-      description: "Awarded by IBM Training for demonstrating hands-on proficiency in process mining, algorithmic bottleneck detection, and workflow transformation pipelines.",
-      brandColor: "#0530AD"
-    },
-    {
-      id: "tcs-career-edge",
-      title: "TCS iON Career Edge – Young Professional",
-      issuer: "TCS iON",
-      issuerKey: "tcs",
-      date: "Jun 2026",
-      category: "dev",
-      credentialId: "240640-28976732-1016",
-      skills: ["Business Communication", "Presentation", "IT Methodologies", "Leadership"],
-      description: "Comprehensive professional capability program covering industry-standard Agile workflows, corporate communications, and collaborative development frameworks.",
-      brandColor: "#E20074"
-    },
-    {
-      id: "greatstack-fullstack",
-      title: "Full Stack Food Delivery Project & Architecture",
-      issuer: "GreatStack",
-      issuerKey: "greatstack",
-      date: "Aug 2025",
-      category: "dev",
-      credentialId: "fdeleWZYPOIdyzddhImJG0huQBb7yj22",
-      skills: ["React", "Node.js", "MongoDB", "Express", "Stripe API", "JWT"],
-      description: "Engineered an end-to-end full stack web application featuring responsive customer UI, authentication, database schemas, admin dashboard, and payment gateway integration.",
-      brandColor: "#6366F1"
     }
   ],
   languages: ["English (Fluent)", "Kannada (Native)", "Hindi (Conversational)"],
+  coursework: [
+    "Data Structures & Algorithms",
+    "Object-Oriented Programming",
+    "Database Management Systems",
+    "Data Science",
+    "Operating Systems",
+    "Computer Networks",
+    "Software Engineering",
+    "Artificial Intelligence",
+    "Machine Learning"
+  ],
   codingProfiles: [
     { platform: "LeetCode", url: "https://leetcode.com/u/kartikraikar2005", handle: "kartikraikar2005" },
     { platform: "GitHub", url: "https://github.com/kartik-012", handle: "kartik-012" },

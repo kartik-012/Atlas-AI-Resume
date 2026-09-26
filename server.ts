@@ -105,23 +105,23 @@ if (apiKey && apiKey !== "MY_GEMINI_API_KEY") {
 function buildDefaultKnowledgeBase() {
   const chunks: KnowledgeChunk[] = [];
 
-  // 1. General Profile Summary with all contact details
+  // 1. General Profile Summary
   chunks.push({
     id: "profile-summary",
     title: "Summary & Overview",
     source: "Resume.pdf",
-    content: `Kartik Raikar is an AI & Machine Learning undergraduate student (B.E., 2023–2027) at Jain College of Engineering, Belagavi, Karnataka, under Visvesvaraya Technological University (VTU). CGPA: 8.5/10.0. He is an AI Engineer & Systems Architect. ${resumeData.summary} Contact Email: ${resumeData.email}, Phone: ${resumeData.phone}, Github: ${resumeData.github}, LinkedIn: ${resumeData.linkedin}. Location: ${resumeData.location}.`
+    content: `Kartik Raikar is an AI Engineer specializing in Generative AI, LLMs, RAG, and AI evaluation. He is pursuing a ${resumeData.education.degree} in ${resumeData.education.major} (${resumeData.education.period}) at ${resumeData.education.institution} under ${resumeData.education.university}. CGPA: ${resumeData.education.cgpa}. ${resumeData.summary} Contact Email: ${resumeData.email}, Phone: ${resumeData.phone}, Github: ${resumeData.github}, LinkedIn: ${resumeData.linkedin}. Location: ${resumeData.location}.`
   });
 
-  // 2. Education with CGPA
+  // 2. Education with Pre-University
   chunks.push({
     id: "education",
     title: "Education & Institution",
     source: "Resume.pdf",
-    content: `Education: Kartik is pursuing a ${resumeData.education.degree} in ${resumeData.education.major} (${resumeData.education.period}) at ${resumeData.education.institution} under ${resumeData.education.university}. CGPA: ${resumeData.education.cgpa}. He is passionate about systems, data structures, algorithms, and production AI applications.`
+    content: `Education: Kartik is pursuing a ${resumeData.education.degree} in ${resumeData.education.major} (${resumeData.education.period}) at ${resumeData.education.institution} under ${resumeData.education.university}. CGPA: ${resumeData.education.cgpa}. Pre-University: ${resumeData.preUniversity.course} at ${resumeData.preUniversity.institution} (${resumeData.preUniversity.period}), ${resumeData.preUniversity.percentage}. Relevant Coursework: ${resumeData.coursework.join(", ")}.`
   });
 
-  // 3. Contact Information chunk
+  // 3. Contact Information
   chunks.push({
     id: "contact-info",
     title: "Contact Information",
@@ -132,23 +132,23 @@ function buildDefaultKnowledgeBase() {
   // 4. Technical Skills
   chunks.push({
     id: "skills-languages",
-    title: "Skills - Programming Languages",
+    title: "Skills - Programming Languages & Frameworks",
     source: "Resume.pdf",
-    content: `Technical Programming Languages: Kartik is highly proficient in ${resumeData.skills.languages.join(", ")}.`
-  });
-
-  chunks.push({
-    id: "skills-web-dev",
-    title: "Skills - Frontend & Backend Frameworks",
-    source: "Resume.pdf",
-    content: `Web Development Stack: Frontend: ${resumeData.skills.frontend.join(", ")}. Backend: ${resumeData.skills.backend.join(", ")}. Database systems: ${resumeData.skills.database.join(", ")}. Tools: ${resumeData.skills.tools.join(", ")}.`
+    content: `Programming Languages: ${resumeData.skills.languages.join(", ")}. Frameworks: ${resumeData.skills.frontend.join(", ")}. Backend: ${resumeData.skills.backend.join(", ")}.`
   });
 
   chunks.push({
     id: "skills-ai-ml",
-    title: "Skills - AI, Machine Learning, & NLP",
+    title: "Skills - AI, Machine Learning, & LLMs",
     source: "Resume.pdf",
-    content: `AI, Machine Learning, and Deep Learning Skills: Kartik possesses practical experience with ${resumeData.skills.aiMl.join(", ")}. He has integrated 5+ LLMs (GPT-4, Claude, Gemini, Llama 3, Mistral) into production applications.`
+    content: `AI/ML Skills: ${resumeData.skills.aiMl.join(", ")}. Data & Visualization: ${resumeData.skills.dataViz.join(", ")}.`
+  });
+
+  chunks.push({
+    id: "skills-databases-devops",
+    title: "Skills - Databases & DevOps",
+    source: "Resume.pdf",
+    content: `Databases: ${resumeData.skills.database.join(", ")}. Tools & DevOps: ${resumeData.skills.tools.join(", ")}.`
   });
 
   // 5. Projects
@@ -174,44 +174,11 @@ function buildDefaultKnowledgeBase() {
       id: `achievement-${a.id}`,
       title: `Achievement: ${a.title}`,
       source: "Achievements.pdf",
-      content: `Kartik's Official Achievement: "${a.title}" ${a.icon || ""} - Description: ${a.description}`
+      content: `Kartik's Achievement: "${a.title}" ${a.icon || ""} - ${a.description}`
     });
   });
 
-  // 7. Certifications — grouped for richer context
-  // Oracle certs
-  const oracleCerts = resumeData.certifications.filter(c => c.issuerKey === "oracle");
-  if (oracleCerts.length > 0) {
-    chunks.push({
-      id: "certifications-oracle",
-      title: "Certifications: Oracle Cloud Infrastructure",
-      source: "Certificates.pdf",
-      content: `Oracle Certifications (all Sep 2025): ${oracleCerts.map(c => `"${c.title}" — Skills: ${c.skills.join(", ")}.`).join(" ")}`
-    });
-  }
-
-  // AWS cert
-  const awsCerts = resumeData.certifications.filter(c => c.issuerKey === "aws");
-  awsCerts.forEach(c => {
-    chunks.push({
-      id: `certification-${c.id}`,
-      title: `Certification: ${c.title}`,
-      source: "Certificates.pdf",
-      content: `AWS Certification of Kartik Raikar: "${c.title}" (Issued: ${c.date}) by ${c.issuer}. Skills: ${c.skills.join(", ")}. ${c.description}`
-    });
-  });
-
-  // All other certs
-  resumeData.certifications.filter(c => c.issuerKey !== "oracle" && c.issuerKey !== "aws").forEach(c => {
-    chunks.push({
-      id: `certification-${c.id}`,
-      title: `Certification: ${c.title}`,
-      source: "Certificates.pdf",
-      content: `Official Certification of Kartik Raikar: "${c.title}" (Issued: ${c.date}) by ${c.issuer}. ${c.credentialId ? `Credential ID: ${c.credentialId}.` : ""} Skills: ${c.skills.join(", ")}. ${c.description}`
-    });
-  });
-
-  // 8. All certifications summary
+  // 7. Certifications
   chunks.push({
     id: "certifications-all-summary",
     title: "All Certifications - Complete List",
@@ -219,40 +186,49 @@ function buildDefaultKnowledgeBase() {
     content: `Kartik Raikar holds ${resumeData.certifications.length} verified certifications: ${resumeData.certifications.map(c => `${c.title} (${c.issuer}, ${c.date})`).join("; ")}.`
   });
 
-  // 9. Interview & Technical Deep Dive Knowledge Chunks
+  resumeData.certifications.forEach(c => {
+    chunks.push({
+      id: `certification-${c.id}`,
+      title: `Certification: ${c.title}`,
+      source: "Certificates.pdf",
+      content: `Certification: "${c.title}" (Issued: ${c.date}) by ${c.issuer}. ${c.credentialId ? `Credential ID: ${c.credentialId}.` : ""} Skills: ${c.skills.join(", ")}. ${c.description}`
+    });
+  });
+
+  // 8. Interview & Technical Knowledge Chunks
   chunks.push({
     id: "interview-why-hire",
     title: "Interview Question: Why should we hire Kartik Raikar?",
     source: "Interview_Preparation.pdf",
-    content: "Why Hire Kartik Raikar? 1) Proven Systems-Level AI Rigor: Unlike candidates who only call external APIs, Kartik implemented an entire Transformer from first principles in NumPyGPT (hand-coding backpropagation and 8-head attention) and built AtlasOS (a multi-tenant AI Memory Operating System with NLI contradiction detection). 2) Full-Stack Engineering Mastery: Fluent across FastAPI, React 19, Next.js 14, PostgreSQL (with RLS), Qdrant Vector DB, Redis 7, and Docker. 3) Evaluation & Reliability Focus: Built RagaAI Catalyst scoring Faithfulness (99.4%) and Hallucination rates, demonstrating an enterprise commitment to AI safety. 4) Industry Credentialed: Holds 13 verified certifications (Oracle Triple Certified, AWS ML, Microsoft Azure, Cisco, Deloitte, Tata, IBM). 5) Strong Academics & Problem Solving: 8.5 CGPA with active competitive programming practice on LeetCode and HackerRank."
+    content: "Why Hire Kartik Raikar? 1) Production AI Engineering: Built AIOps Root Cause Correlator achieving 100% Top-1 RCA accuracy in 0.78s and VersionRAG eliminating 62.5% hallucinated deprecated API calls to 0.0%. 2) RAG & Evaluation Expertise: Engineered ApexRAG benchmarking 5 retrieval strategies and improving accuracy from 61% to 85%. 3) MCP & LLM Tooling: Built GitHub MCP Toolkit improving intent execution accuracy from 64% to 100% with zero prompt injection vulnerabilities. 4) Full-Stack AI Fluency: Python, FastAPI, React.js, PostgreSQL (pgvector), Redis, Docker. 5) Verified Credentials: 8.50 CGPA, 3 certifications (Oracle AI, AWS ML, Tata GenAI), Vice President of AI&ML Department."
   });
 
   chunks.push({
     id: "interview-technical-challenge",
     title: "Interview Question: Tell me about a complex technical challenge you solved.",
     source: "Interview_Preparation.pdf",
-    content: "Technical Challenge & Problem Solving: When architecting AtlasOS (the AI Memory Operating System), Kartik faced the critical challenge of semantic memory drift and agent factual contradictions when ingesting continuous streams of episodic interactions. Solution: 1) Designed a 3-tier memory hierarchy separating ephemeral working state (Redis), chronological raw interactions (Qdrant + Postgres), and synthesized semantic facts. 2) Integrated a local Natural Language Inference (NLI) model (RoBERTa-large-MNLI) into the ingestion pipeline to classify new incoming facts against existing semantic embeddings as Entailment, Contradiction, or Neutral. 3) Developed policy-driven automated conflict resolution algorithms (confidence-weighted, recency-weighted, or manual review trigger) to guarantee agent state consistency without human intervention."
+    content: "Technical Challenge & Problem Solving: In VersionRAG, Kartik faced the critical challenge of cross-version code contamination where RAG systems would hallucinate deprecated API calls 62.5% of the time. Solution: 1) Designed database-enforced version-partitioned vector indexing that completely eliminated cross-version contamination (62.5% to 0.0%). 2) Engineered a structure-aware AST semantic diff engine that detects undocumented breaking changes with 94.2% accuracy. 3) Boosted retrieval precision @k=6 from 41.7% to 98.4% (+136%) at 5.4ms HNSW latency."
   });
 
   chunks.push({
     id: "interview-rag-hallucinations",
     title: "Interview Question: How do you prevent and audit hallucinations in RAG systems?",
     source: "Interview_Preparation.pdf",
-    content: "RAG Reliability & Hallucination Mitigation Strategy: Kartik employs a multi-layered defense strategy: 1) Retrieval Precision: Uses dense vector embeddings (e.g. Gemini Embedding-2 or BAAI/bge-large-en-v1.5) combined with cosine similarity thresholds (>0.05) to eliminate irrelevant context chunks. 2) Strict System Grounding: Enforces low model temperature (0.2) and explicit system prompt rules that mandate answering solely from retrieved facts. 3) Output Faithfulness Auditing: Implemented in RagaAI Catalyst and RAG Hallucination Auditor by cross-checking generated claims against source chunks using cross-encoders and SentenceTransformers to calculate semantic entailment percentages (achieving 98.8%+ hallucination catch rates). 4) Dynamic Guardrails: Intercepts out-of-domain queries or high-risk answers with automated fallback intervention."
+    content: "RAG Reliability & Hallucination Mitigation Strategy: Kartik employs a multi-layered defense strategy: 1) Version-Partitioned Indexing (VersionRAG): Database-enforced version isolation eliminates cross-version contamination, reducing hallucinated deprecated API calls from 62.5% to 0.0%. 2) AST Semantic Diff Engine: Detects undocumented breaking changes with 94.2% accuracy. 3) Multi-Strategy Evaluation (ApexRAG): Benchmarked 5 retrieval strategies (BM25, Dense, Hybrid, Cross-Encoder, Query Router). 4) Path-Based Hashing: Eliminates data contamination and ID collisions."
   });
 
   chunks.push({
     id: "interview-scaling-latency",
     title: "Interview Question: How do you optimize latency and throughput in AI applications?",
     source: "Interview_Preparation.pdf",
-    content: "Latency & Scalability Optimization: In his production projects, Kartik achieves sub-45ms latency and high concurrency through: 1) Asynchronous Concurrency: Using FastAPI async endpoints and Node.js non-blocking I/O for parallel LLM calls. 2) Distributed Background Queues: Offloading heavy embedding generation, summarization, and evaluation tasks to Celery workers backed by Redis brokers. 3) Streaming Responses: Implementing Server-Sent Events (SSE) and WebSockets for immediate token streaming to the UI. 4) Multi-Tier Caching: Caching frequent semantic queries in Redis and keeping in-memory index maps for instant cosine similarity search."
+    content: "Latency & Scalability Optimization: Kartik achieves sub-second latency through: 1) HNSW Vector Indexing: 5.4ms retrieval latency in VersionRAG using pgvector HNSW indexes. 2) Causal DAG Traversal: 0.78s incident resolution in AIOps RCA using NetworkX. 3) Real-Time Streaming: WebSockets and SSE for immediate token delivery. 4) Caching: Redis for high-speed caching. 5) Circuit Breakers & Saga Rollback patterns in GitHub MCP Toolkit."
   });
 
   chunks.push({
     id: "interview-career-goals",
     title: "Interview Question: What are your career aspirations and ideal role?",
     source: "Interview_Preparation.pdf",
-    content: "Career Goals & Aspirations: Kartik aims to contribute as an AI Engineer, ML Systems Engineer, or Full-Stack AI Developer within forward-thinking technology teams. He is passionate about building autonomous multi-agent systems, hierarchical memory architectures, LLM evaluation pipelines, and high-throughput AI products that solve real-world problems with high reliability and visual excellence."
+    content: "Career Goals & Aspirations: Kartik aims to contribute as an AI Engineer, Generative AI Engineer, or LLM Applications Developer. He is passionate about building production-grade RAG pipelines, AI evaluation systems, LLM-driven automation tools (MCP servers), incident intelligence platforms, and high-reliability AI applications."
   });
 
   return chunks;
@@ -598,38 +574,20 @@ app.post("/api/chat", apiLimiter, async (req, res) => {
     if (exactIntentResponse) {
       textReply = exactIntentResponse;
     } else if (
-      matchPattern(cleanLowerQuery, ["linkedin", "linkdin", "linkdn", "linkin", "linked in", "linked-in", "social", "socials", "social media", "handle", "handles"]) ||
-      (cleanLowerQuery.includes("id") && (cleanLowerQuery.includes("link") || cleanLowerQuery.includes("profile") || cleanLowerQuery.includes("kartik") || cleanLowerQuery.includes("user")))
-    ) {
-      textReply = `### Kartik Raikar's LinkedIn & Professional Profiles
-
-• 💼 **LinkedIn Profile**: [linkedin.com/in/kartik-raikar-kr](https://www.linkedin.com/in/kartik-raikar-kr)
-  - **Handle / ID**: \`@kartik-raikar-kr\`
-  - **Status**: Open to AI/ML Engineering & Full-Stack Developer opportunities.
-
-**Other Direct Channels:**
-• 🐙 **GitHub**: [github.com/kartik-012](https://github.com/kartik-012)
-• 📧 **Email**: [kartikraikar2005@gmail.com](mailto:kartikraikar2005@gmail.com)
-• 📱 **Phone / WhatsApp**: [+91 8660910358](tel:+918660910358)
-• 🌐 **Portfolio**: [kartikportfolio-eta.vercel.app](https://kartikportfolio-eta.vercel.app/)
-• 🤖 **Atlas AI Resume**: [atlas-ai-resume.vercel.app](https://atlas-ai-resume.vercel.app/)
-
-*Feel free to connect on LinkedIn or message Kartik directly!*`;
-
-    // 2. GitHub & Open-Source Code Repositories
+          // 2. GitHub & Open-Source Code Repositories
     } else if (matchPattern(cleanLowerQuery, ["github", "git hub", "githb", "git", "repo", "repos", "repository", "repositories", "codebase", "source code", "open source", "leetcode", "hackerrank", "codechef"])) {
       textReply = `### Kartik Raikar's GitHub & Code Repositories
 
 • 🐙 **GitHub Profile**: [github.com/kartik-012](https://github.com/kartik-012)
 
-**Top Open-Source Repositories:**
-1. 🌐 **Atlas AI Resume**: [github.com/kartik-012/Atlas-AI-Resume](https://github.com/kartik-012/Atlas-AI-Resume) (Live: [atlas-ai-resume.vercel.app](https://atlas-ai-resume.vercel.app/))
-2. 🌌 **AtlasOS (AI Memory OS)**: [github.com/kartik-012/AtlasOS](https://github.com/kartik-012/AtlasOS)
-3. ⚖️ **Debate Arena (3D Courtroom)**: [github.com/kartikraikar2005/debate-arena](https://github.com/kartikraikar2005/debate-arena)
-4. 🐍 **NumPyGPT (Scratch Transformer)**: [github.com/kartikraikar2005/numpygpt](https://github.com/kartikraikar2005/numpygpt)
-5. 📊 **RagaAI Catalyst (LLM Eval)**: [github.com/kartikraikar2005/ragaai-catalyst](https://github.com/kartikraikar2005/ragaai-catalyst)
+**Top Repositories:**
+1. 🌐 **Atlas AI Resume**: [github.com/kartik-012/Atlas-AI-Resume](https://github.com/kartik-012/Atlas-AI-Resume)
+2. ⚡ **AIOps Root Cause Correlator**: [github.com/kartik-012/aiops-rca](https://github.com/kartik-012/aiops-rca)
+3. 📚 **VersionRAG**: [github.com/kartik-012/versionrag](https://github.com/kartik-012/versionrag)
+4. 🔧 **GitHub MCP Toolkit**: [github.com/kartik-012/github-mcp-toolkit](https://github.com/kartik-012/github-mcp-toolkit)
+5. 📊 **ApexRAG**: [github.com/kartik-012/apexrag](https://github.com/kartik-012/apexrag)
 
-*Which repository architecture would you like to explore?*`;
+*Which repository would you like to explore?*`;
 
     // 3. Email & Direct Messaging
     } else if (matchPattern(cleanLowerQuery, ["email", "mail", "gmail", "e-mail", "inbox", "send email", "write email"])) {
@@ -638,237 +596,219 @@ app.post("/api/chat", apiLimiter, async (req, res) => {
 • 📧 **Email**: [kartikraikar2005@gmail.com](mailto:kartikraikar2005@gmail.com)
 • 📱 **Phone / WhatsApp**: [+91 8660910358](tel:+918660910358)
 • 💼 **LinkedIn**: [linkedin.com/in/kartik-raikar-kr](https://www.linkedin.com/in/kartik-raikar-kr)
-• 🌐 **Portfolio**: [kartikportfolio-eta.vercel.app](https://kartikportfolio-eta.vercel.app/)
 
-*Kartik actively checks his inbox and responds to recruiter and engineering inquiries promptly!*`;
+*Kartik actively checks his inbox and responds promptly!*`;
 
     // 4. Phone, WhatsApp & Calling
-    } else if (matchPattern(cleanLowerQuery, ["phone", "mobile", "number", "cell", "call", "whatsapp", "whats app", "calling", "contact number", "phone number", "ph no"])) {
+    } else if (matchPattern(cleanLowerQuery, ["phone", "mobile", "number", "cell", "call", "whatsapp", "whats app", "calling", "contact number", "phone number"])) {
       textReply = `### Kartik Raikar's Phone & WhatsApp
 
 • 📱 **Phone / WhatsApp**: [+91 8660910358](tel:+918660910358) *(Direct calls & WhatsApp active)*
 • 📧 **Email**: [kartikraikar2005@gmail.com](mailto:kartikraikar2005@gmail.com)
 • 💼 **LinkedIn**: [linkedin.com/in/kartik-raikar-kr](https://linkedin.com/in/kartik-raikar-kr)
-• 📍 **Location**: Belagavi, Karnataka, India
 
-*You can call or message Kartik directly to discuss interview opportunities!*`;
+*You can call or message Kartik directly!*`;
 
     // 5. Contact, Schedule Interview & Availability
-    } else if (matchPattern(cleanLowerQuery, ["contact", "reach", "reach out", "connect", "schedule", "interview", "touch", "get in touch", "talk to him"])) {
+    } else if (matchPattern(cleanLowerQuery, ["contact", "reach", "reach out", "connect", "schedule", "interview", "touch", "get in touch"])) {
       textReply = `### Contact Kartik Raikar & Schedule Interview
 
 • 📧 **Email**: [kartikraikar2005@gmail.com](mailto:kartikraikar2005@gmail.com)
-• 📱 **Phone / WhatsApp**: [+91 8660910358](tel:+918660910358) *(Direct calls & WhatsApp active)*
+• 📱 **Phone / WhatsApp**: [+91 8660910358](tel:+918660910358)
 • 💼 **LinkedIn**: [linkedin.com/in/kartik-raikar-kr](https://linkedin.com/in/kartik-raikar-kr)
 • 🐙 **GitHub**: [github.com/kartik-012](https://github.com/kartik-012)
 • 📍 **Location**: Belagavi, Karnataka, India (Open to Remote / Relocation)
 
-*Kartik is immediately available for AI/ML Engineering and Full-Stack AI roles!*`;
+*Kartik is immediately available for AI Engineering and Generative AI roles!*`;
 
     // 6. Resume, CV & PDF Download
-    } else if (matchPattern(cleanLowerQuery, ["resume", "cv", "pdf", "download", "document", "paper", "curriculum", "biodata", "download resume"])) {
+    } else if (matchPattern(cleanLowerQuery, ["resume", "cv", "pdf", "download", "document", "paper", "curriculum", "biodata"])) {
       textReply = `### Kartik Raikar's Resume & CV
 
-• 📄 **Interactive Resume Viewer**: Currently loaded on the main screen of this portal.
-• 📥 **Direct Download**: Use the **"Download Resume"** button in the top navigation bar to get the official PDF.
-• 🎓 **Education**: B.E. in AI & ML (2023–2027), Jain College of Engineering (VTU) — **8.5 CGPA**.
-• 📜 **Credentials**: 13 Industry Certifications (Oracle, AWS, Azure, Cisco, Deloitte).
-• 🚀 **Projects**: AtlasOS, NumPyGPT, Debate Arena, RagaAI Catalyst, Atlas AI Resume.
+• 📄 **Interactive Resume Viewer**: Currently loaded on the main screen.
+• 📥 **Direct Download**: Use the **"Download Resume"** button in the top navigation bar.
+• 🎓 **Education**: B.E. in CSE (AI & ML) (Aug 2023 – Jul 2027), Jain College of Engineering (VTU) — **8.50 CGPA**.
+• 📜 **Credentials**: 3 Industry Certifications (Oracle, AWS, Tata).
+• 🚀 **Projects**: AIOps RCA, VersionRAG, GitHub MCP Toolkit, ApexRAG, Atlas AI Resume.
 
 *Would you like me to highlight his technical skills or project achievements?*`;
 
-    // 7. Location, Relocation & Work Mode (Remote / Hybrid / Onsite)
-    } else if (matchPattern(cleanLowerQuery, ["location", "where", "city", "state", "country", "address", "belagavi", "karnataka", "india", "relocate", "relocation", "remote", "onsite", "hybrid", "based", "live", "living", "staying", "place"])) {
+    // 7. Location & Work Preferences
+    } else if (matchPattern(cleanLowerQuery, ["location", "where", "city", "state", "country", "address", "belagavi", "karnataka", "india", "relocate", "relocation", "remote", "onsite", "hybrid", "based"])) {
       textReply = `### Location & Work Preferences
 
 • 📍 **Current Location**: Belagavi, Karnataka, India
-• 🌍 **Work Availability**: Open to **Remote**, **Hybrid**, and **Onsite** opportunities across India (Bengaluru, Hyderabad, Pune, Mumbai, Delhi-NCR) and Worldwide.
-• ⚡ **Notice Period**: Immediate availability for Full-Time and Internship roles.
+• 🌍 **Work Availability**: Open to **Remote**, **Hybrid**, and **Onsite** opportunities.
+• ⚡ **Notice Period**: Immediate availability.
 
-*You can reach Kartik directly at **+91 8660910358** or **kartikraikar2005@gmail.com**.*`;
+*Reach Kartik at **+91 8660910358** or **kartikraikar2005@gmail.com**.*`;
 
-    // 8. Education, College, Degree, University & CGPA
-    } else if (matchPattern(cleanLowerQuery, ["education", "college", "university", "school", "degree", "b.e", "be", "bachelor", "jain college", "vtu", "gpa", "cgpa", "marks", "grade", "academics", "study", "studying", "branch", "engineering"])) {
+    // 8. Education, College, Degree & CGPA
+    } else if (matchPattern(cleanLowerQuery, ["education", "college", "university", "school", "degree", "b.e", "be", "bachelor", "jain college", "vtu", "gpa", "cgpa", "marks", "grade", "academics", "study", "branch", "engineering", "pu", "pre university"])) {
       textReply = `### Education & Academic Background
 
-• 🎓 **Degree**: Bachelor of Engineering (B.E.) in **Artificial Intelligence & Machine Learning** (2023 – 2027)
+• 🎓 **Degree**: B.E. in **Computer Science & Engineering (AI & ML)** (Aug 2023 – Jul 2027)
 • 🏫 **Institution**: **Jain College of Engineering, Belagavi**
 • 🏛️ **University**: **Visvesvaraya Technological University (VTU)**
-• 📈 **Academic Performance**: **8.5 / 10.0 CGPA**
-• 📚 **Core Subjects**: Data Structures & Algorithms, Deep Learning, NLP, Database Management Systems, Operating Systems, Computer Networks.
+• 📈 **CGPA**: **8.50 / 10.0**
+• 📚 **Pre-University**: PCM at Jain PU College, Belagavi (2021–2023, 80%)
+• 📖 **Coursework**: DSA, OOP, DBMS, Data Science, OS, Computer Networks, AI, ML.
 
-*Would you like to explore his competitive coding background or 13 industry certifications?*`;
+*Would you like to explore his certifications or projects?*`;
 
-    // 9. Oracle Certifications Specifically
-    } else if (matchPattern(cleanLowerQuery, ["oracle", "oci", "genai certified", "ai foundations associate", "oci foundations"])) {
-      textReply = `### Kartik's Oracle Cloud Certifications (Triple Certified - Sep 2025)
+    // 9. Certifications
+    } else if (matchPattern(cleanLowerQuery, ["certificate", "certificates", "certification", "certifications", "cert", "certs", "credentials", "oracle", "aws", "tata", "forage"])) {
+      textReply = `### Kartik's 3 Verified Industry Certifications
 
-1. ☁️ **OCI 2025 Certified Generative AI Professional**: Validates hands-on skills in Fine-Tuning LLMs, RAG Pipelines, Vector Databases, OCI GenAI Service, and prompt engineering.
-2. 🤖 **OCI 2025 Certified AI Foundations Associate**: Validates Generative AI concepts, Machine Learning fundamentals, and OCI AI Services.
-3. 🏛️ **OCI 2025 Certified Foundations Associate**: Validates cloud computing architecture, VCN networking, Compute, Storage, and IAM security governance.
-
-*Would you like to see his AWS, Azure, or Cisco certifications?*`;
-
-    // 10. All 13 Certifications & Credentials
-    } else if (matchPattern(cleanLowerQuery, ["certificate", "certificates", "certification", "certifications", "cert", "certs", "credentials", "licenses", "badges", "aws", "azure", "microsoft", "cisco", "deloitte", "tata", "ibm", "forage", "tcs", "greatstack"])) {
-      textReply = `### Kartik's 13 Verified Industry Certifications
-
-• ☁️ **Oracle (3x)**: OCI AI Foundations, OCI GenAI Professional, OCI Foundations (Sep 2025)
-• ⚡ **AWS**: Fundamentals of Machine Learning and AI (Jun 2026)
-• 🔷 **Microsoft**: Introduction to Azure: Describe Cloud Concepts (Aug 2025)
-• 🔒 **Cisco**: Introduction to Cybersecurity (Jun 2026)
-• 📊 **Deloitte**: Data Analytics Job Simulation (Forage ID: 68dcdda956c19017e850b83f)
-• 🏢 **Tata (3x)**: GenAI Data Analytics, Data Visualisation, Cybersecurity Analyst
-• ⚙️ **IBM, TCS & GreatStack**: Process Mining (IBM), Career Edge (TCS), Full Stack Food Delivery (GreatStack)
+1. ☁️ **Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate**: Generative AI, ML, OCI AI Services, LLMs.
+2. ⚡ **AWS Training & Certification – Fundamentals of ML and AI**: SageMaker, Bedrock, NLP, Computer Vision.
+3. 📊 **Tata – GenAI Powered Data Analytics Job Simulation (Forage)**: GenAI, Data Analytics, Prompt Engineering.
 
 *Would you like details on any specific credential?*`;
 
-    // 11. Project: AtlasOS
-    } else if (matchPattern(cleanLowerQuery, ["atlasos", "atlas os", "memory os", "episodic memory", "working memory", "roberta", "contradiction", "tenant isolation", "postgres rls"])) {
-      textReply = `### Project Spotlight: AtlasOS (AI Memory Operating System)
+    // 10. Project: AIOps Root Cause Correlator
+    } else if (matchPattern(cleanLowerQuery, ["aiops", "root cause", "rca", "incident engine", "alert storm", "ewma", "anomaly detection", "networkx", "topology"])) {
+      textReply = `### Project Spotlight: AIOps Root Cause Correlator
 
-• 🧠 **What it is**: Multi-tenant AI Memory OS providing hierarchical, contextual memory management for autonomous AI agents.
-• 🛠️ **Tech Stack**: FastAPI, Python 3.11, PostgreSQL 15 (RLS), Qdrant Vector DB, Redis 7, Next.js 14, Celery, RoBERTa-large-MNLI.
-• ⚡ **Key Architecture**:
-  1. **3-Tier Memory**: Ephemeral Working Memory (Redis TTL), Episodic Memory (Qdrant + PostgreSQL RLS), and Consolidated Semantic Memory.
-  2. **Active Contradiction Detection**: Evaluates incoming facts against stored memories using \`roberta-large-mnli\` with automatic policy-driven resolution.
-  3. **Multi-Tenant Boundary Isolation**: Enforces tenant security at the PostgreSQL database layer (Row-Level Security) and scoped Qdrant filters.
-• 🐙 **GitHub**: [github.com/kartik-012/AtlasOS](https://github.com/kartik-012/AtlasOS)
-• 🌐 **Live Demo**: [atlasos.kartik.dev](https://atlasos.kartik.dev)
+• ⚡ **Overview**: Autonomous incident correlation engine for microservice environments.
+• 🛠️ **Tech Stack**: Python, FastAPI, PostgreSQL, Redis, NetworkX, Three.js, WebSockets, pgvector.
+• 📊 **Key Metrics**:
+  - Resolves cascading alert storms in **0.78s** (down from 1-4 hours).
+  - **100% Top-1 RCA accuracy** across 30 benchmark scenarios.
+  - **100% precision/recall** in false-positive suppression.
+• ⚡ **Architecture**: EWMA anomaly detection (z > 2.0σ) + causal DAG traversal + 3D Three.js topology visualizer.
+• 🐙 **GitHub**: [github.com/kartik-012/aiops-rca](https://github.com/kartik-012/aiops-rca)
 
-*Would you like to know how he scaled this with Celery background workers?*`;
+*Would you like to explore the EWMA detection or 3D visualizer?*`;
 
-    // 12. Project: NumPyGPT
-    } else if (matchPattern(cleanLowerQuery, ["numpygpt", "numpy gpt", "transformer from scratch", "attention from scratch", "zero ml", "zero framework", "scratch transformer", "matrix math", "backprop"])) {
-      textReply = `### Project Spotlight: NumPyGPT (Transformer Built from Scratch)
+    // 11. Project: VersionRAG
+    } else if (matchPattern(cleanLowerQuery, ["versionrag", "version rag", "documentation intelligence", "cross version", "deprecated api", "ast diff", "chain of version", "version partitioned"])) {
+      textReply = `### Project Spotlight: VersionRAG
 
-• 🐍 **What it is**: Complete GPT Transformer deep learning architecture hand-coded 100% from first principles using pure NumPy and matrix math — **zero PyTorch or TensorFlow**.
-• 🛠️ **Tech Stack**: Python, TypeScript, React 19, TailwindCSS, Vite, Express, Gemini API.
-• ⚡ **Key Architecture**:
-  1. **Zero-Framework Transformer**: Hand-coded Matrix Multiplication, Multi-Head Attention (8 heads), LayerNorm, Softmax, FeedForward, and Backpropagation from scratch.
-  2. **Interactive Attention Visualizer**: Real-time browser heatmap rendering attention weights, token activations, and gradient flows.
-  3. **Conversational Assistant**: Integrated Gemini-powered AI that explains, tests, and debugs NumPy code interactively.
-• 🐙 **GitHub**: [github.com/kartikraikar2005/numpygpt](https://github.com/kartikraikar2005/numpygpt)
-• 🌐 **Live Demo**: [numpygpt.kartik.dev](https://numpygpt.kartik.dev)
+• 📚 **Overview**: Enterprise RAG solving cross-version code contamination.
+• 🛠️ **Tech Stack**: Python 3.12, FastAPI, PostgreSQL, pgvector, React 18, TypeScript, Tailwind.
+• 📊 **Key Metrics**:
+  - Hallucinated deprecated API calls: **62.5% → 0.0%**.
+  - AST semantic diff accuracy: **94.2%**.
+  - Retrieval precision @k=6: **41.7% → 98.4% (+136%)** at 5.4ms HNSW latency.
+• 🐙 **GitHub**: [github.com/kartik-012/versionrag](https://github.com/kartik-012/versionrag)
 
-*Would you like to explore the multi-head attention math?*`;
+*Would you like to explore the version-partitioned indexing architecture?*`;
 
-    // 13. Project: Debate Arena
-    } else if (matchPattern(cleanLowerQuery, ["debate arena", "debate", "courtroom", "3d courtroom", "r3f", "three.js", "threejs", "judge", "jury", "judicial bias"])) {
-      textReply = `### Project Spotlight: Debate Arena (Multi-LLM 3D Debate Platform)
+    // 12. Project: GitHub MCP Toolkit
+    } else if (matchPattern(cleanLowerQuery, ["mcp", "mcp toolkit", "github mcp", "model context protocol", "fastmcp", "preview token", "sha-256", "saga rollback", "abac"])) {
+      textReply = `### Project Spotlight: GitHub MCP Toolkit
 
-• ⚖️ **What it is**: Multi-LLM adversarial debate platform staging live multi-round debates between leading AI models in an interactive 3D courtroom.
-• 🛠️ **Tech Stack**: Python 3.11, FastAPI (async), React 18, React Three Fiber (R3F), Three.js, TailwindCSS, Framer Motion, Async SQLite.
-• ⚡ **Key Architecture**:
-  1. **Live 3D Courtroom**: React Three Fiber 3D scene with dynamic spotlighting, active speaker podiums, and camera choreography.
-  2. **Multi-LLM Debates**: Pits models (GPT-4o, Claude 3.5, Gemini) against each other with custom persona synthesis.
-  3. **Judicial Bias Auditing**: Swaps speaker roles in debate transcripts to mathematically audit and eliminate positional bias.
-• 🐙 **GitHub**: [github.com/kartikraikar2005/debate-arena](https://github.com/kartikraikar2005/debate-arena)
-• 🌐 **Live Demo**: [debate-arena.kartik.dev](https://debate-arena.kartik.dev)
+• 🔧 **Overview**: Production-ready MCP server for LLM-driven repository automation.
+• 🛠️ **Tech Stack**: Python, FastMCP, GitHub API, Ollama, Docker, GitHub Actions.
+• 📊 **Key Metrics**:
+  - Eliminated **14% blind bulk-mutation rate** via SHA-256 preview-token protocol.
+  - Intent execution accuracy: **64% → 100%**.
+  - **Zero prompt injections** across 20 adversarial test suites.
+• 🐙 **GitHub**: [github.com/kartik-012/github-mcp-toolkit](https://github.com/kartik-012/github-mcp-toolkit)
 
-*Would you like to know how the AI Judge evaluates argument strength?*`;
+*Would you like to learn about the ABAC security or Saga rollback?*`;
 
-    // 14. Project: RagaAI Catalyst
-    } else if (matchPattern(cleanLowerQuery, ["ragaai", "catalyst", "llm eval", "faithfulness", "guardrails", "red teaming", "synthetic data", "observability", "toxicity"])) {
-      textReply = `### Project Spotlight: RagaAI Catalyst (LLM Evaluation & Guardrails)
+    // 13. Project: ApexRAG
+    } else if (matchPattern(cleanLowerQuery, ["apexrag", "apex rag", "retrieval evaluation", "bm25", "cross encoder", "reranking", "query router", "retrieval benchmark"])) {
+      textReply = `### Project Spotlight: ApexRAG
 
-• 📊 **What it is**: Enterprise-grade evaluation, observability, and guardrails suite for LLM and RAG applications across 5+ model providers.
-• 🛠️ **Tech Stack**: Python, FastAPI, React, WebSockets, MongoDB, LiteLLM, Sentence Transformers, Qdrant.
-• ⚡ **Key Architecture**:
-  1. **Automated Evaluation Metrics**: Evaluates Faithfulness (99.4%), Context Relevance, Toxicity, and Hallucination rates with sub-45ms latency.
-  2. **Dynamic Guardrails Engine**: Enforces real-time response evaluation, regex checks, competitor blocklists, and automated fallback intervention.
-  3. **Automated Red-Teaming**: Multi-provider vulnerability and prompt injection testing suite.
-• 🐙 **GitHub**: [github.com/kartikraikar2005/ragaai-catalyst](https://github.com/kartikraikar2005/ragaai-catalyst)
-• 🌐 **Live Demo**: [catalyst.raga.ai](https://catalyst.raga.ai)
+• 📊 **Overview**: Comprehensive RAG retrieval evaluation system.
+• 🛠️ **Tech Stack**: Python, FastAPI, ChromaDB, Sentence Transformers, Ollama, scikit-learn.
+• 📊 **Key Metrics**:
+  - **2,580 documentation chunks** and **100 human-verified Q&A pairs**.
+  - Retrieval accuracy: **61% (BM25) → 85% (Cross-Encoder Re-ranking)**.
+  - Established **ranking quality** as the primary bottleneck.
+• 🐙 **GitHub**: [github.com/kartik-012/apexrag](https://github.com/kartik-012/apexrag)
 
-*Would you like to see how it calculates faithfulness metrics?*`;
+*Would you like to explore the 5 retrieval strategies?*`;
 
-    // 15. Project: Atlas AI Resume
+    // 14. Project: Atlas AI Resume
     } else if (matchPattern(cleanLowerQuery, ["atlas ai resume", "telemetry", "kb studio", "knowledge base studio", "rate limit", "rag portfolio", "resume assistant"])) {
-      textReply = `### Project Spotlight: Atlas AI Resume (Interactive RAG Portfolio)
+      textReply = `### Project Spotlight: Atlas AI Resume
 
-• 🌐 **What it is**: Production-grade RAG-Powered AI Portfolio and Interactive Resume Assistant (this web app!).
-• 🛠️ **Tech Stack**: React 19, TypeScript, Node.js, Express, Google Gemini 2.5 Flash, Vector Search, TailwindCSS, Vite.
-• ⚡ **Key Architecture**:
-  1. **Dual-Layer RAG Engine**: Vector similarity search + LLM streaming + intelligent offline heuristic fallbacks.
-  2. **Recruiter Telemetry Console**: Real-time dashboard tracking visitor sessions, questions asked, query analytics, and duration.
-  3. **Knowledge Base Admin Studio**: Dynamic indexing, on-the-fly embedding generation, and search relevance diagnostics.
+• 🌐 **Overview**: RAG-Powered AI Portfolio & Interactive Resume Assistant (this web app!).
+• 🛠️ **Tech Stack**: React 19, TypeScript, Node.js, Express, Gemini API, Vector Search, TailwindCSS, Vite.
+• ⚡ **Key Features**:
+  1. **Dual-Layer RAG Engine**: Vector similarity search + LLM streaming + offline heuristic fallbacks.
+  2. **Recruiter Telemetry Console**: Real-time dashboard tracking visitor analytics.
+  3. **Knowledge Base Admin Studio**: Dynamic indexing and search diagnostics.
 • 🐙 **GitHub**: [github.com/kartik-012/Atlas-AI-Resume](https://github.com/kartik-012/Atlas-AI-Resume)
 
 *Would you like to explore another project or view his credentials?*`;
 
-    // 16. All Projects Overview
-    } else if (matchPattern(cleanLowerQuery, ["project", "projects", "what did you build", "built", "work", "portfolio", "showcase", "creations"])) {
+    // 15. All Projects Overview
+    } else if (matchPattern(cleanLowerQuery, ["project", "projects", "what did you build", "built", "work", "portfolio", "showcase"])) {
       textReply = `### Kartik's 5 Production Projects
 
 1. 🌐 **Atlas AI Resume**: RAG portfolio with Recruiter Telemetry Console & KB Studio.
-2. 🌌 **AtlasOS**: Multi-tenant AI Memory OS with active NLI contradiction detection.
-3. ⚖️ **Debate Arena**: Multi-LLM debates in a 3D courtroom using React Three Fiber.
-4. 🐍 **NumPyGPT**: GPT Transformer built 100% from scratch with zero ML frameworks.
-5. 📊 **RagaAI Catalyst**: Enterprise LLM evaluation & guardrails suite (99.4% faithfulness).
+2. ⚡ **AIOps Root Cause Correlator**: 0.78s incident resolution, 100% Top-1 RCA accuracy.
+3. 📚 **VersionRAG**: 62.5% → 0.0% hallucination, 98.4% retrieval precision.
+4. 🔧 **GitHub MCP Toolkit**: 64% → 100% intent accuracy, zero prompt injections.
+5. 📊 **ApexRAG**: 61% → 85% retrieval accuracy across 5 strategies.
 
 *Which project would you like to dive into?*`;
 
-    // 17. Technical Skills & Tech Stack
-    } else if (matchPattern(cleanLowerQuery, ["skill", "skills", "tech stack", "technology", "technologies", "languages", "python", "typescript", "fastapi", "react", "nextjs", "database", "postgres", "qdrant", "redis", "docker", "tools", "frameworks", "stack"])) {
+    // 16. Technical Skills & Tech Stack
+    } else if (matchPattern(cleanLowerQuery, ["skill", "skills", "tech stack", "technology", "technologies", "languages", "python", "typescript", "fastapi", "react", "nextjs", "database", "postgres", "qdrant", "redis", "docker", "tools", "frameworks", "stack", "pytorch"])) {
       textReply = `### Kartik's Technical Stack & Skills
 
-• **Languages**: Python (95%), TypeScript (90%), JavaScript, Java, C++, SQL
-• **AI & ML**: NumPy, Scikit-learn, LangChain, Sentence Transformers, RoBERTa-large-MNLI, Gemini API, Vector Embeddings, RAG
-• **Frontend & 3D**: React 19, Next.js 14, React Three Fiber (R3F), Three.js, TailwindCSS
-• **Backend & Distributed**: FastAPI (async), Node.js, Express, Celery, Redis 7, WebSockets, SSE
-• **Databases**: PostgreSQL 15 (RLS), Qdrant Vector DB, Redis 7, MongoDB
-• **DevOps**: Docker, Git/GitHub, Postman, Power BI, Vercel
+• **Programming**: Python, JavaScript, TypeScript, SQL
+• **Frameworks**: FastAPI, React.js, Next.js, PyTorch
+• **AI/ML**: Generative AI, LLMs, RAG, Transformers, AI Evaluation, Prompt Engineering, Semantic Search, Vector Search
+• **Databases**: PostgreSQL (pgvector), MySQL, MongoDB, Redis, Qdrant
+• **Tools**: Git, GitHub, Docker, Linux, Postman, VS Code, GitHub Actions
+• **Data & Viz**: Power BI, Tableau, Microsoft Excel
 
 *Would you like details on how any specific tool was used in his projects?*`;
 
-    // 18. Why Hire Kartik? (Interview Pitch)
+    // 17. Why Hire Kartik?
     } else if (matchPattern(cleanLowerQuery, ["why hire", "hire kartik", "why should we hire", "why you", "why should i hire", "reasons to hire", "sell yourself", "pitch"])) {
       textReply = `### Why Hire Kartik Raikar? (Top 5 Reasons)
 
-1. 🛠️ **Systems-Level AI Rigor**: Hand-coded Transformer architecture from first principles in **NumPyGPT** without PyTorch/TensorFlow.
-2. 🧠 **Production AI Infrastructure**: Architected **AtlasOS**, a multi-tenant AI Memory OS with active RoBERTa contradiction detection.
-3. 🛡️ **AI Reliability & Safety**: Built **RagaAI Catalyst** scoring Faithfulness (99.4%) and Hallucination metrics.
-4. ⚡ **Modern Full-Stack Fluency**: FastAPI async, React 19, Three.js 3D, PostgreSQL RLS, and Qdrant Vector DB.
-5. 📜 **Proven Track Record**: 8.5 CGPA with 13 verified certifications (Oracle, AWS, Azure, Cisco, Deloitte).
+1. ⚡ **Production AI with Measurable Impact**: 0.78s incident resolution (AIOps RCA), 62.5% → 0.0% hallucination (VersionRAG).
+2. 📚 **RAG Architecture Expert**: Version-partitioned indexing, 98.4% retrieval precision, 5-strategy benchmarking.
+3. 🔧 **LLM Tooling & Safety**: MCP server with 100% intent accuracy, zero prompt injections.
+4. 📊 **Scientific Evaluation Rigor**: ApexRAG systematically isolating retrieval bottlenecks.
+5. 🏅 **Leadership & Credentials**: VP of AI&ML Dept, 8.50 CGPA, 3 certifications (Oracle, AWS, Tata).
 
-*Would you like to schedule an interview or view his GitHub repositories?*`;
+*Would you like to schedule an interview or view his GitHub?*`;
 
-    // 19. Technical Challenge (Interview Question)
-    } else if (matchPattern(cleanLowerQuery, ["technical challenge", "challenge", "hardest problem", "bug", "difficult problem", "conflict", "problem solved", "architecture decision"])) {
-      textReply = `### Technical Challenge: Active Contradiction Detection in AtlasOS
+    // 18. Technical Challenge
+    } else if (matchPattern(cleanLowerQuery, ["technical challenge", "challenge", "hardest problem", "bug", "difficult problem", "problem solved"])) {
+      textReply = `### Technical Challenge: Cross-Version Contamination in VersionRAG
 
-• **The Problem**: Continuous episodic memory ingestion causes semantic drift and conflicting agent facts.
+• **The Problem**: RAG systems hallucinating deprecated API calls 62.5% of the time due to cross-version contamination.
 • **Kartik's Solution**:
-  1. **3-Tier Memory**: Separated Redis working state, PostgreSQL RLS + Qdrant raw interactions, and synthesized semantic facts.
-  2. **NLI Pipeline**: Local \`roberta-large-mnli\` classifies facts as *Entailment*, *Contradiction*, or *Neutral*.
-  3. **Auto-Resolution**: Policy-driven resolution (confidence/recency weights) keeps memory 100% consistent.
+  1. **Version-Partitioned Indexing**: Database-enforced version isolation eliminated contamination (62.5% → 0.0%).
+  2. **AST Semantic Diff Engine**: Detects undocumented breaking changes with 94.2% accuracy.
+  3. **Retrieval Precision**: Boosted from 41.7% to 98.4% (+136%) at 5.4ms HNSW latency.
 
-*Would you like to know how he scaled this with Celery background workers?*`;
+*Would you like to explore the AIOps RCA challenge next?*`;
 
-    // 20. RAG Hallucination Prevention (Interview Question)
-    } else if (matchPattern(cleanLowerQuery, ["hallucination", "rag", "faithfulness", "grounding", "prevent hallucination", "hallucinate", "hallucinations"])) {
-      textReply = `### RAG Reliability & Hallucination Mitigation Strategy
+    // 19. RAG & Hallucination
+    } else if (matchPattern(cleanLowerQuery, ["hallucination", "rag", "faithfulness", "grounding", "prevent hallucination"])) {
+      textReply = `### RAG Reliability & Hallucination Mitigation
 
-1. 🎯 **Dense Vector Retrieval**: High-dimensional embeddings with strict cosine thresholds (>0.05).
-2. 🔒 **Deterministic Grounding**: Low temperature (0.2) + strict system boundary rules.
-3. ⚖️ **Output Faithfulness Auditing**: Automated cross-encoder evaluation (as in RagaAI Catalyst, 99.4% faithfulness).
-4. 🛡️ **Dynamic Guardrails**: Graceful interceptors for out-of-scope or high-risk inputs.
+1. 📚 **Version-Partitioned Indexing** (VersionRAG): 62.5% → 0.0% hallucination.
+2. 🎯 **AST Semantic Diff**: Detects undocumented breaking changes (94.2% accuracy).
+3. 📊 **Multi-Strategy Evaluation** (ApexRAG): Benchmarked 5 strategies, 61% → 85%.
+4. 🔒 **Path-Based Hashing**: Eliminates data contamination and ID collisions.
+5. 🤖 **Dynamic Query Router**: Logistic Regression selects optimal retrieval strategy per query.
 
-*Would you like to see how this works in Atlas AI Resume or RagaAI Catalyst?*`;
+*Would you like to see how VersionRAG or ApexRAG implements this?*`;
 
-    // 21. Scalability & Latency Optimization (Interview Question)
-    } else if (matchPattern(cleanLowerQuery, ["scaling", "scale", "latency", "performance", "optimization", "throughput", "fastapi async", "speed", "sub 45ms"])) {
-      textReply = `### Scalability & Latency Optimization Strategy
+    // 20. Leadership & Achievements
+    } else if (matchPattern(cleanLowerQuery, ["leadership", "vice president", "achievements", "hackathon", "hack2future", "innovex", "team velora"])) {
+      textReply = `### Leadership & Achievements
 
-• **Async Concurrency**: FastAPI async handlers and non-blocking Node.js I/O for sub-45ms responses.
-• **Background Queues**: Celery + Redis 7 offload heavy embeddings and evaluations.
-• **Real-Time Streaming**: Server-Sent Events (SSE) provide immediate token streaming to the client.
-• **Multi-Tier Caching**: Vector indexes and frequent queries cached in Redis for sub-10ms delivery.
+• 🏅 **Vice President – AI & ML Department**: Led departmental initiatives and coordinated technical and academic programs at Jain College of Engineering, Belagavi.
+• 🏆 **Hack2Future 2.0 – IIIT Dharwad**: Competed as part of Team Velora in a national-level hackathon.
+• 💻 **Code for Innovex – NITTE NMAM IT**: Participated in a 24-hour national-level hackathon.
 
-*Would you like to explore his database design or system architecture?*`;
+*Would you like to explore his projects or certifications?*`;
 
-    // 22. Greetings & Casual Queries
+    // 21. Greetings & Casual
     } else if (
       cleanLowerQuery === "hi" || 
       cleanLowerQuery === "hello" || 
@@ -881,40 +821,41 @@ app.post("/api/chat", apiLimiter, async (req, res) => {
     ) {
       textReply = `Hello! 👋 I'm **Atlas AI**, Kartik Raikar's candidate representative.
 
-I'm ready to answer any questions about Kartik's engineering background, projects, and credentials.
+I'm ready to answer any questions about Kartik's AI engineering background, projects, and credentials.
 
 **Quick topics to explore:**
-• 🌌 **AtlasOS**: AI Memory OS with active NLI contradiction detection
-• 🐍 **NumPyGPT**: Full GPT Transformer hand-coded from scratch
-• ⚖️ **Debate Arena**: Multi-LLM debates in a 3D courtroom (React Three Fiber)
-• 📊 **RagaAI Catalyst**: Enterprise LLM evaluation & guardrails suite
-• 📜 **13 Certifications**: Oracle Triple Certified, AWS, Azure, Cisco, Deloitte
+• ⚡ **AIOps Root Cause Correlator**: 0.78s incident resolution, 100% accuracy
+• 📚 **VersionRAG**: 62.5% → 0.0% hallucination, 98.4% precision
+• 🔧 **GitHub MCP Toolkit**: 64% → 100% intent accuracy
+• 📊 **ApexRAG**: 61% → 85% retrieval accuracy across 5 strategies
+• 📜 **3 Certifications**: Oracle AI, AWS ML, Tata GenAI
 
-*Feel free to ask a question or pick a suggested topic below!*`;
+*Feel free to ask a question or pick a topic below!*`;
 
-    // 23. Bio / Introduction / Summary
+    // 22. Bio / Introduction
     } else if (matchPattern(cleanLowerQuery, ["who is", "about kartik", "tell me about yourself", "bio", "introduction", "overview", "summary", "introduce yourself", "profile"])) {
-      textReply = `**Kartik Raikar** is an AI & ML Systems Engineer pursuing his B.E. at **Jain College of Engineering, Belagavi** (VTU, **8.5 CGPA**, 2023–2027).
+      textReply = `**Kartik Raikar** is an AI Engineer specializing in **Generative AI, LLMs, RAG, and AI Evaluation**, pursuing B.E. in CSE (AI & ML) at **Jain College of Engineering, Belagavi** (VTU, **8.50 CGPA**, Aug 2023 – Jul 2027).
 
 **Core Highlights:**
-• 🧠 **AI Systems & Memory**: Built **AtlasOS** (3-tier memory engine + NLI contradiction detection).
-• 🛠️ **Deep Learning Rigor**: Hand-coded **NumPyGPT** Transformer with zero ML frameworks.
-• 🚀 **Full-Stack Mastery**: Production FastAPI, React 19, Next.js 14, Qdrant Vector DB, PostgreSQL (RLS), Redis 7.
-• 📜 **Verified Credentials**: 13 industry certifications (Oracle 3x, AWS ML, Azure, Cisco, Deloitte).
+• ⚡ **AIOps**: Built incident correlation engine with 100% Top-1 RCA accuracy in 0.78s.
+• 📚 **RAG Architecture**: Eliminated 62.5% hallucination to 0.0% in VersionRAG.
+• 🔧 **MCP Servers**: GitHub MCP Toolkit with 100% intent accuracy.
+• 🏅 **Leadership**: Vice President of AI & ML Department.
+• 📜 **Certified**: Oracle AI Foundations, AWS ML, Tata GenAI.
 
-*Would you like to explore any of his projects in detail or view his contact info?*`;
+*Would you like to explore any project in detail or view his contact info?*`;
 
-    // 24. Context-Matched Fallback using Knowledge Base Chunk
+    // 23. Context-Matched Fallback
     } else if (contextText && bestMatch.score > 0.05) {
-      textReply = `Based on Kartik's official portfolio knowledge base:\n\n${bestMatch.chunk.content}\n\n*If you'd like to explore further, feel free to ask about his projects (AtlasOS, NumPyGPT, Debate Arena), his 13 certifications, or his core technical skills!*`;
+      textReply = `Based on Kartik's official portfolio knowledge base:\n\n${bestMatch.chunk.content}\n\n*If you'd like to explore further, ask about his projects (AIOps RCA, VersionRAG, GitHub MCP Toolkit, ApexRAG), his 3 certifications, or his technical skills!*`;
     } else {
       textReply = `I'd be glad to help you learn more about Kartik Raikar! Here are key areas you can ask me about:
 
-1. 🚀 **His 5 Major Projects**: Atlas AI Resume, AtlasOS, Debate Arena, NumPyGPT, and RagaAI Catalyst.
-2. 🛠️ **Technical Stack**: Python, FastAPI, React 19, Next.js 14, Qdrant, PostgreSQL with RLS, Redis.
-3. 📜 **13 Certifications**: Oracle Triple Certified, AWS ML, Microsoft Azure, Cisco, and Deloitte.
-4. 🎯 **Interview Questions**: "Why hire Kartik?", "Technical challenge solved", or "Mitigating RAG hallucinations".
-5. 📞 **Contact Information**: Phone (+91 8660910358), Email, and LinkedIn.
+1. 🚀 **His 5 Major Projects**: Atlas AI Resume, AIOps Root Cause Correlator, VersionRAG, GitHub MCP Toolkit, and ApexRAG.
+2. 🛠️ **Technical Stack**: Python, FastAPI, React.js, PostgreSQL, pgvector, Redis, Docker, PyTorch.
+3. 📜 **3 Certifications**: Oracle AI Foundations, AWS ML & AI, Tata GenAI.
+4. 🏅 **Leadership**: Vice President of AI & ML Department, hackathon competitor.
+5. 📞 **Contact**: Phone (+91 8660910358), Email, LinkedIn.
 
 Which area would you like to explore?`;
     }
@@ -955,28 +896,26 @@ Which area would you like to explore?`;
 
 KARTIK'S VERIFIED GROUND TRUTH FACTS:
 - Full Name: Kartik Raikar
-- Role: AI & ML Systems Engineer, Full-Stack Developer
-- Education: B.E. in AI & Machine Learning at Jain College of Engineering, Belagavi, VTU (2023–2027, CGPA: 8.5/10.0)
+- Role: AI Engineer — Generative AI — LLM Applications
+- Education: B.E. in Computer Science & Engineering (AI & ML) at Jain College of Engineering, Belagavi, VTU (Aug 2023 – Jul 2027, CGPA: 8.50/10.0). Pre-University: PCM at Jain PU College, Belagavi (2021–2023, 80%).
 - Email: kartikraikar2005@gmail.com | Phone/WhatsApp: +91 8660910358
-- Location: Belagavi, Karnataka, India (Available for Remote, Hybrid, or Onsite roles worldwide)
+- Location: Belagavi, Karnataka, India (Available for Remote, Hybrid, or Onsite roles)
 - GitHub: https://github.com/kartik-012 | LinkedIn: https://www.linkedin.com/in/kartik-raikar-kr | Portfolio: https://kartikportfolio-eta.vercel.app/ | Atlas AI Resume: https://atlas-ai-resume.vercel.app/
+- Professional Summary: AI Engineer specializing in Generative AI, LLMs, RAG, and AI evaluation. Experienced in building production-oriented AI applications using Python, FastAPI, React.js, SQL, vector databases, and modern LLM tooling.
 - 5 Major Projects:
-  1. Atlas AI Resume: Production RAG-Powered AI Portfolio & Recruiter Telemetry Console (React 19, TypeScript, Node.js, Express, Gemini RAG, Vector Search, TailwindCSS)
-  2. AtlasOS: Multi-Tenant AI Memory Operating System (FastAPI, Python 3.11, PostgreSQL 15 RLS, Qdrant Vector DB, Redis 7, Next.js 14, Celery, RoBERTa-large-MNLI Contradiction Detection)
-  3. Debate Arena: Multi-LLM Adversarial Debate Platform (Python 3.11, FastAPI, React 18, React Three Fiber 3D courtroom, Multi-LLM debates, Judicial bias auditing)
-  4. NumPyGPT: GPT-Style Transformer Architecture Built from Scratch (Python, TypeScript, React 19, TailwindCSS, Vite, Express, Gemini API, Hand-coded 8-head attention & backpropagation)
-  5. RagaAI Catalyst: Enterprise LLM Evaluation & Guardrails Suite (Python, FastAPI, React, WebSockets, MongoDB, LiteLLM, Sentence Transformers, Qdrant, Faithfulness 99.4%, Hallucination scoring)
-- 13 Certifications:
-  - Oracle: OCI 2025 AI Foundations Associate, OCI 2025 GenAI Professional, OCI 2025 Foundations Associate (Sep 2025)
-  - AWS: Fundamentals of Machine Learning and AI (Jun 2026)
-  - Microsoft: Introduction to Azure: Describe Cloud Concepts (Aug 2025)
-  - Cisco: Introduction to Cybersecurity (Jun 2026)
-  - IBM: Process Mining Project Journey (Sep 2025)
-  - Deloitte: Data Analytics Job Simulation (Forage ID: 68dcdda956c19017e850b83f)
-  - Tata (3): GenAI Powered Data Analytics (ID: F75ka7LhKE2sJGxyF), Data Visualisation (ID: fRnWE6dTKBsSJyrg5), Cybersecurity Analyst (ID: oL6ptn27GNbizp9Ch)
-  - TCS iON: Career Edge - Young Professional (ID: 240640-28976732-1016)
-  - GreatStack: Full Stack Food Delivery Project (ID: fdeleWZYPOIdyzddhImJG0huQBb7yj22)
-- Availability: Immediate availability for AI/ML Engineering, ML Systems, and Full-Stack AI roles.
+  1. Atlas AI Resume: RAG-Powered AI Portfolio & Interactive Resume Assistant (React 19, TypeScript, Node.js, Express, Gemini API, RAG, Vector Search, TailwindCSS, Vite)
+  2. AIOps Root Cause Correlator – Incident Engine: Autonomous incident correlation engine resolving cascading microservice alert storms in 0.78s (down from 1-4 hours), achieving 100% Top-1 RCA accuracy across 30 benchmark scenarios. EWMA anomaly detection (z > 2.0σ) with causal DAG traversal in NetworkX. 3D topology visualizer with Three.js/WebGL. (Python, FastAPI, PostgreSQL, Redis, NetworkX, Three.js, pgvector)
+  3. VersionRAG – Documentation Intelligence: Enterprise RAG eliminating cross-version code contamination. Hallucinated deprecated API calls from 62.5% to 0.0%. AST semantic diff engine with 94.2% accuracy. Retrieval precision @k=6 from 41.7% to 98.4% (+136%) at 5.4ms HNSW latency. 4-step Chain-of-Version reasoning pipeline. (Python 3.12, FastAPI, PostgreSQL, pgvector, React 18, TypeScript, Tailwind)
+  4. GitHub MCP Toolkit – Fault-Tolerant MCP Server: Production-ready Anthropic Model Context Protocol (MCP) server. Eliminated 14% blind bulk-mutation rate via SHA-256 preview-token protocol. Intent execution accuracy from 64% to 100%. Zero prompt injections across 20 adversarial suites. (Python, FastMCP, GitHub API, Ollama, Docker, GitHub Actions)
+  5. ApexRAG – RAG Retrieval Evaluation System: Comprehensive RAG evaluation benchmark over 2,580 docs and 100 Q&A pairs. Improved retrieval accuracy from 61% (BM25) to 85% (Cross-Encoder Re-ranking). Path-based hashing. Logistic Regression query router. (Python, FastAPI, ChromaDB, Sentence Transformers, Ollama, scikit-learn)
+- 3 Certifications:
+  - Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate
+  - AWS Training & Certification – Fundamentals of Machine Learning and Artificial Intelligence
+  - Tata – GenAI Powered Data Analytics Job Simulation (Forage)
+- Technical Skills: Programming: Python, JavaScript, TypeScript, SQL. Frameworks: FastAPI, React.js, Next.js, PyTorch. Databases: PostgreSQL, MySQL, MongoDB, Redis, Qdrant. Tools: Git, GitHub, Docker, Linux, Postman, VS Code. Data & Viz: Power BI, Tableau, Excel. AI/ML: Generative AI, LLMs, RAG, Transformers, AI Evaluation, Prompt Engineering, Semantic Search, Vector Search.
+- Leadership: Vice President – Department of AI & ML, Jain College of Engineering. Hack2Future 2.0 (IIIT Dharwad). Code for Innovex (NITTE NMAM IT).
+- Relevant Coursework: Data Structures & Algorithms, OOP, DBMS, Data Science, OS, Computer Networks, Software Engineering, AI, Machine Learning.
+- Availability: Immediate availability for AI Engineering, Generative AI, and LLM Application roles.
 
 PERSONA & COMMUNICATION RULES:
 1. Candidate Advocacy: Speak warmly, professionally, and politely in the first-person plural or candidate advocate voice ("Kartik has built...", "We architected...").
