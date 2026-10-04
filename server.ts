@@ -573,8 +573,7 @@ app.post("/api/chat", apiLimiter, async (req, res) => {
     const exactIntentResponse = matchChatbotIntent(cleanLowerQuery);
     if (exactIntentResponse) {
       textReply = exactIntentResponse;
-    } else if (
-          // 2. GitHub & Open-Source Code Repositories
+    // 2. GitHub & Open-Source Code Repositories
     } else if (matchPattern(cleanLowerQuery, ["github", "git hub", "githb", "git", "repo", "repos", "repository", "repositories", "codebase", "source code", "open source", "leetcode", "hackerrank", "codechef"])) {
       textReply = `### Kartik Raikar's GitHub & Code Repositories
 

@@ -130,54 +130,54 @@ const MOCK_FILES: MockDriveFile[] = [
 
   // --- PROJECTS FOLDER ---
   {
+    id: "file-proj-aiops",
+    name: "AIOps Root Cause Correlator.txt",
+    mimeType: "text/plain",
+    size: "820",
+    parentId: "folder-projects",
+    owners: [{ displayName: "Kartik Raikar" }],
+    modifiedTime: new Date("2026-09-26T10:15:00Z").toISOString(),
+    description: "Autonomous incident correlation engine with 100% Top-1 RCA accuracy."
+  },
+  {
+    id: "file-proj-versionrag",
+    name: "VersionRAG.txt",
+    mimeType: "text/plain",
+    size: "790",
+    parentId: "folder-projects",
+    owners: [{ displayName: "Kartik Raikar" }],
+    modifiedTime: new Date("2026-09-26T10:16:00Z").toISOString(),
+    description: "Enterprise documentation intelligence eliminating cross-version hallucinations."
+  },
+  {
+    id: "file-proj-mcp",
+    name: "GitHub MCP Toolkit.txt",
+    mimeType: "text/plain",
+    size: "750",
+    parentId: "folder-projects",
+    owners: [{ displayName: "Kartik Raikar" }],
+    modifiedTime: new Date("2026-09-26T10:20:00Z").toISOString(),
+    description: "Fault-tolerant Model Context Protocol server with preview-token safety."
+  },
+  {
+    id: "file-proj-apexrag",
+    name: "ApexRAG.txt",
+    mimeType: "text/plain",
+    size: "710",
+    parentId: "folder-projects",
+    owners: [{ displayName: "Kartik Raikar" }],
+    modifiedTime: new Date("2026-09-26T10:22:00Z").toISOString(),
+    description: "RAG retrieval evaluation benchmark and dynamic strategy router."
+  },
+  {
     id: "file-proj-atlas-resume",
     name: "Atlas AI Resume.txt",
     mimeType: "text/plain",
     size: "680",
     parentId: "folder-projects",
     owners: [{ displayName: "Kartik Raikar" }],
-    modifiedTime: new Date("2026-07-12T10:14:00Z").toISOString(),
-    description: "RAG-powered portfolio and recruiter telemetry console details."
-  },
-  {
-    id: "file-proj-atlasos",
-    name: "AtlasOS.txt",
-    mimeType: "text/plain",
-    size: "720",
-    parentId: "folder-projects",
-    owners: [{ displayName: "Kartik Raikar" }],
-    modifiedTime: new Date("2026-07-12T10:15:00Z").toISOString(),
-    description: "Multi-tenant AI memory operating system details."
-  },
-  {
-    id: "file-proj-debate",
-    name: "Debate Arena.txt",
-    mimeType: "text/plain",
-    size: "614",
-    parentId: "folder-projects",
-    owners: [{ displayName: "Kartik Raikar" }],
-    modifiedTime: new Date("2026-07-12T10:16:00Z").toISOString(),
-    description: "Multi-agent 3D debate platform details."
-  },
-  {
-    id: "file-proj-numpy",
-    name: "NumPyGPT.txt",
-    mimeType: "text/plain",
-    size: "576",
-    parentId: "folder-projects",
-    owners: [{ displayName: "Kartik Raikar" }],
-    modifiedTime: new Date("2026-07-12T10:20:00Z").toISOString(),
-    description: "Pure math-coded GPT framework details."
-  },
-  {
-    id: "file-proj-ragaai",
-    name: "RagaAI Catalyst.txt",
-    mimeType: "text/plain",
-    size: "650",
-    parentId: "folder-projects",
-    owners: [{ displayName: "Kartik Raikar" }],
-    modifiedTime: new Date("2026-07-12T10:22:00Z").toISOString(),
-    description: "Enterprise LLM evaluation and red-teaming platform details."
+    modifiedTime: new Date("2026-09-26T10:25:00Z").toISOString(),
+    description: "Interactive RAG portfolio and recruiter telemetry console."
   },
 
   // --- CERTIFICATIONS & ACHIEVEMENTS FOLDER ---
@@ -185,161 +185,172 @@ const MOCK_FILES: MockDriveFile[] = [
     id: "file-certifications",
     name: "Certifications.txt",
     mimeType: "text/plain",
-    size: "260",
+    size: "340",
     parentId: "folder-cert-ach",
     owners: [{ displayName: "Kartik Raikar" }],
-    modifiedTime: new Date("2026-07-12T10:32:00Z").toISOString(),
-    description: "List of professional course completions."
+    modifiedTime: new Date("2026-09-26T10:32:00Z").toISOString(),
+    description: "Verified professional certifications."
   },
   {
     id: "file-achievements",
     name: "Achievements.txt",
     mimeType: "text/plain",
-    size: "375",
+    size: "390",
     parentId: "folder-cert-ach",
     owners: [{ displayName: "Kartik Raikar" }],
-    modifiedTime: new Date("2026-07-12T10:35:00Z").toISOString(),
-    description: "Hackathons, course completions, and performance highlights."
+    modifiedTime: new Date("2026-09-26T10:35:00Z").toISOString(),
+    description: "Leadership roles and national hackathon achievements."
   }
 ];
 
 const MOCK_FILE_CONTENTS: Record<string, string> = {
   "file-welcome": `Welcome to Kartik Raikar's Public Google Drive Workspace!
 
-This explorer mimics a real Google Drive interface to showcase my portfolio as a virtual filesystem. You can:
-1. Browse professional categories (Education, Projects, Certifications) by double-clicking folders.
-2. Click on a document and click "Run AI Summary" on the right sidebar to analyze its content with Gemini.
-3. Switch back to the standard Resume/Dashboard tabs in the navigation bar, or double-click "Kartik Raikar Resume.pdf" to open the PDF viewer.
+This explorer showcases Kartik Raikar's official credentials, projects, and architecture as an interactive virtual filesystem. You can:
+1. Browse categories (Education, Projects, Certifications) by double-clicking folders.
+2. Select any document and run AI Summaries using the integrated Gemini assistant.
+3. Switch back to the standard Resume / Dashboard views in the top navigation bar.
 
 To view your OWN Google Drive, click the "Connect Google Drive" button at the top!`,
 
   "file-resume-pdf": `KARTIK RAIKAR RESUME SUMMARY
-Pursuing Bachelor of Engineering in Artificial Intelligence & Machine Learning.
+AI Engineer — Generative AI — LLM Applications
 Email: kartikraikar2005@gmail.com
-Location: Bangalore, India
-Portfolio: https://kartikportfolio-eta.vercel.app/
+Phone: +91 8660910358
+Location: Belagavi, Karnataka, India
 GitHub: https://github.com/kartik-012
+LinkedIn: https://www.linkedin.com/in/kartik-raikar-kr
+Portfolio: https://kartikportfolio-eta.vercel.app/
+Atlas AI Resume: https://atlas-ai-resume.vercel.app/
 
-This is Kartik's official resume document. To view the fully formatted PDF version with interactive components, double-click this file or use the navigation bar tabs.`,
+Professional Summary:
+AI Engineer specializing in Generative AI, LLMs, RAG, and AI evaluation. Experienced in building production-oriented AI applications using Python, FastAPI, React.js, SQL, vector databases, and modern LLM tooling.`,
 
   "file-edu": `EDUCATION & ACADEMICS
-Degree: Bachelor of Engineering (BE)
-Major: Artificial Intelligence & Machine Learning
-Period: 2023 - Present
+Degree: Bachelor of Engineering (B.E.)
+Major: Computer Science & Engineering (AI & ML)
+Institution: Jain College of Engineering, Belagavi
+Period: Aug 2023 – Jul 2027
 University: Visvesvaraya Technological University (VTU)
-Location: Bangalore, India
+CGPA: 8.50 / 10.0
 
-Active focus on Computer Science core foundations: Data Structures & Algorithms, Database Systems, Graph Databases, and Machine Learning algorithms.`,
+Pre-University:
+Course: Pre-University Course (PCM)
+Institution: Jain PU College, Belagavi
+Period: 2021 – 2023
+Percentage: 80%
+
+Relevant Coursework:
+Data Structures & Algorithms, Object-Oriented Programming, Database Management Systems, Data Science, Operating Systems, Computer Networks, Software Engineering, Artificial Intelligence, Machine Learning.`,
 
   "file-skills": `TECHNICAL SKILLS COMPILATION
 
 PROGRAMMING LANGUAGES:
-- Java, Python, C++, JavaScript, SQL
+- Python, JavaScript, TypeScript, SQL
 
-WEB DEVELOPMENT STACK:
-- React.js, HTML, CSS, TailwindCSS, Vite, Framer Motion
-
-BACKEND & API DESIGN:
-- FastAPI, Node.js, Express.js, REST APIs
-
-AI & MACHINE LEARNING FRAMEWORKS:
-- Scikit-learn, NumPy, Pandas, LangChain, Sentence Transformers, Claude/GPT APIs, Cohere API, NLP, Deep Learning
+FRAMEWORKS & LIBRARIES:
+- FastAPI, React.js, Next.js, PyTorch
 
 DATABASES:
-- MongoDB, MySQL, Neo4j
+- PostgreSQL, MySQL, MongoDB, Redis, Qdrant
 
 DEVELOPER TOOLS & INFRASTRUCTURE:
-- Git, GitHub, VS Code, Postman, Render, Vercel`,
+- Git, GitHub, Docker, Linux, Postman, VS Code
+
+DATA & VISUALIZATION:
+- Power BI, Tableau, Microsoft Excel
+
+AI / ML SPECIALIZATIONS:
+- Generative AI, Large Language Models (LLMs), Retrieval-Augmented Generation (RAG), Transformer Models, AI Evaluation, Prompt Engineering, Semantic Search, Vector Search`,
+
+  "file-proj-aiops": `PROJECT PROFILE: AIOPS ROOT CAUSE CORRELATOR – INCIDENT ENGINE
+Tech Stack: Python, FastAPI, PostgreSQL, Redis, NetworkX, Three.js, WebSockets, pgvector
+GitHub: https://github.com/kartik-012/aiops-rca
+Demo: https://aiops-rca.kartik.dev
+
+Description:
+Autonomous incident correlation engine resolving cascading microservice alert storms in 0.78s (down from 1–4 hours of manual tracing), achieving 100% Top-1 RCA accuracy across 30 benchmark scenarios.
+
+Key Features & Implementations:
+- Implemented dynamic EWMA anomaly detection (z > 2.0σ) with causal DAG traversal in NetworkX.
+- Isolated multi-root-cause failures and achieved 100% precision/recall in false-positive alert suppression.
+- Built a real-time 3D topology telemetry visualizer with Three.js/WebGL and streaming WebSockets, supporting counterfactual what-if blast radius simulation over PostgreSQL 16 + pgvector.`,
+
+  "file-proj-versionrag": `PROJECT PROFILE: VERSIONRAG – DOCUMENTATION INTELLIGENCE
+Tech Stack: Python 3.12, FastAPI, PostgreSQL, pgvector, React 18, TypeScript, Tailwind
+GitHub: https://github.com/kartik-012/versionrag
+Demo: https://versionrag.kartik.dev
+
+Description:
+Enterprise RAG architecture resolving cross-version code contamination, eliminating hallucinated deprecated API calls from 62.5% to 0.0% via database-enforced version-partitioned vector indexing.
+
+Key Features & Implementations:
+- Engineered structure-aware AST semantic diff engine detecting undocumented breaking changes with 94.2% accuracy.
+- Boosted retrieval precision @ k=6 from 41.7% to 98.4% (+136%) at 5.4ms HNSW latency.
+- Integrated a 4-step Chain-of-Version reasoning pipeline with live X-Ray diagnostic chunk inspection, Bcrypt-hashed OTP email auth, and resilient pgvector fallbacks.`,
+
+  "file-proj-mcp": `PROJECT PROFILE: GITHUB MCP TOOLKIT – FAULT-TOLERANT MCP SERVER
+Tech Stack: Python, FastMCP, GitHub API, Ollama, Docker, GitHub Actions
+GitHub: https://github.com/kartik-012/github-mcp-toolkit
+Demo: https://github-mcp.kartik.dev
+
+Description:
+Production-ready Anthropic Model Context Protocol (MCP) server for LLM-driven repository automation, semantic search, and deterministic issue triage with reversible write workflows.
+
+Key Features & Implementations:
+- Eliminated a measured 14% blind bulk-mutation rate via a two-phase SHA-256 preview-token protocol requiring explicit human approval before mutating remote repository states.
+- Improved intent execution accuracy from 64% to 100% and neutralized prompt injections across 20 adversarial test suites using ABAC security, circuit breakers, Saga rollback, and Pydantic validation.`,
+
+  "file-proj-apexrag": `PROJECT PROFILE: APEXRAG – RAG RETRIEVAL EVALUATION SYSTEM
+Tech Stack: Python, FastAPI, ChromaDB, Sentence Transformers, Ollama, scikit-learn
+GitHub: https://github.com/kartik-012/apexrag
+Demo: https://apexrag.kartik.dev
+
+Description:
+Comprehensive RAG evaluation benchmark over 2,580 documentation chunks and 100 human-verified Q&A pairs on local CPU infrastructure to systematically isolate retrieval bottlenecks.
+
+Key Features & Implementations:
+- Benchmarked 5 retrieval strategies, improving retrieval accuracy from 61% (BM25) to 85% (Cross-Encoder Re-ranking), establishing ranking quality as the primary bottleneck.
+- Eliminated data contamination and ID collisions using path-based hashing.
+- Deployed a Logistic Regression query strategy router for dynamic retrieval optimization.`,
 
   "file-proj-atlas-resume": `PROJECT PROFILE: ATLAS AI RESUME
-Tech Stack: React 19, TypeScript, Node.js, Express, Gemini API, RAG, Vector Search, TailwindCSS
+Tech Stack: React 19, TypeScript, Node.js, Express, Gemini API, RAG, Vector Search, TailwindCSS, Vite
 GitHub: https://github.com/kartik-012/Atlas-AI-Resume
 Demo: https://atlas-ai-resume.vercel.app/
 
 Description:
-A living, production RAG-powered interactive portfolio and recruiter telemetry console.
+RAG-Powered AI Portfolio & Interactive Resume Assistant with Gemini, real-time Recruiter Telemetry Console, and dynamic Knowledge Base Admin Studio.
 
 Key Features & Implementations:
-- Built dual-layer RAG pipeline with Gemini 2.5 Flash and vector cosine similarity search.
-- Interactive Recruiter Telemetry Console with real-time session, search, and interaction metrics.
-- Knowledge Base Admin Studio allowing dynamic chunk ingestion, embedding generation, and live retrieval testing.
-- Cyber-aesthetic interface with 13-credential filterable showcase, interactive skill visualizers, and recruiter invite generator.`,
-
-  "file-proj-atlasos": `PROJECT PROFILE: ATLASOS
-Tech Stack: FastAPI, Python 3.11, PostgreSQL 15, Qdrant, Redis, Next.js 14, Celery, Docker
-GitHub: https://github.com/kartik-012/AtlasOS
-Demo: https://atlasos.kartik.dev
-
-Description:
-Production-grade multi-tenant AI Memory Operating System orchestrating hierarchical agent memory with active NLI contradiction detection.
-
-Key Features & Implementations:
-- Architected 3-tier memory engine: Ephemeral Working Memory (Redis), Historical Episodic Memory (Qdrant + Postgres), and Synthesized Semantic Memory.
-- Strict multi-tenant boundary isolation using PostgreSQL Row-Level Security (RLS) and scoped Qdrant vector filtering.
-- Active contradiction detection evaluating incoming facts with RoBERTa-large-MNLI and policy-driven conflict resolution.
-- Background summarization pipelines and async task scheduling with Celery and Celery Beat.`,
-
-  "file-proj-debate": `PROJECT PROFILE: DEBATE ARENA
-Tech Stack: Python 3.11, FastAPI, React 18, React Three Fiber, Three.js, TailwindCSS, Framer Motion, Async SQLite
-GitHub: https://github.com/kartikraikar2005/debate-arena
-Demo: https://debate-arena.kartik.dev
-
-Description:
-An AI-powered multi-LLM adversarial debate platform with live 3D courtroom visualization in React Three Fiber.
-
-Key Features & Implementations:
-- Live 3D courtroom environment in React Three Fiber with dynamic podium illumination and camera choreography.
-- Multi-turn adversarial debates staged across Gemini, GPT-4o, and Claude 3.5.
-- Independent AI Judge evaluation with live strength scoring and multi-persona jury voting (Skeptic, Professor, Optimist).
-- Judicial bias auditing by re-evaluating transcripts with swapped speaker roles to detect positional bias.`,
-
-  "file-proj-numpy": `PROJECT PROFILE: NUMPYGPT
-Tech Stack: Python, TypeScript, React 19, TailwindCSS, Vite, Express, Gemini API, Matrix Math
-GitHub: https://github.com/kartikraikar2005/numpygpt
-Demo: https://numpygpt.kartik.dev
-
-Description:
-A complete GPT (Generative Pre-trained Transformer) model implemented completely from scratch using pure mathematical operations, without external machine learning frameworks.
-
-Key Features & Implementations:
-- Programmed Matrix Multiplication, Multi-Head Attention (8 heads), Layer Normalization, Softmax, FeedForward layers, and Backpropagation by hand.
-- Designed visual representations of activations, attention weights, and gradient shifts.
-- Developed an interactive browser dashboard showcasing tensor transformations and Gemini NumPy code assistant.`,
-
-  "file-proj-ragaai": `PROJECT PROFILE: RAGAAI CATALYST
-Tech Stack: Python, FastAPI, React, WebSockets, MongoDB, LiteLLM, Sentence Transformers, Qdrant
-GitHub: https://github.com/kartikraikar2005/ragaai-catalyst
-Demo: https://catalyst.raga.ai
-
-Description:
-Enterprise LLM evaluation and observability suite scoring outputs for faithfulness, relevance, and hallucination with agentic tracing and automated red-teaming.
-
-Key Features & Implementations:
-- Automated evaluation metrics for RAG pipelines scoring Faithfulness (99.4%), Relevance, and Hallucination rates.
-- Agentic Tracing module tracking LLM interactions, token usage, tool executions, and decision graphs.
-- Dynamic Guardrails Engine with fail conditions, regex checks, and automated response intervention.
-- Automated Red-Teaming scanner detecting model vulnerabilities, biases, and harmful prompt attacks.`,
+- Dual-layer RAG pipeline with Gemini and custom vector cosine similarity search.
+- Interactive Recruiter Telemetry Console with real-time analytics, question monitoring, and time tracking.
+- Dynamic Knowledge Base Admin Studio for chunk ingestion, embedding generation, and live retrieval diagnostics.`,
 
   "file-certifications": `PROFESSIONAL CERTIFICATIONS
-1. Google AI Agents Intensive Course Certificate
-   - Issued by Google Developers
-   - Focused on agent orchestration, functions, and tool calling patterns.
-2. Kaggle AI Agents Certificate
-   - Issued by Kaggle / Google
-3. Harvard CS50 Computer Science Certificate
-   - Issued by Harvard University (edX)
-4. NPTEL AI/ML Certifications
-   - Issued by NPTEL India`,
+1. Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate
+   - Issuer: Oracle
+   - Scope: Generative AI, Machine Learning, OCI AI Services, Large Language Models.
 
-  "file-achievements": `PROFESSIONAL ACHIEVEMENTS & CONTRIBUTIONS
-1. National MSME Hackathon 6.0 Participant
-   - Developed AI-powered enterprise workflow optimizations for small/medium business systems.
-2. LLM & FastAPI Integration Specialist
-   - Successfully deployed several production-grade NLP utilities and backend APIs.
-3. Competitive Programming Practice
-   - Active practitioner of Data Structures and Algorithms on LeetCode, CodeChef, and HackerRank.
-4. Google AI Agents Course Graduate
-   - Completed training on multi-agent frameworks, LangGraph models, and tool integration.`
+2. AWS Training & Certification – Fundamentals of Machine Learning and Artificial Intelligence
+   - Issuer: Amazon Web Services (AWS)
+   - Scope: Machine Learning, Amazon SageMaker, Bedrock, Computer Vision, NLP.
+
+3. Tata – GenAI Powered Data Analytics Job Simulation
+   - Issuer: Forage (Tata)
+   - Scope: Generative AI, Data Analytics, Prompt Engineering, Data Modeling.`,
+
+  "file-achievements": `LEADERSHIP & ACHIEVEMENTS
+1. Vice President – Department of Artificial Intelligence & Machine Learning
+   - Institution: Jain College of Engineering, Belagavi
+   - Role: Led departmental initiatives and coordinated technical and academic programs.
+
+2. Hack2Future 2.0 – IIIT Dharwad
+   - Event: National-Level Hackathon at Indian Institute of Information Technology (IIIT) Dharwad
+   - Participation: Competed as part of Team Velora.
+
+3. Code for Innovex – NITTE NMAM Institute of Technology
+   - Event: 24-Hour National-Level Hackathon at NITTE NMAM IT.`
 };
 
 interface DriveExplorerProps {

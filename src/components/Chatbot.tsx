@@ -308,14 +308,14 @@ How can I help you today?`;
 
 const RECRUITER_SUGGESTED_PROMPTS = [
   "💼 Why should I hire Kartik?",
-  "🚀 Tell me about AtlasOS.",
+  "⚡ Tell me about AIOps Root Cause Correlator.",
+  "📚 Tell me about VersionRAG.",
+  "🔧 Tell me about GitHub MCP Toolkit.",
+  "📊 Tell me about ApexRAG.",
   "🤖 Explain all AI projects.",
   "📜 Show all certifications.",
-  "🧠 What LLM technologies has he worked with?",
   "💻 What programming languages and frameworks does he know?",
-  "🎯 Ask Kartik an interview question.",
   "📄 Summarize Kartik's resume.",
-  "☁️ Explain his cloud and deployment experience.",
   "🏆 What makes him different from other candidates?"
 ];
 
@@ -594,40 +594,40 @@ export default function Chatbot({
   // Dynamically update suggested follow-up questions based on query context
   const updateSuggestions = (query: string) => {
     const qLower = query.toLowerCase();
-    if (qLower.includes("project") || qLower.includes("atlas") || qLower.includes("debate") || qLower.includes("numpygpt") || qLower.includes("catalyst")) {
+    if (qLower.includes("project") || qLower.includes("aiops") || qLower.includes("versionrag") || qLower.includes("mcp") || qLower.includes("apexrag")) {
       setSuggestedQuestions([
-        "How does AtlasOS resolve contradictions?",
-        "How did he build the 3D Debate Arena?",
-        "Explain NumPyGPT from scratch",
-        "Why hire Kartik?"
+        "⚡ Tell me about AIOps Root Cause Correlator.",
+        "📚 Tell me about VersionRAG.",
+        "🔧 Tell me about GitHub MCP Toolkit.",
+        "📊 Tell me about ApexRAG."
       ]);
     } else if (qLower.includes("hire") || qLower.includes("why") || qLower.includes("interview") || qLower.includes("challenge")) {
       setSuggestedQuestions([
         "Tell me about a technical challenge",
         "How does he mitigate hallucinations?",
-        "Tell me about his 13 certifications",
-        "How to schedule an interview?"
+        "📜 Show all certifications.",
+        "💼 Why should I hire Kartik?"
       ]);
     } else if (qLower.includes("skill") || qLower.includes("tech") || qLower.includes("stack") || qLower.includes("database")) {
       setSuggestedQuestions([
-        "How does AtlasOS use PostgreSQL RLS?",
-        "Explain NumPyGPT attention mechanism",
+        "💻 What programming languages and frameworks does he know?",
+        "How does VersionRAG use pgvector and AST diffing?",
         "Tell me about his education & 8.5 CGPA",
-        "How to schedule an interview?"
+        "Why hire Kartik?"
       ]);
-    } else if (qLower.includes("cert") || qLower.includes("oracle") || qLower.includes("aws") || qLower.includes("azure")) {
+    } else if (qLower.includes("cert") || qLower.includes("oracle") || qLower.includes("aws") || qLower.includes("tata")) {
       setSuggestedQuestions([
-        "Explain his Oracle AI certifications",
-        "What are his data analytics credentials?",
-        "Why hire Kartik?",
-        "How to contact him?"
+        "Explain his Oracle AI certification",
+        "Explain his AWS ML & AI certification",
+        "What is his Tata GenAI simulation?",
+        "💼 Why should I hire Kartik?"
       ]);
     } else {
       setSuggestedQuestions([
-        "Why hire Kartik?",
-        "How does AtlasOS work?",
-        "Explain NumPyGPT from scratch",
-        "How to schedule an interview?"
+        "💼 Why should I hire Kartik?",
+        "⚡ Tell me about AIOps Root Cause Correlator.",
+        "📚 Tell me about VersionRAG.",
+        "📄 Summarize Kartik's resume."
       ]);
     }
   };

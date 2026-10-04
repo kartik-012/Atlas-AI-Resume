@@ -51,11 +51,11 @@ export default function Dashboard({ onAskAIAboutProject, onTrackAction }: Dashbo
   const [certFilter, setCertFilter] = useState<"all" | "ai" | "cloud" | "data" | "security" | "dev">("all");
 
   const typingPhrases = [
-    "Compiling matrix: Python, FastAPI, React, Node.js, and Vector Databases...",
-    "NumPyGPT Core: Multi-layer perceptron layers and backprop built 100% manually.",
-    "RAG Vector Indices: Direct cosine similarity lookup across custom embedded chunks.",
-    "Debate Arena: Multi-agent structured arguments powered by autonomous personas.",
-    "Factual Hallucination Auditor: Mitigating claims drift using Sentence Transformers."
+    "Compiling matrix: Python, FastAPI, React, PostgreSQL, Redis, and Qdrant...",
+    "AIOps RCA Engine: Resolving cascading microservice alert storms in 0.78s with 100% Top-1 accuracy.",
+    "VersionRAG Architecture: Eliminating deprecated API hallucinations (62.5% → 0.0%) via version-partitioned indexing.",
+    "GitHub MCP Toolkit: Zero prompt injections across 20 adversarial suites with SHA-256 preview tokens.",
+    "ApexRAG Benchmark: Benchmarking 5 retrieval strategies across 2,580 chunks (61% → 85% accuracy)."
   ];
 
   // Retrieve indexed chunks
@@ -1009,7 +1009,7 @@ export default function Dashboard({ onAskAIAboutProject, onTrackAction }: Dashbo
               <form onSubmit={handleTestQuery} className="flex gap-2">
                 <input
                   type="text"
-                  placeholder="e.g. Tell me about Kartik's NumPyGPT or MSME achievements..."
+                  placeholder="e.g. Tell me about VersionRAG or AIOps Root Cause Correlator..."
                   value={testQuery}
                   onChange={(e) => setTestQuery(e.target.value)}
                   className="flex-1 rounded-lg bg-black/30 p-2.5 text-xs text-white border border-white/10 focus:outline-none focus:ring-1 focus:ring-[#1B6B93]"
@@ -1205,7 +1205,7 @@ export default function Dashboard({ onAskAIAboutProject, onTrackAction }: Dashbo
 
             {/* Quick draft invite */}
             <a
-              href={`mailto:${resumeData.email}?subject=AI%20Engineering%20Opportunity%20-%20Kartik%20Raikar&body=Hello%20Kartik,%0D%0A%0D%0AI%20reviewed%20your%20Atlas%20AI%20Resume%20portal%20and%20was%20highly%20impressed%20with%20your%20work%20on%20NumPyGPT%20and%20the%20RAG%20Hallucination%20Auditor.%20I%20would%20love%20to%20schedule%20a%20conversation.%0D%0A%0D%0ABest%20regards,%0D%0A[Your%20Name]%0D%0A[Company]`}
+              href={`mailto:${resumeData.email}?subject=AI%20Engineering%20Opportunity%20-%20Kartik%20Raikar&body=Hello%20Kartik,%0D%0A%0D%0AI%20reviewed%20your%20Atlas%20AI%20Resume%20portal%20and%20was%20highly%20impressed%20with%20your%20work%20on%20AIOps%20Root%20Cause%20Correlator%20and%20VersionRAG.%20I%20would%20love%20to%20schedule%20a%20conversation.%0D%0A%0D%0ABest%20regards,%0D%0A[Your%20Name]%0D%0A[Company]`}
               className="flex items-center justify-center space-x-2 w-full rounded-2xl bg-gradient-to-r from-[#1B6B93] to-[#4FC0D0] hover:opacity-90 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#1B6B93]/20 transition"
             >
               <Send className="h-4 w-4" />

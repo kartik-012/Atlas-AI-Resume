@@ -7,7 +7,7 @@ Atlas AI Resume is a production-quality, ultra-premium, full-stack AI Resume Por
 - **Interactive PDF Viewer**: Displays a high-fidelity, fully typeset responsive resume with page pagination, real-time keyword highlights, zoom controls, and a direct download/print trigger.
 - **SaaS Dashboard (Extra Tabs)**:
   - **Projects Console**: Interactive grid showcasing Kartik's systems with a dedicated "Ask AI" trigger that automatically focuses the chat agent on that specific project.
-  - **Credentials Directory**: Verified list of professional accreditations from Google Developers, Kaggle, and Harvard.
+  - **Credentials Directory**: Verified industry certifications from Oracle Cloud Infrastructure, Amazon Web Services (AWS), and Tata (Forage).
   - **Visual Skills Gauge**: Glowing interactive skill bars representing programming languages and ML frameworks.
   - **Recruiter Telemetry Console**: Real-time telemetry tracking visits, questions asked, project exploration, resume downloads, and session durations with beautiful interactive SVG area charts.
   - **RAG Index Studio**: Admin interface enabling dragging and dropping of custom text/files to chunk and embed into the active local index in real-time.
@@ -65,8 +65,8 @@ Atlas AI Resume is a production-quality, ultra-premium, full-stack AI Resume Por
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/kartikraikar2005/atlas-ai-resume.git
-   cd atlas-ai-resume
+   git clone https://github.com/kartik-012/Atlas-AI-Resume.git
+   cd Atlas-AI-Resume
    ```
 
 2. **Configure environment variables**:

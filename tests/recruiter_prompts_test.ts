@@ -2,14 +2,14 @@ import { matchChatbotIntent } from "../src/data/chatbotIntents";
 
 const RECRUITER_PROMPTS = [
   "💼 Why should I hire Kartik?",
-  "🚀 Tell me about AtlasOS.",
+  "⚡ Tell me about AIOps Root Cause Correlator.",
+  "📚 Tell me about VersionRAG.",
+  "🔧 Tell me about GitHub MCP Toolkit.",
+  "📊 Tell me about ApexRAG.",
   "🤖 Explain all AI projects.",
   "📜 Show all certifications.",
-  "🧠 What LLM technologies has he worked with?",
   "💻 What programming languages and frameworks does he know?",
-  "🎯 Ask Kartik an interview question.",
   "📄 Summarize Kartik's resume.",
-  "☁️ Explain his cloud and deployment experience.",
   "🏆 What makes him different from other candidates?"
 ];
 

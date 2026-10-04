@@ -1,8 +1,10 @@
 async function testApi() {
   const queries = [
     "who are you?",
-    "explain numpygpt",
-    "atlasos architecture",
+    "explain versionrag",
+    "aiops rca",
+    "github mcp toolkit",
+    "apexrag",
     "why should we hire you?",
     "oracle certifications",
     "dsa",
