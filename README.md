@@ -135,7 +135,6 @@ def cosine_similarity(a, b):
     return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
 ```
 
-
 ## 🏆 Crafted for Premium Engineering Evaluation
 
 Atlas AI Resume bypasses cheap standard templates. The layout operates with **Desktop-First Precision** scaling into **Mobile-First Responsive Grids**, maintaining high visual contrast, elegant spacing, and custom-engineered analytical gauges.
