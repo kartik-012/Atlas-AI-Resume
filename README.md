@@ -60,7 +60,6 @@ Atlas AI Resume is a production-quality, ultra-premium, full-stack AI Resume Por
         └── Chatbot.tsx          # Floating assistant panel, RAG streaming client, and markdown parser
 ```
 
-
 ## ⚙️ Environment Setup
 
 1. **Clone the repository**:
