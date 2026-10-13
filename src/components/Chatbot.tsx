@@ -7,9 +7,22 @@ import { useState, useRef, useEffect } from "react";
 import { 
   MessageSquare, Compass, X, Trash2, Send, Check, Copy, 
   FileText, ArrowDown, ArrowUp, Volume2, VolumeX, 
-  Maximize2, Minimize2, Minus, Sparkles, User, Bot, ExternalLink
+  Maximize2, Minimize2, Minus, Sparkles, User, Bot, ExternalLink,
+  Activity, Zap, Cpu, DollarSign, ChevronDown, ChevronUp, Layers
 } from "lucide-react";
 import { matchChatbotIntent } from "../data/chatbotIntents";
+
+export interface ResponseMetrics {
+  ttftMs: number;
+  totalLatencyMs: number;
+  promptTokens: number;
+  completionTokens: number;
+  totalTokens: number;
+  estimatedCostUsd: number;
+  model: string;
+  retrievalLatencyMs?: number;
+  retrievalStrategy?: string;
+}
 
 interface Message {
   id: string;
@@ -18,6 +31,7 @@ interface Message {
   timestamp: string;
   confidence?: number;
   citations?: { title: string; chunkTitle: string; score: number }[];
+  metrics?: ResponseMetrics;
   isStreaming?: boolean;
 }
 
@@ -345,6 +359,14 @@ export default function Chatbot({
   const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(null);
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
   const [activeResponseId, setActiveResponseId] = useState<string | null>(null);
+  const [expandedMetricsIds, setExpandedMetricsIds] = useState<Record<string, boolean>>({});
+
+  const toggleMetrics = (msgId: string) => {
+    setExpandedMetricsIds(prev => ({
+      ...prev,
+      [msgId]: !prev[msgId]
+    }));
+  };
 
   const [suggestedQuestions, setSuggestedQuestions] = useState<string[]>(RECRUITER_SUGGESTED_PROMPTS);
 
@@ -540,7 +562,8 @@ export default function Chatbot({
                           ...m,
                           isStreaming: false,
                           confidence: data.confidence,
-                          citations: data.citations
+                          citations: data.citations,
+                          metrics: data.metrics
                         }
                       : m
                   )
@@ -868,41 +891,150 @@ export default function Chatbot({
                         <p className="whitespace-pre-wrap select-text leading-relaxed font-sans">{m.content}</p>
                       )}
 
-                      {/* Assistant Bottom Utility Bar (Copy, TTS Listen, Relevance) */}
+                      {/* Assistant Bottom Utility Bar (Copy, TTS Listen, Relevance, Engineering Diagnostics) */}
                       {m.role === "assistant" && !m.isStreaming && m.id !== "welcome" && (
-                        <div className={`mt-3 pt-2.5 border-t flex items-center justify-between text-[10.5px] ${
+                        <div className={`mt-3 pt-2.5 border-t text-[10.5px] ${
                           isDarkMode ? "border-white/10 text-slate-400" : "border-slate-100 text-slate-500"
                         }`}>
-                          <div className="flex items-center space-x-2">
-                            {/* Copy button */}
-                            <button
-                              onClick={() => handleCopyMessage(m.content, m.id)}
-                              className="flex items-center space-x-1 hover:text-white transition px-2 py-0.5 rounded hover:bg-white/5"
-                              title="Copy full response"
-                            >
-                              {isCopied ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
-                              <span>{isCopied ? "Copied" : "Copy"}</span>
-                            </button>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-2">
+                              {/* Copy button */}
+                              <button
+                                onClick={() => handleCopyMessage(m.content, m.id)}
+                                className="flex items-center space-x-1 hover:text-white transition px-2 py-0.5 rounded hover:bg-white/5"
+                                title="Copy full response"
+                              >
+                                {isCopied ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
+                                <span>{isCopied ? "Copied" : "Copy"}</span>
+                              </button>
 
-                            {/* Listen / Speak Button */}
-                            <button
-                              onClick={() => handleSpeak(m.content, m.id)}
-                              className={`flex items-center space-x-1 transition px-2 py-0.5 rounded hover:bg-white/5 ${
-                                isSpeaking ? "text-[#4FC0D0] font-bold animate-pulse" : "hover:text-white"
-                              }`}
-                              title={isSpeaking ? "Stop Speaking" : "Listen to Response"}
-                            >
-                              {isSpeaking ? <VolumeX className="h-3 w-3 text-[#4FC0D0]" /> : <Volume2 className="h-3 w-3" />}
-                              <span>{isSpeaking ? "Pause" : "Listen"}</span>
-                            </button>
+                              {/* Listen / Speak Button */}
+                              <button
+                                onClick={() => handleSpeak(m.content, m.id)}
+                                className={`flex items-center space-x-1 transition px-2 py-0.5 rounded hover:bg-white/5 ${
+                                  isSpeaking ? "text-[#4FC0D0] font-bold animate-pulse" : "hover:text-white"
+                                }`}
+                                title={isSpeaking ? "Stop Speaking" : "Listen to Response"}
+                              >
+                                {isSpeaking ? <VolumeX className="h-3 w-3 text-[#4FC0D0]" /> : <Volume2 className="h-3 w-3" />}
+                                <span>{isSpeaking ? "Pause" : "Listen"}</span>
+                              </button>
+                            </div>
+
+                            <div className="flex items-center space-x-1.5">
+                              {/* Engineering Diagnostics Toggle */}
+                              {m.metrics && (
+                                <button
+                                  onClick={() => toggleMetrics(m.id)}
+                                  className={`inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[9.5px] font-semibold border transition active:scale-95 ${
+                                    expandedMetricsIds[m.id]
+                                      ? "bg-cyan-500/20 text-cyan-300 border-cyan-400/40 shadow-sm shadow-cyan-500/20"
+                                      : "bg-white/5 text-slate-400 hover:text-cyan-300 border-white/10 hover:border-cyan-500/30"
+                                  }`}
+                                  title="Inspect TTFT, latency, token economics, and retrieval mechanics"
+                                >
+                                  <Activity className="h-3 w-3 text-cyan-400" />
+                                  <span>{m.metrics.totalLatencyMs}ms</span>
+                                  {expandedMetricsIds[m.id] ? (
+                                    <ChevronUp className="h-2.5 w-2.5" />
+                                  ) : (
+                                    <ChevronDown className="h-2.5 w-2.5" />
+                                  )}
+                                </button>
+                              )}
+
+                              {/* Relevance badge */}
+                              {m.confidence && m.confidence > 0 && (
+                                <span className="inline-flex items-center gap-1 rounded bg-cyan-950/60 border border-cyan-500/25 px-1.5 py-0.5 font-mono text-[9.5px] text-[#4FC0D0]">
+                                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+                                  {m.confidence}% Grounded
+                                </span>
+                              )}
+                            </div>
                           </div>
 
-                          {/* Relevance badge */}
-                          {m.confidence && m.confidence > 0 && (
-                            <span className="inline-flex items-center gap-1 rounded bg-cyan-950/60 border border-cyan-500/25 px-1.5 py-0.5 font-mono text-[9.5px] text-[#4FC0D0]">
-                              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
-                              {m.confidence}% Grounded
-                            </span>
+                          {/* ─── Expandable Production Observability & Token Economics Console ─── */}
+                          {m.metrics && expandedMetricsIds[m.id] && (
+                            <div className={`mt-2.5 p-2.5 rounded-xl border text-[10px] font-mono leading-relaxed animate-in fade-in-50 slide-in-from-top-1 ${
+                              isDarkMode 
+                                ? "bg-[#090D16]/95 border-cyan-500/30 text-slate-300 shadow-inner" 
+                                : "bg-slate-100 border-slate-300 text-slate-700"
+                            }`}>
+                              <div className="flex items-center justify-between pb-1.5 mb-2 border-b border-white/10 text-[10px] font-bold text-cyan-400">
+                                <span className="flex items-center gap-1.5 uppercase tracking-wider">
+                                  <Activity className="h-3 w-3 text-cyan-400" />
+                                  Production Observability & Token Economics
+                                </span>
+                                <span className="px-1.5 py-0.2 rounded bg-cyan-950/80 border border-cyan-500/30 text-[#4FC0D0] text-[9px]">
+                                  {m.metrics.model}
+                                </span>
+                              </div>
+
+                              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                {/* TTFT */}
+                                <div className="p-1.5 rounded-lg bg-white/5 border border-white/5">
+                                  <div className="text-[9px] text-slate-400 flex items-center gap-1">
+                                    <Zap className="h-2.5 w-2.5 text-amber-400" />
+                                    <span>TTFT</span>
+                                  </div>
+                                  <div className="text-[11.5px] font-bold text-amber-300 mt-0.5">
+                                    {m.metrics.ttftMs}ms
+                                  </div>
+                                  <div className="text-[8.5px] text-slate-500">First token arrival</div>
+                                </div>
+
+                                {/* Total Latency */}
+                                <div className="p-1.5 rounded-lg bg-white/5 border border-white/5">
+                                  <div className="text-[9px] text-slate-400 flex items-center gap-1">
+                                    <Activity className="h-2.5 w-2.5 text-emerald-400" />
+                                    <span>End-to-End</span>
+                                  </div>
+                                  <div className="text-[11.5px] font-bold text-emerald-300 mt-0.5">
+                                    {m.metrics.totalLatencyMs}ms
+                                  </div>
+                                  <div className="text-[8.5px] text-slate-500">Total pipeline time</div>
+                                </div>
+
+                                {/* Token Footprint */}
+                                <div className="p-1.5 rounded-lg bg-white/5 border border-white/5">
+                                  <div className="text-[9px] text-slate-400 flex items-center gap-1">
+                                    <Cpu className="h-2.5 w-2.5 text-cyan-400" />
+                                    <span>Tokens</span>
+                                  </div>
+                                  <div className="text-[11.5px] font-bold text-cyan-300 mt-0.5">
+                                    {m.metrics.totalTokens} tok
+                                  </div>
+                                  <div className="text-[8.5px] text-slate-500">
+                                    {m.metrics.promptTokens} in / {m.metrics.completionTokens} out
+                                  </div>
+                                </div>
+
+                                {/* Inference Cost */}
+                                <div className="p-1.5 rounded-lg bg-white/5 border border-white/5">
+                                  <div className="text-[9px] text-slate-400 flex items-center gap-1">
+                                    <DollarSign className="h-2.5 w-2.5 text-violet-400" />
+                                    <span>Est. Cost</span>
+                                  </div>
+                                  <div className="text-[11.5px] font-bold text-violet-300 mt-0.5">
+                                    ${m.metrics.estimatedCostUsd.toFixed(6)}
+                                  </div>
+                                  <div className="text-[8.5px] text-slate-500">Production blended</div>
+                                </div>
+                              </div>
+
+                              {/* Retrieval Telemetry Details */}
+                              <div className="mt-2 pt-1.5 border-t border-white/5 flex flex-wrap items-center justify-between gap-1 text-[9px] text-slate-400">
+                                <span className="flex items-center gap-1">
+                                  <Layers className="h-2.5 w-2.5 text-[#4FC0D0]" />
+                                  <strong className="text-slate-300">Strategy:</strong> {m.metrics.retrievalStrategy || "Hybrid Lexical + Vector Index"}
+                                </span>
+                                {m.metrics.retrievalLatencyMs !== undefined && (
+                                  <span className="text-[#4FC0D0]">
+                                    Retrieval Latency: <strong>{m.metrics.retrievalLatencyMs}ms</strong>
+                                  </span>
+                                )}
+                              </div>
+                            </div>
                           )}
                         </div>
                       )}
