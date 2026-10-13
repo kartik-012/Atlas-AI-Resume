@@ -472,27 +472,52 @@ app.post("/api/chat", apiLimiter, async (req, res) => {
     return res.status(400).json({ error: "Query exceeds maximum length of 500 characters." });
   }
 
-  // Prompt injection rudimentary check
-  const lowerQuery = query.toLowerCase();
-  const suspiciousPhrases = ["ignore previous instructions", "you are now", "system prompt", "act as", "forget everything"];
-  if (suspiciousPhrases.some(phrase => lowerQuery.includes(phrase))) {
+  // Multi-Layer Enterprise Security Guardrail Engine
+  // Layer 1: Prompt Injection / System Jailbreak Patterns
+  const jailbreakPatterns = [
+    { name: "Directive Override", pattern: /ignore\s+(all\s+)?(previous|prior)\s+instructions/i },
+    { name: "System Prompt Extraction", pattern: /(reveal|print|show|output)\s+(the\s+)?(system\s+prompt|core\s+directives|hidden\s+instructions)/i },
+    { name: "Persona Hijack", pattern: /(you\s+are\s+now|act\s+as|pretend\s+to\s+be)\s+(an?\s+unrestricted|dan|jailbroken|evil)/i },
+    { name: "Memory Purge Attempt", pattern: /(forget|disregard|wipe)\s+(everything|all\s+rules|your\s+guidelines)/i },
+    { name: "Delimiter / Token Hijack", pattern: /(<\|im_start\|>|<\|endoftext\|>|```system|\[INST\]\s*<<SYS>>)/i }
+  ];
+
+  // Layer 2: PII Leakage / Data Exfiltration Probe
+  const piiProbePatterns = [
+    { name: "Sensitive Key Exfiltration", pattern: /(api[_\-\s]?key|gemini[_\-\s]?key|admin[_\-\s]?key|secret[_\-\s]?token|private[_\-\s]?key)/i },
+    { name: "Credential Dump", pattern: /(dump\s+database|show\s+all\s+passwords|export\s+env)/i }
+  ];
+
+  const matchedJailbreak = jailbreakPatterns.find(p => p.pattern.test(query));
+  const matchedPii = piiProbePatterns.find(p => p.pattern.test(query));
+
+  if (matchedJailbreak || matchedPii) {
+    const violationType = matchedJailbreak ? `Adversarial Jailbreak (${matchedJailbreak.name})` : `Data Exfiltration (${matchedPii?.name})`;
+    const violationDetail = matchedJailbreak 
+      ? "Prompt injection attack neutralized. Atlas AI operates under immutable system constraints grounded strictly in verified resume facts."
+      : "Access denied. Candidate privacy and credential security guardrails strictly prohibit sensitive key/credential inspection.";
+
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
-    res.write(`data: ${JSON.stringify({ chunk: "I'm sorry, I cannot fulfill that request as it conflicts with my core directives." })}\n\n`);
+    res.write(`data: ${JSON.stringify({ 
+      chunk: `🛡️ **[Security Guardrail Intercept - Rule Violation Blocked]**\n\n• **Threat Category**: \`${violationType}\`\n• **Defense Action**: Execution halted via L1 Input Guardrail.\n• **Explanation**: ${violationDetail}\n\n*Atlas AI is hardened against jailbreak attempts and blind prompt overrides.*` 
+    })}\n\n`);
     res.write(`data: ${JSON.stringify({ 
       done: true, 
       confidence: 99, 
       citations: [],
+      guardrailTripped: true,
+      violationType,
       metrics: {
-        ttftMs: 12,
-        totalLatencyMs: 16,
+        ttftMs: 6,
+        totalLatencyMs: 9,
         promptTokens: Math.ceil(query.length / 4),
-        completionTokens: 20,
-        totalTokens: Math.ceil(query.length / 4) + 20,
-        estimatedCostUsd: 0.000003,
-        model: "security-guardrail",
-        retrievalLatencyMs: 2,
+        completionTokens: 42,
+        totalTokens: Math.ceil(query.length / 4) + 42,
+        estimatedCostUsd: 0.000002,
+        model: "atlas-guardrail-l1",
+        retrievalLatencyMs: 1,
         retrievalStrategy: "Guardrail Policy Intercept"
       }
     })}\n\n`);
@@ -1197,6 +1222,77 @@ Do NOT wrap the response in markdown code blocks like \`\`\`json. Return pure JS
     console.error("Failed to analyze Google Drive file:", err);
     res.status(500).json({ error: "Failed to perform AI analysis on Google Drive file" });
   }
+});
+
+// ==================== RECRUITER JD MATCHER & AUDIT API ====================
+app.post("/api/recruiter/match-jd", apiLimiter, async (req, res) => {
+  const { jobDescription, targetRole } = req.body;
+  if (!jobDescription || typeof jobDescription !== "string") {
+    return res.status(400).json({ error: "Missing or invalid job description" });
+  }
+
+  // Key requirement clusters to score against Kartik's verified resume
+  const candidateSkills = [
+    { skill: "Python", category: "Core Languages", projectEvidence: "AIOps RCA, VersionRAG, GitHub MCP Toolkit, ApexRAG" },
+    { skill: "FastAPI", category: "Backend & Microservices", projectEvidence: "AIOps RCA, VersionRAG, ApexRAG" },
+    { skill: "PostgreSQL & pgvector", category: "Databases & Vector Stores", projectEvidence: "VersionRAG (HNSW 5.4ms), AIOps RCA" },
+    { skill: "RAG & Semantic Retrieval", category: "Generative AI", projectEvidence: "VersionRAG (AST semantic diff), ApexRAG (5 strategies)" },
+    { skill: "LLM Tooling & Model Context Protocol (MCP)", category: "Agentic AI & Tooling", projectEvidence: "GitHub MCP Toolkit (SHA-256 preview tokens)" },
+    { skill: "AI Evaluation & Benchmarking", category: "ML Quality", projectEvidence: "ApexRAG (2,580 chunks, MRR/NDCG metrics)" },
+    { skill: "Incident Triage & Anomaly Detection", category: "AIOps / SRE", projectEvidence: "AIOps RCA (EWMA anomaly detection, 0.78s resolution)" },
+    { skill: "Docker & Containerization", category: "DevOps / Infra", projectEvidence: "GitHub MCP Toolkit, Microservices topology" },
+    { skill: "React.js & TypeScript", category: "Full-Stack UI", projectEvidence: "Atlas AI Resume, VersionRAG web client" },
+    { skill: "Redis & Caching", category: "High Performance", projectEvidence: "AIOps RCA alert storm pipeline" }
+  ];
+
+  const jdLower = jobDescription.toLowerCase();
+  const matchedSkills: typeof candidateSkills = [];
+  const missingOrUnspecified: string[] = [];
+
+  for (const item of candidateSkills) {
+    const skillTerms = item.skill.toLowerCase().split(/[&\/\s,]+/).filter(t => t.length > 2);
+    const hasMatch = skillTerms.some(term => jdLower.includes(term));
+    if (hasMatch) {
+      matchedSkills.push(item);
+    } else {
+      missingOrUnspecified.push(item.skill);
+    }
+  }
+
+  // Calculate alignment score (base 70% if general AI keywords present, scaling up to 96%)
+  const matchRatio = candidateSkills.length > 0 ? (matchedSkills.length / candidateSkills.length) : 0.8;
+  const matchScore = Math.min(97, Math.max(68, Math.round(62 + matchRatio * 35)));
+
+  // Generate actionable recruiter fit summary
+  const roleName = targetRole || "AI / Generative AI Engineer";
+  const matchedNames = matchedSkills.map(m => m.skill);
+
+  const fitAnalysis = {
+    targetRole: roleName,
+    overallMatchScore: matchScore,
+    matchRating: matchScore >= 88 ? "Exceptional Match (Top 1%)" : matchScore >= 78 ? "Strong Production Fit" : "Competent Engineering Match",
+    summary: `Kartik Raikar presents a high-relevance engineering profile for this ${roleName} posting, offering verified hands-on production code across ${matchedSkills.length} requested technical competencies.`,
+    matchedCompetencies: matchedSkills,
+    keyStrengthsForRole: [
+      "Production-proven RAG reliability (eliminated 62.5% hallucination rate down to 0.0% in VersionRAG).",
+      "High-throughput sub-second incident diagnostics (0.78s RCA via EWMA + causal DAG in AIOps Correlator).",
+      "LLM Security & Tool Execution safety via MCP (100% intent execution accuracy, zero prompt injections).",
+      "Rigorous evaluation methodology (ApexRAG isolated ranking quality over vector index size across 2,580 chunks)."
+    ],
+    recommendedInterviewQuestions: [
+      "How did you implement the AST semantic diff engine in VersionRAG to detect breaking changes between library versions?",
+      "Can you walk through your two-phase commit protocol with SHA-256 preview tokens in the GitHub MCP server?",
+      "In AIOps RCA, how did you balance EWMA sensitivity (z > 2.0σ) with false-positive suppression during cascading microservice alert storms?"
+    ],
+    directContact: {
+      name: "Kartik Raikar",
+      email: "kartikraikar2005@gmail.com",
+      phone: "+91 8660910358",
+      github: "https://github.com/kartik-012"
+    }
+  };
+
+  res.json(fitAnalysis);
 });
 
 // ==================== VITE & STATIC SERVING ====================

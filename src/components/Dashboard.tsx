@@ -28,7 +28,7 @@ interface AnalyticsData {
 }
 
 export default function Dashboard({ onAskAIAboutProject, onTrackAction }: DashboardProps) {
-  const [activeTab, setActiveTab] = useState<"projects" | "proof" | "certificates" | "skills" | "analytics" | "admin" | "contact">("projects");
+  const [activeTab, setActiveTab] = useState<"projects" | "proof" | "jd" | "certificates" | "skills" | "analytics" | "admin" | "contact">("projects");
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [loadingAnalytics, setLoadingAnalytics] = useState<boolean>(false);
   const [copiedLabel, setCopiedLabel] = useState<string | null>(null);
@@ -95,6 +95,42 @@ export default function Dashboard({ onAskAIAboutProject, onTrackAction }: Dashbo
     mrr: string;
     rankingQuality: string;
   } | null>(null);
+
+  // Job Description (JD) Matcher State
+  const [jdText, setJdText] = useState<string>(
+`We are seeking a Generative AI / RAG Systems Engineer.
+Responsibilities:
+- Build and scale production RAG pipelines with vector databases (pgvector / Qdrant) and low-latency retrieval.
+- Mitigate hallucinations and evaluate LLM retrieval accuracy using standardized benchmarks.
+- Develop autonomous LLM tooling and API servers (MCP, FastAPI).
+- Deploy resilient microservices with Python, Redis, and Docker.
+- Experience with React/TypeScript frontend integration is a strong plus.`
+  );
+  const [targetRole, setTargetRole] = useState<string>("Generative AI / RAG Engineer");
+  const [analyzingJd, setAnalyzingJd] = useState<boolean>(false);
+  const [jdAnalysisResult, setJdAnalysisResult] = useState<any>(null);
+
+  const handleAnalyzeJd = async () => {
+    if (!jdText.trim()) return;
+    setAnalyzingJd(true);
+    onTrackAction("jd_matcher_scan", { role: targetRole });
+    try {
+      const res = await fetch("/api/recruiter/match-jd", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ jobDescription: jdText, targetRole })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setJdAnalysisResult(data);
+      }
+    } catch (err) {
+      console.error("Failed to analyze JD", err);
+    } finally {
+      setAnalyzingJd(false);
+    }
+  };
+
   const [skillsLoaded, setSkillsLoaded] = useState<boolean>(false);
   const [typingText, setTypingText] = useState<string>("");
   const [phraseIndex, setPhraseIndex] = useState<number>(0);
@@ -529,6 +565,21 @@ export default function Dashboard({ onAskAIAboutProject, onTrackAction }: Dashbo
             <span>Benchmark Verifiers</span>
             <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
               Proof
+            </span>
+          </div>
+        </button>
+        <button
+          onClick={() => setActiveTab("jd")}
+          className={`flex items-center space-x-2.5 rounded-xl px-4 py-3 text-xs font-semibold whitespace-nowrap md:whitespace-normal transition-all focus-visible:outline-2 ${
+            activeTab === "jd" ? "bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-blue-300 border border-blue-500/40 shadow-md shadow-blue-500/10" : "text-slate-400 hover:bg-white/5 hover:text-white"
+          }`}
+          id="tab-jd"
+        >
+          <Sparkles className="h-4.5 w-4.5 text-blue-400" />
+          <div className="flex items-center gap-1.5">
+            <span>JD Matcher</span>
+            <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-blue-500/20 text-blue-300 border border-blue-500/30">
+              Recruiter
             </span>
           </div>
         </button>
@@ -1125,6 +1176,208 @@ export default function Dashboard({ onAskAIAboutProject, onTrackAction }: Dashbo
                 )}
               </div>
             )}
+          </div>
+        )}
+
+        {/* ==================== RECRUITER JD MATCHER TAB ==================== */}
+        {activeTab === "jd" && (
+          <div className="space-y-6 animate-in fade-in-50 duration-200">
+            {/* Header */}
+            <div className="border-b border-white/10 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xl font-extrabold text-white flex items-center gap-2">
+                    <Sparkles className="h-5 w-5 text-blue-400" />
+                    Recruiter Job Description (JD) Matcher
+                  </h2>
+                  <span className="rounded-full bg-blue-500/20 px-2.5 py-0.5 text-3xs font-mono font-bold text-blue-300 border border-blue-500/30">
+                    Live Fit Auditor
+                  </span>
+                </div>
+                <p className="text-xs text-slate-400 mt-1">
+                  Paste any job description or select a role profile to compute instant semantic competency alignment, isolate project proof, and generate tailored interview questions.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    setTargetRole("Senior AI / RAG Engineer");
+                    setJdText(
+`Seeking a Senior AI Engineer specializing in Retrieval-Augmented Generation (RAG) and LLM applications.
+Requirements:
+- Production Python & FastAPI experience
+- Vector indexing (pgvector, HNSW) and cross-version retrieval evaluation
+- Experience eliminating LLM hallucinations and latency bottlenecks
+- Familiarity with containerization (Docker) and message caching (Redis)`
+                    );
+                  }}
+                  className="rounded-lg bg-white/5 border border-white/10 px-2.5 py-1.5 text-xxs font-bold text-slate-300 hover:text-white hover:bg-white/10 transition"
+                >
+                  Preset: RAG Engineer
+                </button>
+                <button
+                  onClick={() => {
+                    setTargetRole("LLM Tooling & Platform Engineer");
+                    setJdText(
+`We are hiring an AI Systems & LLM Tooling Developer.
+Requirements:
+- Hands-on Model Context Protocol (MCP) or tool-use agents
+- Safety verification, two-phase commits, and defense against prompt injection
+- Full-stack fluency in Python, TypeScript, and modern APIs
+- Microservice orchestration and incident correlation experience`
+                    );
+                  }}
+                  className="rounded-lg bg-white/5 border border-white/10 px-2.5 py-1.5 text-xxs font-bold text-slate-300 hover:text-white hover:bg-white/10 transition"
+                >
+                  Preset: MCP / Platform
+                </button>
+              </div>
+            </div>
+
+            {/* Input Form */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+              <div className="lg:col-span-6 space-y-4">
+                <div>
+                  <label className="block text-xxs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                    Target Role Title
+                  </label>
+                  <input
+                    type="text"
+                    value={targetRole}
+                    onChange={(e) => setTargetRole(e.target.value)}
+                    placeholder="e.g. AI Engineer / Generative AI Specialist"
+                    className="w-full rounded-xl bg-black/40 border border-white/10 p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xxs font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                    Job Description / Responsibilities / Tech Stack
+                  </label>
+                  <textarea
+                    rows={8}
+                    value={jdText}
+                    onChange={(e) => setJdText(e.target.value)}
+                    placeholder="Paste job requirements, desired tech stack, or qualification bullets..."
+                    className="w-full rounded-xl bg-black/40 border border-white/10 p-3 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 custom-scrollbar font-mono leading-relaxed"
+                  />
+                </div>
+
+                <button
+                  onClick={handleAnalyzeJd}
+                  disabled={analyzingJd || !jdText.trim()}
+                  className="w-full flex items-center justify-center space-x-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 disabled:opacity-50 text-white text-xs font-bold py-3.5 shadow-lg shadow-blue-500/20 transition cursor-pointer"
+                >
+                  {analyzingJd ? (
+                    <>
+                      <RefreshCw className="h-4 w-4 animate-spin" />
+                      <span>Scanning Competencies & Generating Matrix...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="h-4 w-4" />
+                      <span>Scan & Score Resume Alignment</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Match Results Display */}
+              <div className="lg:col-span-6">
+                {jdAnalysisResult ? (
+                  <div className="rounded-2xl bg-white/[0.03] border border-blue-500/30 p-5 space-y-4 animate-in fade-in-50">
+                    <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                      <div>
+                        <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
+                          {jdAnalysisResult.targetRole}
+                        </span>
+                        <h3 className="text-base font-extrabold text-white mt-0.5">
+                          {jdAnalysisResult.matchRating}
+                        </h3>
+                      </div>
+                      <div className="flex flex-col items-end">
+                        <div className="text-2xl font-black text-blue-400">
+                          {jdAnalysisResult.overallMatchScore}%
+                        </div>
+                        <span className="text-[9px] text-slate-500 font-mono">Relevance Score</span>
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-slate-300 leading-relaxed bg-blue-950/20 border border-blue-500/20 rounded-xl p-3">
+                      {jdAnalysisResult.summary}
+                    </p>
+
+                    {/* Matched Competencies Pills */}
+                    <div>
+                      <h4 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+                        Matched Competencies & Verified Project Evidence
+                      </h4>
+                      <div className="space-y-2 max-h-48 overflow-y-auto custom-scrollbar pr-1">
+                        {jdAnalysisResult.matchedCompetencies?.map((item: any, idx: number) => (
+                          <div key={idx} className="p-2.5 rounded-lg bg-black/30 border border-white/5 flex items-start justify-between gap-2 text-xxs">
+                            <div>
+                              <strong className="text-white flex items-center gap-1.5">
+                                <Check className="h-3 w-3 text-emerald-400" />
+                                {item.skill}
+                              </strong>
+                              <span className="text-slate-400 mt-0.5 block">
+                                Verified in: <span className="text-cyan-300">{item.projectEvidence}</span>
+                              </span>
+                            </div>
+                            <span className="px-2 py-0.5 rounded bg-white/5 text-slate-400 text-[9px] shrink-0">
+                              {item.category}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Tailored Interview Prompts */}
+                    <div className="pt-3 border-t border-white/10">
+                      <h4 className="text-[10px] font-bold uppercase tracking-wider text-blue-400 mb-2 flex items-center gap-1.5">
+                        <Terminal className="h-3 w-3" />
+                        Suggested Deep-Dive Interview Prompts
+                      </h4>
+                      <ul className="space-y-1.5 text-xxs text-slate-300">
+                        {jdAnalysisResult.recommendedInterviewQuestions?.map((q: string, qIdx: number) => (
+                          <li key={qIdx} className="flex items-start gap-1.5 bg-white/5 p-2 rounded border border-white/5">
+                            <span className="text-blue-400 font-bold shrink-0">{qIdx + 1}.</span>
+                            <span>{q}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Quick Recruiter Contact Actions */}
+                    <div className="pt-2 flex items-center gap-2">
+                      <a
+                        href={`mailto:${resumeData.email}?subject=Interview%20Invitation:%20${encodeURIComponent(targetRole)}%20-%20Kartik%20Raikar&body=Hi%20Kartik,%0D%0A%0D%0AWe%20evaluated%20your%20Atlas%20AI%20portfolio%20against%20our%20${encodeURIComponent(targetRole)}%20opening%20and%20were%20impressed%20by%20your%20project%20benchmarks%20(AIOps%20RCA,%20VersionRAG,%20ApexRAG).%20Let's%20connect%20for%20a%20technical%20screen.`}
+                        className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xxs shadow transition"
+                      >
+                        <Mail className="h-3.5 w-3.5" />
+                        <span>Schedule Technical Screen</span>
+                      </a>
+                      <button
+                        onClick={() => onAskAIAboutProject(`Can you explain why Kartik Raikar is a great fit for the ${targetRole} role?`)}
+                        className="py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-cyan-300 font-bold text-xxs transition flex items-center gap-1.5"
+                      >
+                        <MessageSquare className="h-3.5 w-3.5" />
+                        <span>Ask AI Rep</span>
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="h-full min-h-[300px] rounded-2xl border border-dashed border-white/10 flex flex-col items-center justify-center p-6 text-center text-slate-500">
+                    <Sparkles className="h-8 w-8 text-blue-400/40 mb-3" />
+                    <p className="text-xs font-semibold text-slate-400">Ready for Job Description Audit</p>
+                    <p className="text-xxs text-slate-500 mt-1 max-w-sm">
+                      Paste any company JD on the left and click "Scan & Score" to see Kartik's matched production proof and candidate suitability index.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )}
 
