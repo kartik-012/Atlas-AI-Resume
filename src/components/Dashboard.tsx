@@ -7,7 +7,8 @@ import { useState, useEffect, FormEvent } from "react";
 import { 
   Compass, Navigation, Milestone, MessageSquare, Activity, Layers, Flag, 
   Globe, Github, Linkedin, ExternalLink, Sparkles, Send, Upload, RefreshCw, 
-  Trash2, Mail, Phone, MapPin, Check, Copy, Zap, ShieldAlert, Cpu, GitCompare, Play, Terminal 
+  Trash2, Mail, Phone, MapPin, Check, Copy, Zap, ShieldAlert, Cpu, GitCompare, Play, Terminal,
+  Download, FileText, Network, CheckCircle2
 } from "lucide-react";
 import { resumeData, Project, Certification } from "../data/resumeData";
 
@@ -28,10 +29,12 @@ interface AnalyticsData {
 }
 
 export default function Dashboard({ onAskAIAboutProject, onTrackAction }: DashboardProps) {
-  const [activeTab, setActiveTab] = useState<"projects" | "proof" | "jd" | "certificates" | "skills" | "analytics" | "admin" | "contact">("projects");
+  const [activeTab, setActiveTab] = useState<"projects" | "proof" | "jd" | "blueprint" | "certificates" | "skills" | "analytics" | "admin" | "contact">("projects");
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [loadingAnalytics, setLoadingAnalytics] = useState<boolean>(false);
   const [copiedLabel, setCopiedLabel] = useState<string | null>(null);
+  const [downloadingPacket, setDownloadingPacket] = useState<boolean>(false);
+  const [selectedArchSubsystem, setSelectedArchSubsystem] = useState<"rag" | "aiops" | "mcp" | "guardrails">("rag");
 
   // Admin states
   const [adminTitle, setAdminTitle] = useState<string>("");
@@ -129,6 +132,104 @@ Responsibilities:
     } finally {
       setAnalyzingJd(false);
     }
+  };
+
+  const handleDownloadScreeningPacket = () => {
+    setDownloadingPacket(true);
+    onTrackAction("download_screening_packet", { role: targetRole });
+
+    const roleTitle = targetRole || "AI / Generative AI Engineer";
+    const dateStr = new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+    
+    const packetContent = `# EXECUTIVE RECRUITER SCREENING PACKET
+**Candidate**: Kartik Raikar
+**Target Role**: ${roleTitle}
+**Date Generated**: ${dateStr}
+**Candidate Status**: Available for Full-Time / Internship (Remote, Hybrid, or Onsite)
+**Location**: Belagavi, Karnataka, India
+**Email**: ${resumeData.email} | **Phone**: ${resumeData.phone}
+**GitHub**: ${resumeData.github} | **LinkedIn**: ${resumeData.linkedin}
+
+---
+
+## 1. EXECUTIVE FIT SUMMARY
+Kartik Raikar is an AI Engineer specializing in Generative AI, LLM Application Architecture, Retrieval-Augmented Generation (RAG), and Microservice Systems. He currently pursues a B.E. in Computer Science & Engineering (AI & ML) at Jain College of Engineering, Belagavi (VTU, Aug 2023 – Jul 2027) maintaining an **8.50/10.0 CGPA** and serving as the elected **Vice President of the AI & ML Department**.
+
+Unlike standard portfolio developers, Kartik's engineering profile demonstrates **production reliability, sub-second latency optimization, and formal evaluation rigor**.
+
+---
+
+## 2. PRODUCTION PROJECT BENCHMARKS & VERIFIED EVIDENCE
+
+### A. AIOps Root Cause Correlator (Incident Engine)
+- **Problem**: Cascading microservice failures take 1–4 hours of manual engineer triage.
+- **Solution**: Built an autonomous incident correlation engine combining EWMA anomaly detection (z > 2.0σ) with NetworkX causal DAG traversal.
+- **Key Metrics**:
+  - Isolated root causes in **0.78 seconds** (down from hours).
+  - **100% Top-1 RCA accuracy** across 30 benchmark microservice outage scenarios.
+  - **100% false-positive alert suppression** via topological parent isolation.
+- **Tech Stack**: Python, FastAPI, PostgreSQL, Redis, NetworkX, Three.js, pgvector.
+- **GitHub**: https://github.com/kartik-012/aiops-rca
+
+### B. VersionRAG (Documentation Intelligence RAG)
+- **Problem**: Cross-version documentation contamination causing RAG systems to hallucinate deprecated APIs 62.5% of the time.
+- **Solution**: Engineered database-enforced version-partitioned vector indexing paired with an AST semantic diff parser.
+- **Key Metrics**:
+  - Eliminated deprecated API hallucinations: **62.5% → 0.0%**.
+  - AST semantic diff breaking change accuracy: **94.2%**.
+  - Retrieval precision @k=6: **41.7% → 98.4% (+136%)** at **5.4ms HNSW latency**.
+- **Tech Stack**: Python 3.12, FastAPI, PostgreSQL (pgvector HNSW), React, TypeScript.
+- **GitHub**: https://github.com/kartik-012/versionrag
+
+### C. GitHub MCP Toolkit (Fault-Tolerant MCP Server)
+- **Problem**: Blind mutations, hallucinated repo wipes, and prompt injections in LLM-driven developer tools.
+- **Solution**: Two-phase commit protocol with SHA-256 preview tokens and Saga rollback compensation.
+- **Key Metrics**:
+  - Zero prompt injection vulnerabilities across 20 adversarial attack test suites.
+  - Intent execution accuracy: **64% → 100%**.
+  - Eliminated 14% blind bulk-mutation rate.
+- **Tech Stack**: Python, FastMCP, GitHub REST/GraphQL API, Ollama, Docker.
+- **GitHub**: https://github.com/kartik-012/github-mcp-toolkit
+
+### D. ApexRAG (Systematic Retrieval Evaluation Benchmark)
+- **Problem**: Unprincipled vector search selection without empirical latency vs. ranking trade-offs.
+- **Solution**: Benchmarked 5 retrieval strategies across 2,580 chunks and 100 human-verified Q&A pairs.
+- **Key Metrics**:
+  - Retrieval accuracy: **61.0% (BM25) → 85.0% (Cross-Encoder Re-ranker)**.
+  - Proved that ranking quality—not vector index size—is the primary bottleneck in production RAG.
+  - Logistic Regression Dynamic Query Router optimal latency: **12.6ms** at 84.2% accuracy.
+- **Tech Stack**: Python, FastAPI, ChromaDB, Sentence Transformers, scikit-learn.
+- **GitHub**: https://github.com/kartik-012/apexrag
+
+---
+
+## 3. VERIFIED INDUSTRY CREDENTIALS
+1. **Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate** (GenAI, LLMs, OCI AI services)
+2. **AWS Training & Certification – Fundamentals of Machine Learning and AI** (SageMaker, Bedrock, NLP)
+3. **Tata – GenAI Powered Data Analytics Job Simulation (Forage)** (Data analytics, Prompt Engineering)
+
+---
+
+## 4. SUGGESTED INTERVIEW PROMPTS FOR TECHNICAL SCREEN
+1. "In VersionRAG, how did your AST semantic diff engine parse syntax changes across library versions?"
+2. "Walk through the two-phase commit protocol and SHA-256 preview tokens in your GitHub MCP server."
+3. "How did you balance EWMA z-score thresholds with false-positive suppression in the AIOps correlator?"
+
+---
+*Generated by Atlas AI Candidate Representative | https://atlas-ai-resume.vercel.app/*
+`;
+
+    const blob = new Blob([packetContent], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `Kartik_Raikar_Executive_Screening_Packet_${roleTitle.replace(/\s+/g, "_")}.md`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    setTimeout(() => setDownloadingPacket(false), 800);
   };
 
   const [skillsLoaded, setSkillsLoaded] = useState<boolean>(false);
@@ -580,6 +681,21 @@ Responsibilities:
             <span>JD Matcher</span>
             <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-blue-500/20 text-blue-300 border border-blue-500/30">
               Recruiter
+            </span>
+          </div>
+        </button>
+        <button
+          onClick={() => setActiveTab("blueprint")}
+          className={`flex items-center space-x-2.5 rounded-xl px-4 py-3 text-xs font-semibold whitespace-nowrap md:whitespace-normal transition-all focus-visible:outline-2 ${
+            activeTab === "blueprint" ? "bg-gradient-to-r from-cyan-500/20 to-teal-500/20 text-cyan-300 border border-cyan-500/40 shadow-md shadow-cyan-500/10" : "text-slate-400 hover:bg-white/5 hover:text-white"
+          }`}
+          id="tab-blueprint"
+        >
+          <Network className="h-4.5 w-4.5 text-cyan-400" />
+          <div className="flex items-center gap-1.5">
+            <span>Architecture Blueprint</span>
+            <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+              System
             </span>
           </div>
         </button>
@@ -1350,17 +1466,26 @@ Requirements:
                     </div>
 
                     {/* Quick Recruiter Contact Actions */}
-                    <div className="pt-2 flex items-center gap-2">
+                    <div className="pt-2 flex flex-col sm:flex-row items-center gap-2">
+                      <button
+                        onClick={handleDownloadScreeningPacket}
+                        disabled={downloadingPacket}
+                        className="w-full sm:w-auto flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xxs shadow transition cursor-pointer"
+                        title="Download 1-page executive markdown packet for hiring managers"
+                      >
+                        <Download className="h-3.5 w-3.5" />
+                        <span>{downloadingPacket ? "Generating Packet..." : "Export Hiring Manager Packet (.md)"}</span>
+                      </button>
                       <a
                         href={`mailto:${resumeData.email}?subject=Interview%20Invitation:%20${encodeURIComponent(targetRole)}%20-%20Kartik%20Raikar&body=Hi%20Kartik,%0D%0A%0D%0AWe%20evaluated%20your%20Atlas%20AI%20portfolio%20against%20our%20${encodeURIComponent(targetRole)}%20opening%20and%20were%20impressed%20by%20your%20project%20benchmarks%20(AIOps%20RCA,%20VersionRAG,%20ApexRAG).%20Let's%20connect%20for%20a%20technical%20screen.`}
-                        className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xxs shadow transition"
+                        className="w-full sm:w-auto flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xxs shadow transition"
                       >
                         <Mail className="h-3.5 w-3.5" />
-                        <span>Schedule Technical Screen</span>
+                        <span>Invite to Screen</span>
                       </a>
                       <button
                         onClick={() => onAskAIAboutProject(`Can you explain why Kartik Raikar is a great fit for the ${targetRole} role?`)}
-                        className="py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-cyan-300 font-bold text-xxs transition flex items-center gap-1.5"
+                        className="w-full sm:w-auto py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-cyan-300 font-bold text-xxs transition flex items-center justify-center gap-1.5"
                       >
                         <MessageSquare className="h-3.5 w-3.5" />
                         <span>Ask AI Rep</span>
@@ -1378,6 +1503,375 @@ Requirements:
                 )}
               </div>
             </div>
+          </div>
+        )}
+
+        {/* ==================== SYSTEM ARCHITECTURE BLUEPRINT TAB ==================== */}
+        {activeTab === "blueprint" && (
+          <div className="space-y-6 animate-in fade-in-50 duration-200">
+            {/* Header */}
+            <div className="border-b border-white/10 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xl font-extrabold text-white flex items-center gap-2">
+                    <Network className="h-5 w-5 text-cyan-400" />
+                    System Architecture & Code Transparency Blueprint
+                  </h2>
+                  <span className="rounded-full bg-cyan-500/20 px-2.5 py-0.5 text-3xs font-mono font-bold text-cyan-300 border border-cyan-500/30">
+                    TOP 1% ARCHITECTURE
+                  </span>
+                </div>
+                <p className="text-xs text-slate-400 mt-1">
+                  Full white-box transparency: inspect the end-to-end data pipelines, microservice topology, and direct links to implementation source files in GitHub.
+                </p>
+              </div>
+
+              {/* Subsystem Selector */}
+              <div className="flex flex-wrap gap-1.5 p-1 rounded-xl bg-white/5 border border-white/10">
+                <button
+                  onClick={() => setSelectedArchSubsystem("rag")}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
+                    selectedArchSubsystem === "rag"
+                      ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  <Layers className="h-3.5 w-3.5" />
+                  <span>Dual-Layer RAG Engine</span>
+                </button>
+                <button
+                  onClick={() => setSelectedArchSubsystem("aiops")}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
+                    selectedArchSubsystem === "aiops"
+                      ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  <Activity className="h-3.5 w-3.5" />
+                  <span>AIOps Causal Pipeline</span>
+                </button>
+                <button
+                  onClick={() => setSelectedArchSubsystem("mcp")}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
+                    selectedArchSubsystem === "mcp"
+                      ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  <Cpu className="h-3.5 w-3.5" />
+                  <span>MCP 2-Phase Commit</span>
+                </button>
+                <button
+                  onClick={() => setSelectedArchSubsystem("guardrails")}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
+                    selectedArchSubsystem === "guardrails"
+                      ? "bg-rose-500/20 text-rose-300 border border-rose-500/40"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  <ShieldAlert className="h-3.5 w-3.5" />
+                  <span>L1/L2 Guardrail Shield</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Architecture Card Body */}
+            {selectedArchSubsystem === "rag" && (
+              <div className="rounded-2xl bg-white/[0.03] border border-cyan-500/30 p-5 space-y-5 animate-in fade-in-30">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-3 border-b border-white/10">
+                  <div>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-400">
+                      Core Pipeline 01
+                    </span>
+                    <h3 className="text-base font-extrabold text-white mt-0.5">
+                      Production Dual-Layer RAG with AST Semantic Partitioning
+                    </h3>
+                  </div>
+                  <a
+                    href="https://github.com/kartik-012/versionrag"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-cyan-300 text-xxs font-bold transition"
+                  >
+                    <Github className="h-3.5 w-3.5" />
+                    <span>View VersionRAG Code on GitHub</span>
+                  </a>
+                </div>
+
+                {/* Pipeline Flow Visualization */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-1.5">
+                    <div className="flex items-center justify-between text-cyan-400 font-mono text-[10px]">
+                      <span>STAGE 1</span>
+                      <span>Ingestion</span>
+                    </div>
+                    <div className="font-bold text-white text-xs">AST Semantic Diff Engine</div>
+                    <p className="text-xxs text-slate-400 leading-relaxed">
+                      Traverses Python AST syntax trees to detect parameter mutations and deprecated signature removal (94.2% accuracy).
+                    </p>
+                    <div className="pt-2 text-[9px] font-mono text-cyan-300 border-t border-white/5">
+                      Output: Version-tagged schema node
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-1.5">
+                    <div className="flex items-center justify-between text-cyan-400 font-mono text-[10px]">
+                      <span>STAGE 2</span>
+                      <span>Partitioning</span>
+                    </div>
+                    <div className="font-bold text-white text-xs">Database-Enforced RLS Index</div>
+                    <p className="text-xxs text-slate-400 leading-relaxed">
+                      Partitions embeddings by library release version inside pgvector, preventing cross-version vector contamination.
+                    </p>
+                    <div className="pt-2 text-[9px] font-mono text-emerald-400 border-t border-white/5">
+                      Metric: 62.5% → 0.0% Hallucinations
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-1.5">
+                    <div className="flex items-center justify-between text-cyan-400 font-mono text-[10px]">
+                      <span>STAGE 3</span>
+                      <span>Retrieval</span>
+                    </div>
+                    <div className="font-bold text-white text-xs">HNSW Approximate Nearest Neighbors</div>
+                    <p className="text-xxs text-slate-400 leading-relaxed">
+                      Executes cosine vector similarity search at 5.4ms latency with m=16, efSearch=64 index parameters.
+                    </p>
+                    <div className="pt-2 text-[9px] font-mono text-cyan-300 border-t border-white/5">
+                      Latency: 5.4ms @ 98.4% Precision
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-1.5">
+                    <div className="flex items-center justify-between text-cyan-400 font-mono text-[10px]">
+                      <span>STAGE 4</span>
+                      <span>Generation</span>
+                    </div>
+                    <div className="font-bold text-white text-xs">SSE Streaming + Telemetry</div>
+                    <p className="text-xxs text-slate-400 leading-relaxed">
+                      Emits tokens over HTTP Server-Sent Events while collecting TTFT, token economics, and confidence citations.
+                    </p>
+                    <div className="pt-2 text-[9px] font-mono text-amber-300 border-t border-white/5">
+                      Telemetry: Real-time TTFT tracking
+                    </div>
+                  </div>
+                </div>
+
+                {/* Key Technical Deep-Dive */}
+                <div className="p-4 rounded-xl bg-cyan-950/20 border border-cyan-500/20 text-xxs font-mono text-slate-300 leading-relaxed space-y-2">
+                  <div className="text-cyan-400 font-bold uppercase tracking-wider text-[10px]">
+                    Engineering Design Decision:
+                  </div>
+                  <p>
+                    Standard RAG architectures index code documentation monolithically. When LangChain transitioned from 0.1 to 0.2, naive cosine search retrieved obsolete `load_qa_chain` imports, hallucinating deprecated APIs 62.5% of the time. VersionRAG enforces schema-level partitioning (`WHERE release_semver = $1`) combined with AST token comparison, achieving zero cross-version bleed at negligible index overhead.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {selectedArchSubsystem === "aiops" && (
+              <div className="rounded-2xl bg-white/[0.03] border border-emerald-500/30 p-5 space-y-5 animate-in fade-in-30">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-3 border-b border-white/10">
+                  <div>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-400">
+                      Core Pipeline 02
+                    </span>
+                    <h3 className="text-base font-extrabold text-white mt-0.5">
+                      AIOps Incident Correlator: EWMA Anomaly & Causal DAG Traversal
+                    </h3>
+                  </div>
+                  <a
+                    href="https://github.com/kartik-012/aiops-rca"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-emerald-300 text-xxs font-bold transition"
+                  >
+                    <Github className="h-3.5 w-3.5" />
+                    <span>View AIOps Code on GitHub</span>
+                  </a>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-1.5">
+                    <div className="flex items-center justify-between text-emerald-400 font-mono text-[10px]">
+                      <span>MODULE 1</span>
+                      <span>Telemetry Ingest</span>
+                    </div>
+                    <div className="font-bold text-white text-xs">EWMA Dynamic Baseline (z &gt; 2.0σ)</div>
+                    <p className="text-xxs text-slate-400 leading-relaxed">
+                      Exponentially Weighted Moving Average dynamic thresholds automatically adapt to diurnal traffic spikes without firing false alerts.
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-1.5">
+                    <div className="flex items-center justify-between text-emerald-400 font-mono text-[10px]">
+                      <span>MODULE 2</span>
+                      <span>Topology Graph</span>
+                    </div>
+                    <div className="font-bold text-white text-xs">NetworkX Directed Acyclic Graph</div>
+                    <p className="text-xxs text-slate-400 leading-relaxed">
+                      Models upstream microservice dependencies across ingress, auth, gateway, and database instances to track propagation vectors.
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-1.5">
+                    <div className="flex items-center justify-between text-emerald-400 font-mono text-[10px]">
+                      <span>MODULE 3</span>
+                      <span>Root Cause Isolation</span>
+                    </div>
+                    <div className="font-bold text-white text-xs">Topological Sort in 0.78s</div>
+                    <p className="text-xxs text-slate-400 leading-relaxed">
+                      Silences 100% of downstream cascading derivative alerts, isolating the single root cause node with 100% Top-1 accuracy.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/20 text-xxs font-mono text-slate-300 leading-relaxed space-y-2">
+                  <div className="text-emerald-400 font-bold uppercase tracking-wider text-[10px]">
+                    Production SRE Value:
+                  </div>
+                  <p>
+                    During a cascading database pool failure, 40+ microservices will simultaneously fire alerts (Auth timeout, Payment timeout, Gateway 502). Human on-call engineers spend 1 to 4 hours untangling log firehoses. AIOps RCA constructs the causal dependency tree and pinpoints the parent node in 0.78s, eliminating alert fatigue.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {selectedArchSubsystem === "mcp" && (
+              <div className="rounded-2xl bg-white/[0.03] border border-amber-500/30 p-5 space-y-5 animate-in fade-in-30">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-3 border-b border-white/10">
+                  <div>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-400">
+                      Core Pipeline 03
+                    </span>
+                    <h3 className="text-base font-extrabold text-white mt-0.5">
+                      GitHub Model Context Protocol (MCP) Server: 2-Phase Commit &amp; Saga Rollback
+                    </h3>
+                  </div>
+                  <a
+                    href="https://github.com/kartik-012/github-mcp-toolkit"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-amber-300 text-xxs font-bold transition"
+                  >
+                    <Github className="h-3.5 w-3.5" />
+                    <span>View MCP Toolkit Code on GitHub</span>
+                  </a>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-1.5">
+                    <div className="flex items-center justify-between text-amber-400 font-mono text-[10px]">
+                      <span>PHASE 1</span>
+                      <span>Intent Verification</span>
+                    </div>
+                    <div className="font-bold text-white text-xs">Dry-Run Preview + SHA-256 Token</div>
+                    <p className="text-xxs text-slate-400 leading-relaxed">
+                      All mutations generate a cryptographically signed diff preview with an ephemeral single-use SHA-256 confirmation token.
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-1.5">
+                    <div className="flex items-center justify-between text-amber-400 font-mono text-[10px]">
+                      <span>PHASE 2</span>
+                      <span>Execution Gate</span>
+                    </div>
+                    <div className="font-bold text-white text-xs">ABAC Attribute-Based Authorization</div>
+                    <p className="text-xxs text-slate-400 leading-relaxed">
+                      Validates branch protection policies, repository access scope, and prevents blind bulk mutations.
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-1.5">
+                    <div className="flex items-center justify-between text-amber-400 font-mono text-[10px]">
+                      <span>FAULT TOLERANCE</span>
+                      <span>Saga Compensation</span>
+                    </div>
+                    <div className="font-bold text-white text-xs">Deterministic Reversible Rollbacks</div>
+                    <p className="text-xxs text-slate-400 leading-relaxed">
+                      If an intermediate API call fails or an injection pattern is detected, compensation transactions cleanly restore previous git state.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-amber-950/20 border border-amber-500/20 text-xxs font-mono text-slate-300 leading-relaxed space-y-2">
+                  <div className="text-amber-400 font-bold uppercase tracking-wider text-[10px]">
+                    Why Standard MCP Servers Fail in Enterprise:
+                  </div>
+                  <p>
+                    Most MCP servers grant LLMs direct write access to GitHub tools (`create_or_update_file`, `delete_branch`). A single jailbreak in an untrusted issue or PR body causes accidental repository wipes. The two-phase protocol ensures zero destructive side-effects without human authorization.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {selectedArchSubsystem === "guardrails" && (
+              <div className="rounded-2xl bg-white/[0.03] border border-rose-500/30 p-5 space-y-5 animate-in fade-in-30">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-3 border-b border-white/10">
+                  <div>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-rose-400">
+                      Core Pipeline 04
+                    </span>
+                    <h3 className="text-base font-extrabold text-white mt-0.5">
+                      Multi-Layer Input/Output Guardrails &amp; Injection Neutralization
+                    </h3>
+                  </div>
+                  <a
+                    href="https://github.com/kartik-012/Atlas-AI-Resume/blob/main/server.ts"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-rose-300 text-xxs font-bold transition"
+                  >
+                    <Github className="h-3.5 w-3.5" />
+                    <span>View Guardrail Rules in server.ts</span>
+                  </a>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-1.5">
+                    <div className="flex items-center justify-between text-rose-400 font-mono text-[10px]">
+                      <span>LAYER 1</span>
+                      <span>Input Policy</span>
+                    </div>
+                    <div className="font-bold text-white text-xs">Adversarial Jailbreak Filter</div>
+                    <p className="text-xxs text-slate-400 leading-relaxed">
+                      Intercepts prompt injection patterns (Directive Overrides, Delimiter Injections, System Prompt extractions) in &lt;10ms.
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-1.5">
+                    <div className="flex items-center justify-between text-rose-400 font-mono text-[10px]">
+                      <span>LAYER 2</span>
+                      <span>Information Barrier</span>
+                    </div>
+                    <div className="font-bold text-white text-xs">PII &amp; Credential Exfiltration Shield</div>
+                    <p className="text-xxs text-slate-400 leading-relaxed">
+                      Strict regex boundaries detect probes targeting API keys, environment variables, or database dumps.
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-1.5">
+                    <div className="flex items-center justify-between text-rose-400 font-mono text-[10px]">
+                      <span>LAYER 3</span>
+                      <span>Output Grounding</span>
+                    </div>
+                    <div className="font-bold text-white text-xs">Strict Resume Fact Enforcer</div>
+                    <p className="text-xxs text-slate-400 leading-relaxed">
+                      Zero-temperature factual prompt pinning ensures responses strictly adhere to verified resume ground truth.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-rose-950/20 border border-rose-500/20 text-xxs font-mono text-slate-300 leading-relaxed space-y-2">
+                  <div className="text-rose-400 font-bold uppercase tracking-wider text-[10px]">
+                    Alignment Strategy:
+                  </div>
+                  <p>
+                    Rather than relying solely on post-hoc prompt conditioning, our architecture intercepts malicious tokens at the API gateway layer before any LLM inference tokens are consumed, guaranteeing zero token spend on adversarial attacks and zero information leakage.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
