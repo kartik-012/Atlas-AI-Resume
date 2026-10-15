@@ -1303,7 +1303,10 @@ app.post("/api/recruiter/match-jd", apiLimiter, async (req, res) => {
     { skill: "RAG & Semantic Retrieval", category: "Generative AI", projectEvidence: "VersionRAG (AST semantic diff), ApexRAG (5 strategies)" },
     { skill: "LLM Tooling & Model Context Protocol (MCP)", category: "Agentic AI & Tooling", projectEvidence: "GitHub MCP Toolkit (SHA-256 preview tokens)" },
     { skill: "AI Evaluation & Benchmarking", category: "ML Quality", projectEvidence: "ApexRAG (2,580 chunks, MRR/NDCG metrics)" },
-    { skill: "Incident Triage & Anomaly Detection", category: "AIOps / SRE", projectEvidence: "AIOps RCA (EWMA anomaly detection, 0.78s resolution)" },
+    { skill: "Incident Triage & Anomaly Detection", category: "AIOps / SRE", projectEvidence: "AIOps RCA (EWMA anomaly detection, <45ms resolution)" },
+    { skill: "Apache Kafka (KRaft) & Event Streaming", category: "Distributed Systems", projectEvidence: "AIOps RCA (10K ring buffer, 80% backpressure shed)" },
+    { skill: "Linux eBPF & Systems Telemetry", category: "Low-Level Systems", projectEvidence: "AIOps RCA (sys_enter_futex tracing)" },
+    { skill: "Time-Series Forecasting & ML Analytics", category: "Data Science & ML", projectEvidence: "SPARK IIT (AQI analysis over 29,531 records, Prophet vs SARIMAX -64.3% RMSE)" },
     { skill: "Docker & Containerization", category: "DevOps / Infra", projectEvidence: "GitHub MCP Toolkit, Microservices topology" },
     { skill: "React.js & TypeScript", category: "Full-Stack UI", projectEvidence: "Atlas AI Resume, VersionRAG web client" },
     { skill: "Redis & Caching", category: "High Performance", projectEvidence: "AIOps RCA alert storm pipeline" }
@@ -1338,15 +1341,16 @@ app.post("/api/recruiter/match-jd", apiLimiter, async (req, res) => {
     summary: `Kartik Raikar presents a high-relevance engineering profile for this ${roleName} posting, offering verified hands-on production code across ${matchedSkills.length} requested technical competencies.`,
     matchedCompetencies: matchedSkills,
     keyStrengthsForRole: [
-      "Production-proven RAG reliability (eliminated 62.5% hallucination rate down to 0.0% in VersionRAG).",
-      "High-throughput sub-second incident diagnostics (0.78s RCA via EWMA + causal DAG in AIOps Correlator).",
-      "LLM Security & Tool Execution safety via MCP (100% intent execution accuracy, zero prompt injections).",
-      "Rigorous evaluation methodology (ApexRAG isolated ranking quality over vector index size across 2,580 chunks)."
+      "Industry Experience: AI Intern at SPARK IIT (AQI analysis across 29,531 records, Prophet vs SARIMAX reducing RMSE by 64.3%, Streamlit dashboard).",
+      "Production-proven RAG reliability (eliminated 62.5% hallucination rate down to 0.0% in VersionRAG via 3-stage hybrid retrieval).",
+      "High-throughput sub-second incident diagnostics (<45ms RCA via MicroRCA++ PageRank, Kafka KRaft, and Linux eBPF in AIOps Correlator).",
+      "LLM Security & Tool Execution safety via MCP (0.8µs Outbound Shannon entropy DLP, SHA-256 Saga rollback, 100% intent accuracy).",
+      "Rigorous evaluation methodology (ApexRAG isolated ranking quality with parent-document chunking and CRAG across 2,580 chunks)."
     ],
     recommendedInterviewQuestions: [
-      "How did you implement the AST semantic diff engine in VersionRAG to detect breaking changes between library versions?",
-      "Can you walk through your two-phase commit protocol with SHA-256 preview tokens in the GitHub MCP server?",
-      "In AIOps RCA, how did you balance EWMA sensitivity (z > 2.0σ) with false-positive suppression during cascading microservice alert storms?"
+      "How did you implement the 3-stage hybrid retrieval in VersionRAG to balance lexical BM25 with dense pgvector HNSW?",
+      "Can you walk through your two-phase commit protocol with SHA-256 preview tokens and Saga rollback in the GitHub MCP server?",
+      "In AIOps RCA, how did you utilize Linux eBPF futex probes and MicroRCA++ PageRank to achieve <45ms RCA time?"
     ],
     directContact: {
       name: "Kartik Raikar",

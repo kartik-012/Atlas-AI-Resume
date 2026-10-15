@@ -186,7 +186,7 @@ Proven ability to deliver measurable impact — from analyzing 29,531 AQI record
 • **Location**: Belagavi, Karnataka, India (Open to Relocation & Remote)
 • **Education**: B.E. in CSE (AI & ML) (Aug 2023 – Jul 2027), Jain College of Engineering (VTU) — **8.50 CGPA**
 • **Core Specialties**: Generative AI, LLMs, RAG, AI Evaluation, Prompt Engineering, Semantic Search, Vector Search.
-• **Certifications**: 3 Total (Oracle AI Foundations, AWS ML, Tata GenAI).
+• **Certifications**: 9 Total (Hugging Face Agents, Oracle Agentic AI, Oracle AI Vector Search, Cognifyz ML, Kafka, AWS ML, Azure Cloud, Deloitte, Tata GenAI).
 • **Leadership**: Vice President of AI & ML Department.
 • **GitHub**: [github.com/kartik-012](https://github.com/kartik-012)`
   },
@@ -355,10 +355,11 @@ Kartik Raikar is an AI Engineer driven by building production-grade AI applicati
 • **Live Viewer**: Currently embedded directly in this interactive portal screen.
 • **Key Sections**:
   1. **Candidate Profile**: AI Engineer — Generative AI — LLM Applications (8.50 CGPA, Belagavi).
-  2. **5 Key Projects**: Atlas AI Resume, AIOps RCA, VersionRAG, GitHub MCP Toolkit, ApexRAG.
-  3. **Technical Stack**: Python, FastAPI, React.js, PostgreSQL, pgvector, Redis, Docker, PyTorch.
-  4. **3 Certifications**: Oracle AI Foundations, AWS ML, Tata GenAI.
-  5. **Leadership**: Vice President of AI & ML Department.
+  2. **Work Experience**: AI Intern at SPARK IIT (AQI predictive modeling, -64.3% RMSE) & ML Intern at Cognifyz.
+  3. **5 Flagship Projects**: Atlas AI Resume, AIOps RCA (<45ms MTTR), VersionRAG (0.0% hallucination), GitHub MCP Toolkit, ApexRAG (<37ms).
+  4. **Technical Stack**: Python, FastAPI, React.js, PostgreSQL, pgvector, Redis, Docker, PyTorch, Kafka KRaft.
+  5. **9 Certifications**: Hugging Face, Oracle, AWS, Kafka, Azure, Deloitte, Tata.
+  6. **Achievements & DSA**: 104 LeetCode Solved, Hack2Future 2.0 Nokia Track Finalist, VP of AI & ML.
 
 *Click "Download Resume" in the header to get the official PDF copy.*`
   },
@@ -368,12 +369,13 @@ Kartik Raikar is an AI Engineer driven by building production-grade AI applicati
     patterns: ["resume highlights", "top highlights", "standout points"],
     handler: () => `### Resume Highlights
 
-1. ⚡ **0.78s Incident Resolution** with 100% Top-1 RCA accuracy (AIOps Root Cause Correlator).
-2. 📚 **62.5% → 0.0% Hallucination** via version-partitioned vector indexing (VersionRAG).
-3. 🔧 **64% → 100% Intent Accuracy** with zero prompt injections (GitHub MCP Toolkit).
-4. 📊 **61% → 85% Retrieval Accuracy** across 5 RAG strategies (ApexRAG).
-5. 🏅 **Vice President** of AI & ML Department at Jain College of Engineering.
-6. 🎓 **8.50 CGPA** in B.E. CSE (AI & ML) from Jain College of Engineering (VTU).`
+1. ⚡ **<45ms Incident Resolution** with 100% Top-1 RCA accuracy via MicroRCA++ PageRank (AIOps Root Cause Correlator).
+2. 🔬 **29,531 AQI Records Modeled** at SPARK IIT, reducing forecast RMSE by 64.3% and MAE by 67.6% (Prophet vs SARIMAX).
+3. 📚 **62.5% → 0.0% Hallucination** via version-partitioned vector indexing (VersionRAG).
+4. 🔧 **64% → 100% Intent Accuracy** with zero prompt injections and 0.8µs Outbound DLP (GitHub MCP Toolkit).
+5. 📊 **61% → 85% Retrieval Accuracy** across 5 RAG strategies with <37ms latency (ApexRAG).
+6. 🏅 **Vice President** of AI & ML Department & Hack2Future 2.0 Nokia Track Finalist (Top 60 of 570+ teams).
+7. 🎓 **8.50 CGPA** in B.E. CSE (AI & ML) with **9 Verified Certifications** and **104 LeetCode Solved**.`
   },
   {
     id: "download_resume",
@@ -578,10 +580,10 @@ The art and science of structuring inputs to guide LLMs toward high-quality outp
     handler: () => `### Complete Project Portfolio
 
 1. 🌐 **Atlas AI Resume**: Interactive RAG portfolio with Recruiter Telemetry Console & KB Studio.
-2. ⚡ **AIOps Root Cause Correlator**: Autonomous incident engine — 0.78s resolution, 100% Top-1 RCA accuracy.
+2. ⚡ **AIOps Root Cause Correlator**: Autonomous incident engine — <45ms MTTR, 100% Top-1 RCA accuracy.
 3. 📚 **VersionRAG**: Enterprise RAG — 62.5% → 0.0% hallucination, 98.4% retrieval precision.
-4. 🔧 **GitHub MCP Toolkit**: Fault-tolerant MCP server — 64% → 100% intent accuracy.
-5. 📊 **ApexRAG**: RAG evaluation benchmark — 61% → 85% retrieval accuracy across 5 strategies.
+4. 🔧 **GitHub MCP Toolkit**: Fault-tolerant MCP server — 64% → 100% intent accuracy, 0.8µs DLP scanner.
+5. 📊 **ApexRAG**: RAG evaluation benchmark — 61% → 85% retrieval accuracy across 5 strategies (<37ms latency).
 
 *Which project would you like to explore in detail?*`
   },
@@ -592,7 +594,7 @@ The art and science of structuring inputs to guide LLMs toward high-quality outp
     handler: () => `### Flagship Projects
 
 **AIOps Root Cause Correlator** and **VersionRAG** are Kartik's flagship engineering accomplishments:
-• **AIOps RCA**: Solves cascading alert storms in 0.78s with 100% accuracy using EWMA + causal DAG traversal.
+• **AIOps RCA**: Solves cascading alert storms in <45ms with 100% accuracy using MicroRCA++ PageRank + Kafka KRaft + Linux eBPF.
 • **VersionRAG**: Eliminates cross-version hallucination from 62.5% to 0.0% with version-partitioned vector indexing.`
   },
   {
@@ -602,11 +604,12 @@ The art and science of structuring inputs to guide LLMs toward high-quality outp
     handler: () => `### Project Achievements & Metrics
 
 • **100% Top-1 RCA Accuracy** across 30 benchmark scenarios (AIOps RCA).
-• **0.78s Resolution Time** down from 1-4 hours of manual tracing (AIOps RCA).
+• **<45ms Resolution Time** down from 1-4 hours of manual tracing (AIOps RCA).
 • **62.5% → 0.0% Hallucination** in deprecated API calls (VersionRAG).
 • **41.7% → 98.4% Retrieval Precision** at 5.4ms HNSW latency (VersionRAG).
-• **64% → 100% Intent Execution Accuracy** (GitHub MCP Toolkit).
-• **61% → 85% Retrieval Accuracy** across 5 strategies (ApexRAG).`
+• **64% → 100% Intent Execution Accuracy** and 0.8µs Outbound DLP (GitHub MCP Toolkit).
+• **61% → 85% Retrieval Accuracy** across 5 strategies at <37ms latency (ApexRAG).
+• **-64.3% RMSE / -67.6% MAE** in AQI time-series forecasting across 29,531 records (SPARK IIT).`
   },
 
   // ==================== 7. AIOPS ROOT CAUSE CORRELATOR ====================
@@ -617,18 +620,19 @@ The art and science of structuring inputs to guide LLMs toward high-quality outp
     handler: () => `### Project Spotlight: AIOps Root Cause Correlator
 
 • ⚡ **Overview**: Autonomous incident correlation engine for microservice environments.
-• 🛠️ **Tech Stack**: Python, FastAPI, PostgreSQL, Redis, NetworkX, Three.js, WebSockets, pgvector.
+• 🛠️ **Tech Stack**: Python, FastAPI, PostgreSQL, Redis, NetworkX, Three.js, WebSockets, pgvector, Kafka KRaft, Linux eBPF, gRPC.
 • 📊 **Key Metrics**:
-  - Resolves cascading alert storms in **0.78s** (down from 1-4 hours manual tracing).
+  - Resolves cascading alert storms in **<45ms** (down from 1-4 hours manual tracing).
   - **100% Top-1 RCA accuracy** across 30 benchmark scenarios.
   - **100% precision/recall** in false-positive alert suppression.
 • ⚡ **Key Features**:
-  1. **EWMA Anomaly Detection**: Dynamic z > 2.0σ threshold with causal DAG traversal in NetworkX.
-  2. **3D Topology Visualizer**: Real-time Three.js/WebGL telemetry with streaming WebSockets.
-  3. **Counterfactual Simulation**: What-if blast radius simulation over PostgreSQL 16 + pgvector.
+  1. **MicroRCA++ Personalized PageRank**: Dynamic causal graph traversal on call graphs with Linux eBPF sys_enter_futex probes.
+  2. **Kafka KRaft 10K Ring Buffer**: High-throughput distributed event streaming with zero Zookeeper dependency.
+  3. **3D Topology Visualizer**: Real-time Three.js/WebGL telemetry with streaming WebSockets.
+  4. **Counterfactual Simulation**: What-if blast radius simulation over PostgreSQL 16 + pgvector.
 • 🐙 **GitHub**: [github.com/kartik-012/aiops-rca](https://github.com/kartik-012/aiops-rca)
 
-*Would you like to know about the EWMA anomaly detection or 3D visualizer?*`
+*Would you like to know about the MicroRCA++ PageRank algorithm or 3D visualizer?*`
   },
   {
     id: "explain_aiops_rca",
@@ -781,11 +785,17 @@ The art and science of structuring inputs to guide LLMs toward high-quality outp
     id: "certifications",
     exactMatches: ["certifications", "certificates", "credentials", "licenses", "show all certifications"],
     patterns: ["certifications", "credentials", "show all certifications", "certificates"],
-    handler: () => `### Certifications
+    handler: () => `### 9 Verified Industry Certifications
 
-1. ☁️ **Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate**: Generative AI, ML, OCI AI Services, LLMs.
-2. ⚡ **AWS Training & Certification – Fundamentals of Machine Learning and AI**: Core AI algorithms, SageMaker, Bedrock, NLP.
-3. 📊 **Tata – GenAI Powered Data Analytics Job Simulation (Forage)**: Generative AI, Data Analytics, Prompt Engineering.
+1. 🤖 **Fundamentals of Agents** — Hugging Face (2026): Agentic AI, ReAct Framework, Tool Calling, Autonomous Agents.
+2. ☁️ **Agentic AI Certified Foundations Associate** — Oracle (2026): Enterprise Agentic Systems, OCI AI, Autonomous Workflows.
+3. 🔍 **AI Vector Search Certified Professional** — Oracle (2026): HNSW Indexing, Vector Search, Semantic Retrieval.
+4. 🔬 **Machine Learning Internship (1-Month Intensive)** — Cognifyz Technologies (2026): Supervised Learning, Feature Engineering, Model Evaluation.
+5. 📨 **Apache Kafka Essential Training: Building Scalable Applications** — LinkedIn Learning (2026): KRaft Consensus, Event Streaming, Distributed Messaging.
+6. ⚡ **Fundamentals of Machine Learning and AI** — AWS Training & Certification (2026): SageMaker, Bedrock, Deep Learning, Generative AI.
+7. ☁️ **Microsoft Azure: Describe Cloud Computing** — Microsoft (2026): Cloud Architecture, High Availability, Scalability.
+8. 💼 **Data Analytics Job Simulation** — Deloitte (Forage) (2026): Data Wrangling, Business Intelligence, Client Reporting.
+9. 📊 **GenAI Powered Data Analytics Job Simulation** — Tata Group (Forage) (2026): Generative AI, Prompt Engineering, Exploratory Data Analytics.
 
 *Would you like details on any specific certification?*`
   },
@@ -919,11 +929,11 @@ Thank you for your interest! Kartik is actively open to AI Engineering and Gener
     patterns: ["why hire", "why should we hire", "reasons to hire", "why you", "right candidate", "different from other candidates"],
     handler: () => `### Why Hire Kartik Raikar? (Top 5 Reasons)
 
-1. ⚡ **Production AI with Measurable Impact**: 0.78s incident resolution (AIOps RCA), 62.5% → 0.0% hallucination (VersionRAG).
-2. 📚 **RAG Architecture Expert**: Version-partitioned indexing, 98.4% retrieval precision, 5 strategy benchmarking.
-3. 🔧 **LLM Tooling & Safety**: MCP server with 100% intent accuracy, zero prompt injections, reversible workflows.
+1. ⚡ **Production AI with Measurable Impact**: <45ms incident resolution (AIOps RCA), 62.5% → 0.0% hallucination (VersionRAG), 64.3% RMSE reduction (SPARK IIT).
+2. 📚 **RAG Architecture Expert**: Version-partitioned indexing, 98.4% retrieval precision, 5 strategy benchmarking, AST parent-document chunking.
+3. 🔧 **LLM Tooling & Safety**: MCP server with 100% intent accuracy, zero prompt injections, 0.8µs Outbound Shannon entropy DLP.
 4. 📊 **Scientific Evaluation Rigor**: Built ApexRAG systematically isolating retrieval bottlenecks across 2,580 chunks.
-5. 🏅 **Leadership & Credentials**: VP of AI&ML Dept, 8.50 CGPA, 3 certifications (Oracle, AWS, Tata).
+5. 🏅 **Leadership & Credentials**: VP of AI&ML Dept, 8.50 CGPA, 9 verified industry certifications (Hugging Face, Oracle, AWS, Kafka, Azure, Deloitte, Tata), 104 LeetCode solved.
 
 *Would you like to schedule an interview or view his GitHub repositories?*`
   },
@@ -933,10 +943,10 @@ Thank you for your interest! Kartik is actively open to AI Engineering and Gener
     patterns: ["strengths", "key strengths", "greatest strengths"],
     handler: () => `### Strengths
 
-1. **Measurable Impact Focus**: Every project delivers quantifiable improvements (0.78s, 0.0% hallucination, 100% accuracy).
-2. **End-to-End AI Engineering**: From RAG pipeline design to production deployment with FastAPI, PostgreSQL, and Docker.
-3. **Security-First Mindset**: Two-phase preview protocols, ABAC security, prompt injection defense.
-4. **Scientific Rigor**: Systematic benchmarking and evaluation (ApexRAG's 5-strategy analysis).`
+1. **Measurable Impact Focus**: Every project delivers quantifiable improvements (<45ms RCA, 0.0% hallucination, 64.3% RMSE cut, 100% intent accuracy).
+2. **End-to-End AI Engineering**: From RAG pipeline design to production deployment with FastAPI, PostgreSQL, Redis, Kafka KRaft, and Docker.
+3. **Security-First Mindset**: Two-phase preview protocols, Outbound Shannon entropy DLP, SHA-256 Saga rollback journals.
+4. **Scientific Rigor**: Systematic benchmarking and evaluation (ApexRAG's 5-strategy analysis, Prophet vs SARIMAX).`
   },
   {
     id: "weaknesses",
@@ -979,7 +989,7 @@ The excitement of building AI systems that deliver measurable, real-world impact
     handler: () => `### Hobbies & Personal Interests
 
 • Exploring new AI research papers and implementing RAG architectures.
-• Competitive algorithmic coding on LeetCode.
+• Competitive algorithmic coding on LeetCode (104 Solved).
 • Contributing to open-source AI tooling and frameworks.`
   },
   {
@@ -988,7 +998,7 @@ The excitement of building AI systems that deliver measurable, real-world impact
     patterns: ["coding profiles", "competitive coding", "leetcode profile"],
     handler: () => `### Coding Profiles & DSA
 
-• **LeetCode**: [leetcode.com/u/kartikraikar2005](https://leetcode.com/u/kartikraikar2005)
+• **LeetCode**: [leetcode.com/u/kartikraikar2005](https://leetcode.com/u/kartikraikar2005) (104 Solved: 30 Easy / 50 Medium / 24 Hard)
 • **GitHub**: [github.com/kartik-012](https://github.com/kartik-012)
 • **HackerRank**: [hackerrank.com/kartikraikar2005](https://hackerrank.com/kartikraikar2005)
 • **CodeChef**: [codechef.com/users/kartikraikar](https://codechef.com/users/kartikraikar)`
@@ -1011,9 +1021,9 @@ The excitement of building AI systems that deliver measurable, real-world impact
     handler: () => `### Smart Project Recommendations
 
 • 🥇 **Best for AI Engineering**: **VersionRAG** — Demonstrates advanced RAG architecture with version-partitioned indexing and 98.4% precision.
-• ⚡ **Best for Production Impact**: **AIOps Root Cause Correlator** — 0.78s resolution with 100% accuracy in production microservice environments.
-• 🔧 **Best for LLM Tooling**: **GitHub MCP Toolkit** — Fault-tolerant MCP server with 100% intent accuracy.
-• 📊 **Best for Research Rigor**: **ApexRAG** — Systematic 5-strategy RAG evaluation benchmark.`
+• ⚡ **Best for Production Impact**: **AIOps Root Cause Correlator** — <45ms resolution with 100% accuracy in production microservice environments.
+• 🔧 **Best for LLM Tooling**: **GitHub MCP Toolkit** — Fault-tolerant MCP server with 100% intent accuracy and 0.8µs Outbound DLP.
+• 📊 **Best for Research Rigor**: **ApexRAG** — Systematic 5-strategy RAG evaluation benchmark with AST chunking.`
   },
 
   // ==================== 17. RECRUITER ASSISTANT ====================
@@ -1025,15 +1035,15 @@ The excitement of building AI systems that deliver measurable, real-world impact
 
 • **Recommendation**: **Strong Hire / Immediate Shortlist**
 • **Top Strengths**:
-  1. Production AI systems with measurable impact (0.78s RCA, 0.0% hallucination, 100% intent accuracy).
+  1. Production AI systems with measurable impact (<45ms RCA, 0.0% hallucination, 100% intent accuracy, -64.3% RMSE).
   2. Deep RAG expertise across multiple projects (VersionRAG, ApexRAG, Atlas AI Resume).
-  3. Security-first LLM tooling (GitHub MCP Toolkit with zero vulnerabilities).
-  4. VP of AI&ML Department with hackathon experience.
-  5. 8.50 CGPA with 3 industry certifications.
+  3. Security-first LLM tooling (GitHub MCP Toolkit with zero vulnerabilities and SHA-256 Saga journal).
+  4. VP of AI&ML Department with national hackathon finalist experience (Hack2Future 2.0 Nokia Track).
+  5. 8.50 CGPA with 9 verified industry certifications and 104 LeetCode solved.
 • **Suggested Interview Focus**:
   - Version-partitioned vector indexing in VersionRAG.
-  - EWMA anomaly detection in AIOps RCA.
-  - SHA-256 preview-token protocol in GitHub MCP Toolkit.`
+  - MicroRCA++ PageRank and Linux eBPF probes in AIOps RCA.
+  - SHA-256 preview-token protocol and Outbound Shannon entropy DLP in GitHub MCP Toolkit.`
   },
 
   // ==================== 18. ADVANCED FEATURES ====================

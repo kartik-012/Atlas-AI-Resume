@@ -271,7 +271,7 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
 
   const typingPhrases = [
     "Compiling matrix: Python, FastAPI, React, PostgreSQL, Redis, and Qdrant...",
-    "AIOps RCA Engine: Resolving cascading microservice alert storms in 0.78s with 100% Top-1 accuracy.",
+    "AIOps RCA Engine: Resolving cascading microservice alert storms in <45ms with 100% Top-1 accuracy.",
     "VersionRAG Architecture: Eliminating deprecated API hallucinations (62.5% → 0.0%) via version-partitioned indexing.",
     "GitHub MCP Toolkit: Zero prompt injections across 20 adversarial suites with SHA-256 preview tokens.",
     "ApexRAG Benchmark: Benchmarking 5 retrieval strategies across 2,580 chunks (61% → 85% accuracy)."
@@ -419,12 +419,11 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
     onTrackAction("simulate_aiops");
 
     const steps = [
-      "⚡ Ingesting 1,480 telemetry events/sec across 42 Kubernetes pods...",
-      "📉 Detecting EWMA dynamic anomaly threshold breach (z = 3.42σ > 2.0σ)...",
-      "🕸️ Building causal DAG topology graph in NetworkX across payment, auth, and database nodes...",
-      "🔍 Traversing dependency edges: identifying cascading propagation from postgres-connection-pool-exhaustion...",
+      "⚡ Ingesting 10K Kafka KRaft ring buffer with 80% backpressure shed & Linux eBPF sys_enter_futex tracing...",
+      "📉 Detecting 24h Fourier harmonic EWMA dynamic anomaly threshold breach (z = 3.42σ > 2.0σ)...",
+      "🕸️ Executing MicroRCA++ edge-weighted PageRank on causal dependency DAG...",
       "🎯 100% false-positive alert suppression achieved: 41 derivative alerts silenced.",
-      "✅ Top-1 Root Cause Isolated in 0.78s: [auth-service -> connection_pool_timeout]."
+      "✅ Top-1 Root Cause Isolated in 42ms (<45ms benchmark): [auth-service -> connection_pool_timeout]. Remediated via Online Thompson Sampling bandit with HMAC-SHA256 canary."
     ];
 
     steps.forEach((step, index) => {
@@ -434,7 +433,7 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
           setAiopsRunning(false);
           setAiopsResult({
             scenario: "Microservice Alert Storm (30 Benchmark Scenarios)",
-            stormDuration: "0.78s (Down from 1-4 hours manual tracing)",
+            stormDuration: "42ms (Down from ~2 hours manual tracing)",
             isolatedRootCause: "db_pool_timeout @ auth-service (Severity 1)",
             suppressedAlerts: 41,
             traversedNodes: 42,
@@ -1054,7 +1053,7 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
                   }`}
                 >
                   <Activity className="h-3.5 w-3.5" />
-                  <span>AIOps RCA (0.78s)</span>
+                  <span>AIOps RCA (&lt;45ms)</span>
                 </button>
                 <button
                   onClick={() => setActiveVerifier("versionrag")}
@@ -1102,7 +1101,7 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
                       AIOps Cascading Alert Storm Simulator
                     </h3>
                     <p className="text-xs text-slate-400 mt-0.5">
-                      Resume claim: Resolves microservice alert storms in 0.78s with 100% Top-1 RCA accuracy & 100% false-positive suppression.
+                      Resume claim: Resolves microservice alert storms in &lt;45ms with 100% Top-1 RCA accuracy &amp; 100% false-positive suppression.
                     </p>
                   </div>
                   <button
@@ -1128,8 +1127,8 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
                   </div>
                   <div className="p-3 rounded-xl bg-white/5 border border-white/5">
                     <span className="text-[10px] text-slate-400 uppercase font-mono">AIOps MTTR</span>
-                    <p className="text-sm font-bold text-emerald-400 mt-0.5">0.78 Seconds</p>
-                    <span className="text-[9px] text-emerald-500/80 font-mono">99.98% Latency Reduction</span>
+                    <p className="text-sm font-bold text-emerald-400 mt-0.5">&lt; 45 Milliseconds</p>
+                    <span className="text-[9px] text-emerald-500/80 font-mono">&gt;99.99% Latency Reduction</span>
                   </div>
                   <div className="p-3 rounded-xl bg-white/5 border border-white/5">
                     <span className="text-[10px] text-slate-400 uppercase font-mono">Top-1 Accuracy</span>
@@ -1904,7 +1903,7 @@ Requirements:
                       <span>MODULE 3</span>
                       <span>Root Cause Isolation</span>
                     </div>
-                    <div className="font-bold text-white text-xs">Topological Sort in 0.78s</div>
+                    <div className="font-bold text-white text-xs">MicroRCA++ PageRank in &lt;45ms</div>
                     <p className="text-xxs text-slate-400 leading-relaxed">
                       Silences 100% of downstream cascading derivative alerts, isolating the single root cause node with 100% Top-1 accuracy.
                     </p>
@@ -1916,7 +1915,7 @@ Requirements:
                     Production SRE Value:
                   </div>
                   <p>
-                    During a cascading database pool failure, 40+ microservices will simultaneously fire alerts (Auth timeout, Payment timeout, Gateway 502). Human on-call engineers spend 1 to 4 hours untangling log firehoses. AIOps RCA constructs the causal dependency tree and pinpoints the parent node in 0.78s, eliminating alert fatigue.
+                    During a cascading database pool failure, 40+ microservices will simultaneously fire alerts (Auth timeout, Payment timeout, Gateway 502). Human on-call engineers spend 1 to 4 hours untangling log firehoses. AIOps RCA constructs the causal dependency tree and pinpoints the parent node in &lt;45ms (Kafka KRaft ring buffer + Linux eBPF), eliminating alert fatigue.
                   </p>
                 </div>
               </div>
