@@ -129,7 +129,17 @@ function buildDefaultKnowledgeBase() {
     content: `Kartik Raikar Contact Info: Email: ${resumeData.email}. Phone/WhatsApp: ${resumeData.phone}. Location: ${resumeData.location}. GitHub: ${resumeData.github}. LinkedIn: ${resumeData.linkedin}. Portfolio: ${resumeData.portfolio}. Coding Profiles: ${resumeData.codingProfiles.map(p => `${p.platform} (${p.handle})`).join(", ")}.`
   });
 
-  // 4. Technical Skills
+  // 4. Experience & Internships
+  resumeData.experience.forEach(exp => {
+    chunks.push({
+      id: `experience-${exp.id}`,
+      title: `Experience: ${exp.role} at ${exp.company}`,
+      source: "Experience.pdf",
+      content: `Work Experience: ${exp.role} at ${exp.company} (${exp.period}, ${exp.location}). ${exp.description} Key Deliverables: ${exp.keyPoints.join(" ")} Technologies: ${exp.technologies.join(", ")}.`
+    });
+  });
+
+  // 5. Technical Skills
   chunks.push({
     id: "skills-languages",
     title: "Skills - Programming Languages & Frameworks",
@@ -146,12 +156,12 @@ function buildDefaultKnowledgeBase() {
 
   chunks.push({
     id: "skills-databases-devops",
-    title: "Skills - Databases & DevOps",
+    title: "Skills - Databases, DevOps & Observability",
     source: "Resume.pdf",
-    content: `Databases: ${resumeData.skills.database.join(", ")}. Tools & DevOps: ${resumeData.skills.tools.join(", ")}.`
+    content: `Databases: ${resumeData.skills.database.join(", ")}. Tools & DevOps: ${resumeData.skills.tools.join(", ")}. Observability: ${(resumeData.skills.observability || []).join(", ")}.`
   });
 
-  // 5. Projects
+  // 6. Projects
   resumeData.projects.forEach(p => {
     chunks.push({
       id: `project-${p.id}-summary`,
@@ -168,7 +178,7 @@ function buildDefaultKnowledgeBase() {
     });
   });
 
-  // 6. Achievements
+  // 7. Achievements & LeetCode
   resumeData.achievements.forEach(a => {
     chunks.push({
       id: `achievement-${a.id}`,
@@ -178,12 +188,12 @@ function buildDefaultKnowledgeBase() {
     });
   });
 
-  // 7. Certifications
+  // 8. Certifications
   chunks.push({
     id: "certifications-all-summary",
     title: "All Certifications - Complete List",
     source: "Certificates.pdf",
-    content: `Kartik Raikar holds ${resumeData.certifications.length} verified certifications: ${resumeData.certifications.map(c => `${c.title} (${c.issuer}, ${c.date})`).join("; ")}.`
+    content: `Kartik Raikar holds ${resumeData.certifications.length} verified professional certifications: ${resumeData.certifications.map(c => `${c.title} (${c.issuer}, ${c.date})`).join("; ")}.`
   });
 
   resumeData.certifications.forEach(c => {
@@ -195,40 +205,40 @@ function buildDefaultKnowledgeBase() {
     });
   });
 
-  // 8. Interview & Technical Knowledge Chunks
+  // 9. Interview & Technical Knowledge Chunks
   chunks.push({
     id: "interview-why-hire",
     title: "Interview Question: Why should we hire Kartik Raikar?",
     source: "Interview_Preparation.pdf",
-    content: "Why Hire Kartik Raikar? 1) Production AI Engineering: Built AIOps Root Cause Correlator achieving 100% Top-1 RCA accuracy in 0.78s and VersionRAG eliminating 62.5% hallucinated deprecated API calls to 0.0%. 2) RAG & Evaluation Expertise: Engineered ApexRAG benchmarking 5 retrieval strategies and improving accuracy from 61% to 85%. 3) MCP & LLM Tooling: Built GitHub MCP Toolkit improving intent execution accuracy from 64% to 100% with zero prompt injection vulnerabilities. 4) Full-Stack AI Fluency: Python, FastAPI, React.js, PostgreSQL (pgvector), Redis, Docker. 5) Verified Credentials: 8.50 CGPA, 3 certifications (Oracle AI, AWS ML, Tata GenAI), Vice President of AI&ML Department."
+    content: "Why Hire Kartik Raikar? 1) Real-World AI Experience: AI Intern at SPARK IIT (AQI analysis over 29,531 records, Prophet vs SARIMAX with RMSE down 64.3%, Streamlit dashboard, AI resume screening). 2) Production AI Engineering: Built AIOps Root Cause Correlator achieving 100% Top-1 RCA accuracy in <45ms (Kafka KRaft, Linux eBPF, gRPC) and VersionRAG eliminating 62.5% hallucinated deprecated API calls to 0.0% via 3-stage hybrid retrieval. 3) RAG & Evaluation Expertise: Engineered ApexRAG (AST parent-document chunking, CRAG, semantic cosine cache >=0.96, <37ms latency across 82 tests). 4) MCP Governance: Built Autonomous GitHub Agent Gateway MCP with 0.8µs Outbound Shannon entropy DLP, SHA-256 Saga rollback, 100% intent classification. 5) Verified Credentials: 8.50 CGPA, 9 certifications (Hugging Face Agents, Oracle Agentic AI, Oracle AI Vector Search, Cognifyz ML, Kafka LinkedIn, AWS ML/AI, Azure, Deloitte, Tata), VP of AI&ML Dept, 104 LeetCode solved."
   });
 
   chunks.push({
     id: "interview-technical-challenge",
     title: "Interview Question: Tell me about a complex technical challenge you solved.",
     source: "Interview_Preparation.pdf",
-    content: "Technical Challenge & Problem Solving: In VersionRAG, Kartik faced the critical challenge of cross-version code contamination where RAG systems would hallucinate deprecated API calls 62.5% of the time. Solution: 1) Designed database-enforced version-partitioned vector indexing that completely eliminated cross-version contamination (62.5% to 0.0%). 2) Engineered a structure-aware AST semantic diff engine that detects undocumented breaking changes with 94.2% accuracy. 3) Boosted retrieval precision @k=6 from 41.7% to 98.4% (+136%) at 5.4ms HNSW latency."
+    content: "Technical Challenge & Problem Solving: In VersionRAG, Kartik faced the critical challenge of cross-version code contamination where RAG systems hallucinate deprecated API calls 62.5% of the time. Solution: 1) Designed 3-stage hybrid retrieval with database-enforced SQL version partition gates, eliminating contamination from 62.5% to 0.0%. 2) Built polyglot AST semantic diff engine across Python, JS/TS, OpenAPI 3.x detecting breaking changes with 94.2% accuracy. 3) Boosted retrieval precision @k=6 from 41.7% to 98.4% (+136%) at 5.4ms HNSW latency. In AIOps RCA, resolved alert storms in <45ms using 24h Fourier harmonic EWMA and MicroRCA++ PageRank with Linux eBPF futex tracing."
   });
 
   chunks.push({
     id: "interview-rag-hallucinations",
     title: "Interview Question: How do you prevent and audit hallucinations in RAG systems?",
     source: "Interview_Preparation.pdf",
-    content: "RAG Reliability & Hallucination Mitigation Strategy: Kartik employs a multi-layered defense strategy: 1) Version-Partitioned Indexing (VersionRAG): Database-enforced version isolation eliminates cross-version contamination, reducing hallucinated deprecated API calls from 62.5% to 0.0%. 2) AST Semantic Diff Engine: Detects undocumented breaking changes with 94.2% accuracy. 3) Multi-Strategy Evaluation (ApexRAG): Benchmarked 5 retrieval strategies (BM25, Dense, Hybrid, Cross-Encoder, Query Router). 4) Path-Based Hashing: Eliminates data contamination and ID collisions."
+    content: "RAG Reliability & Hallucination Mitigation Strategy: Kartik employs a rigorous enterprise defense strategy: 1) Hierarchical AST Parent-Document Chunking (ApexRAG): 100-word child chunks for high-resolution vector search fused with 600-word parent chunks for generation context. 2) Version-Partitioned Indexing (VersionRAG): Database-enforced version isolation eliminating deprecated API hallucinations (62.5% to 0.0%). 3) Corrective RAG (CRAG): Self-reflective tripartite relevance grading and query reformulation. 4) Sub-millisecond Semantic Cosine Cache (>= 0.96). 5) Dual-Shield Guardrails: Pre-retrieval prompt injection and PII blocking."
   });
 
   chunks.push({
     id: "interview-scaling-latency",
     title: "Interview Question: How do you optimize latency and throughput in AI applications?",
     source: "Interview_Preparation.pdf",
-    content: "Latency & Scalability Optimization: Kartik achieves sub-second latency through: 1) HNSW Vector Indexing: 5.4ms retrieval latency in VersionRAG using pgvector HNSW indexes. 2) Causal DAG Traversal: 0.78s incident resolution in AIOps RCA using NetworkX. 3) Real-Time Streaming: WebSockets and SSE for immediate token delivery. 4) Caching: Redis for high-speed caching. 5) Circuit Breakers & Saga Rollback patterns in GitHub MCP Toolkit."
+    content: "Latency & Scalability Optimization: Kartik achieves production sub-second latency through: 1) HNSW Vector Indexing: 5.4ms retrieval latency in VersionRAG using pgvector HNSW indexes. 2) MicroRCA++ PageRank & eBPF: <45ms incident resolution in AIOps RCA over Kafka KRaft ring buffers. 3) Semantic Caching: Sub-millisecond cache hit delivery (>= 0.96 cosine threshold). 4) Real-Time Streaming: WebSockets and SSE streaming with TTFT <40ms. 5) Circuit Breakers & Saga Rollback patterns in GitHub MCP Gateway."
   });
 
   chunks.push({
     id: "interview-career-goals",
     title: "Interview Question: What are your career aspirations and ideal role?",
     source: "Interview_Preparation.pdf",
-    content: "Career Goals & Aspirations: Kartik aims to contribute as an AI Engineer, Generative AI Engineer, or LLM Applications Developer. He is passionate about building production-grade RAG pipelines, AI evaluation systems, LLM-driven automation tools (MCP servers), incident intelligence platforms, and high-reliability AI applications."
+    content: "Career Goals & Aspirations: Kartik aims to contribute as an AI Engineer, Generative AI Engineer, or LLM Applications Developer. He is passionate about building production-grade RAG pipelines, enterprise agentic workflows (MCP servers), incident intelligence platforms, and high-reliability AI applications."
   });
 
   return chunks;
@@ -381,20 +391,9 @@ async function searchKnowledgeBase(query: string, topN = 3): Promise<{ chunk: Kn
     .slice(0, topN);
 }
 
-// Build initial knowledge base or load from file
-if (fs.existsSync(kbFile)) {
-  try {
-    knowledgeBase = JSON.parse(fs.readFileSync(kbFile, "utf-8"));
-  } catch (e) {
-    console.error("Failed to read knowledge base file, rebuilding", e);
-    knowledgeBase = buildDefaultKnowledgeBase();
-    saveKnowledgeBase();
-  }
-} else {
-  // First startup, build from default resume data
-  knowledgeBase = buildDefaultKnowledgeBase();
-  saveKnowledgeBase();
-}
+// Build initial knowledge base
+knowledgeBase = buildDefaultKnowledgeBase();
+saveKnowledgeBase();
 calculateEmbeddings().catch(err => console.error("Async embedding calculation failed", err));
 
 // Rate limiters (generous limit for interactive recruiter testing)
@@ -674,9 +673,10 @@ app.post("/api/chat", apiLimiter, async (req, res) => {
 
 • 📄 **Interactive Resume Viewer**: Currently loaded on the main screen.
 • 📥 **Direct Download**: Use the **"Download Resume"** button in the top navigation bar.
+• 💼 **Experience**: AI Intern at **SPARK IIT** (AQI Analysis over 29,531 records, Prophet vs SARIMAX with RMSE down 64.3%).
 • 🎓 **Education**: B.E. in CSE (AI & ML) (Aug 2023 – Jul 2027), Jain College of Engineering (VTU) — **8.50 CGPA**.
-• 📜 **Credentials**: 3 Industry Certifications (Oracle, AWS, Tata).
-• 🚀 **Projects**: AIOps RCA, VersionRAG, GitHub MCP Toolkit, ApexRAG, Atlas AI Resume.
+• 📜 **Credentials**: 9 Verified Professional Certifications (Hugging Face Agents, Oracle Agentic AI, Oracle AI Vector Search, Cognifyz ML, Kafka LinkedIn, AWS ML/AI, Azure, Deloitte, Tata).
+• 🚀 **Projects**: AIOps RCA (<45ms RCA), VersionRAG (0.0% contamination), Autonomous GitHub Agent Gateway MCP (0.8µs DLP), ApexRAG (AST parent-doc chunking, CRAG), Atlas AI Resume.
 
 *Would you like me to highlight his technical skills or project achievements?*`;
 
@@ -690,7 +690,23 @@ app.post("/api/chat", apiLimiter, async (req, res) => {
 
 *Reach Kartik at **+91 8660910358** or **kartikraikar2005@gmail.com**.*`;
 
-    // 8. Education, College, Degree & CGPA
+    // 8. Work Experience & Internships
+    } else if (matchPattern(cleanLowerQuery, ["experience", "work experience", "internship", "intern", "spark iit", "spark", "cognifyz", "employment", "job"])) {
+      textReply = `### Kartik Raikar's Professional Experience & Internships
+
+1. 🏢 **AI Intern — SPARK IIT** *(Jul 2026 – Sep 2026 | Remote / India)*
+   • **Large-Scale AQI Analysis**: Analyzed 29,531 environmental records across 26 Indian cities to identify critical pollution clusters and seasonal trends.
+   • **Time-Series Forecasting**: Engineered comparative forecasting models using Facebook Prophet and SARIMAX, cutting prediction error by **64.3% RMSE** (from 249.54 to 89.03) and **67.6% MAE**.
+   • **Interactive Streamlit Dashboard**: Built multi-city real-time pollution visualizer and automated health advisory warnings.
+   • **AI Resume Screening**: Architected candidate evaluation workflow integrating LLM extraction pipelines.
+   • *Tech*: Python, Streamlit, Prophet, SARIMAX, Pandas, NumPy, scikit-learn, LLMs.
+
+2. 🧪 **Machine Learning Internship — Cognifyz Technologies** *(1-Month Intensive | 2026)*
+   • Hands-on predictive modeling pipelines, feature engineering, and cross-validation in scikit-learn.
+
+*Would you like to explore his production projects or certifications next?*`;
+
+    // 9. Education, College, Degree & CGPA
     } else if (matchPattern(cleanLowerQuery, ["education", "college", "university", "school", "degree", "b.e", "be", "bachelor", "jain college", "vtu", "gpa", "cgpa", "marks", "grade", "academics", "study", "branch", "engineering", "pu", "pre university"])) {
       textReply = `### Education & Academic Background
 
@@ -703,74 +719,91 @@ app.post("/api/chat", apiLimiter, async (req, res) => {
 
 *Would you like to explore his certifications or projects?*`;
 
-    // 9. Certifications
-    } else if (matchPattern(cleanLowerQuery, ["certificate", "certificates", "certification", "certifications", "cert", "certs", "credentials", "oracle", "aws", "tata", "forage"])) {
-      textReply = `### Kartik's 3 Verified Industry Certifications
+    // 10. Certifications
+    } else if (matchPattern(cleanLowerQuery, ["certificate", "certificates", "certification", "certifications", "cert", "certs", "credentials", "oracle", "aws", "tata", "forage", "hugging face", "kafka", "azure", "deloitte", "cognifyz"])) {
+      textReply = `### Kartik's 9 Verified Professional Certifications
 
-1. ☁️ **Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate**: Generative AI, ML, OCI AI Services, LLMs.
-2. ⚡ **AWS Training & Certification – Fundamentals of ML and AI**: SageMaker, Bedrock, NLP, Computer Vision.
-3. 📊 **Tata – GenAI Powered Data Analytics Job Simulation (Forage)**: GenAI, Data Analytics, Prompt Engineering.
+1. 🤖 **Fundamentals of Agents**: Hugging Face Agents Course (2026) — Autonomous agent architectures & ReAct loops.
+2. 🏛️ **Agentic AI Certified Foundations Associate**: Oracle (2026) — Autonomous decision systems & goal decomposition.
+3. 🔍 **AI Vector Search Certified Professional**: Oracle (2026) — Enterprise vector search & HNSW indexing algorithms.
+4. 🧠 **Machine Learning Internship (1-Month Intensive)**: Cognifyz Technologies (2026) — Predictive modeling & feature engineering.
+5. ⚡ **Apache Kafka Essential Training: Building Scalable Applications**: LinkedIn Learning (2026) — KRaft consensus & stream processing.
+6. ☁️ **Fundamentals of Machine Learning and AI**: AWS Training & Certification (2026) — SageMaker pipelines & Bedrock foundation models.
+7. 🌐 **Microsoft Azure: Describe Cloud Computing**: Microsoft (2026) — High availability & cloud infrastructure.
+8. 📊 **Data Analytics Job Simulation**: Deloitte (Forage, 2026) — Data wrangling & business intelligence.
+9. 💡 **GenAI Powered Data Analytics Job Simulation**: Tata Group (Forage, 2026) — Generative AI analytics & data storytelling.
 
 *Would you like details on any specific credential?*`;
 
-    // 10. Project: AIOps Root Cause Correlator
-    } else if (matchPattern(cleanLowerQuery, ["aiops", "root cause", "rca", "incident engine", "alert storm", "ewma", "anomaly detection", "networkx", "topology"])) {
-      textReply = `### Project Spotlight: AIOps Root Cause Correlator
+    // 11. Project: AIOps Root Cause Correlator
+    } else if (matchPattern(cleanLowerQuery, ["aiops", "root cause", "rca", "incident engine", "alert storm", "ewma", "anomaly detection", "networkx", "topology", "ebpf", "kraft", "kafka"])) {
+      textReply = `### Project Spotlight: AIOps Root Cause Correlator – Incident Engine
 
-• ⚡ **Overview**: Autonomous incident correlation engine for microservice environments.
-• 🛠️ **Tech Stack**: Python, FastAPI, PostgreSQL, Redis, NetworkX, Three.js, WebSockets, pgvector.
-• 📊 **Key Metrics**:
-  - Resolves cascading alert storms in **0.78s** (down from 1-4 hours).
+• ⚡ **Overview**: Autonomous incident correlation engine resolving cascading microservice alert storms.
+• 🛠️ **Tech Stack**: Python, FastAPI, PostgreSQL, pgvector, Redis, NetworkX, Three.js, WebSockets, Apache Kafka (KRaft), Linux eBPF, gRPC.
+• 📊 **Key Metrics & Innovations**:
+  - Resolves cascading alert storms in **<45ms** (down from ~2 hours of manual tracing).
   - **100% Top-1 RCA accuracy** across 30 benchmark scenarios.
-  - **100% precision/recall** in false-positive suppression.
-• ⚡ **Architecture**: EWMA anomaly detection (z > 2.0σ) + causal DAG traversal + 3D Three.js topology visualizer.
+  - Dynamic 24h Fourier harmonic EWMA anomaly detection (z > 2.0σ) with MicroRCA++ edge-weighted PageRank on causal dependency graphs.
+  - Linux eBPF kernel probes tracing \`sys_enter_futex\` contention.
+  - Kafka KRaft 10K ring buffer with 80% backpressure shedding and streaming gRPC :50051 telemetry.
+  - Online Thompson Sampling bandit for automated remediation with HMAC-SHA256 mobile canary approval.
+  - Backed by **118 unit & integration tests (100% pass rate)**.
 • 🐙 **GitHub**: [github.com/kartik-012/aiops-rca](https://github.com/kartik-012/aiops-rca)
 
-*Would you like to explore the EWMA detection or 3D visualizer?*`;
+*Would you like to explore the eBPF kernel tracing or MicroRCA++ PageRank?*`;
 
-    // 11. Project: VersionRAG
-    } else if (matchPattern(cleanLowerQuery, ["versionrag", "version rag", "documentation intelligence", "cross version", "deprecated api", "ast diff", "chain of version", "version partitioned"])) {
-      textReply = `### Project Spotlight: VersionRAG
+    // 12. Project: VersionRAG
+    } else if (matchPattern(cleanLowerQuery, ["versionrag", "version rag", "documentation intelligence", "cross version", "deprecated api", "ast diff", "chain of version", "version partitioned", "polyglot"])) {
+      textReply = `### Project Spotlight: VersionRAG – Documentation & Code Migration Intelligence
 
-• 📚 **Overview**: Enterprise RAG solving cross-version code contamination.
-• 🛠️ **Tech Stack**: Python 3.12, FastAPI, PostgreSQL, pgvector, React 18, TypeScript, Tailwind.
-• 📊 **Key Metrics**:
-  - Hallucinated deprecated API calls: **62.5% → 0.0%**.
-  - AST semantic diff accuracy: **94.2%**.
-  - Retrieval precision @k=6: **41.7% → 98.4% (+136%)** at 5.4ms HNSW latency.
+• 📚 **Overview**: Enterprise RAG architecture eliminating cross-version code contamination.
+• 🛠️ **Tech Stack**: Python 3.12, FastAPI, PostgreSQL, pgvector, React 18, TypeScript, TailwindCSS, Okapi BM25, Cross-Encoder, Docker.
+• 📊 **Key Metrics & Innovations**:
+  - 3-stage hybrid retrieval: SQL version partition gate + parallel Okapi BM25 ($k_1=1.5, b=0.75$) + pgvector HNSW + RRF ($k=60$) + Cross-Encoder reranking.
+  - Hallucinated deprecated API calls eliminated: **62.5% → 0.0%**.
+  - Retrieval precision @k=6 boosted: **41.7% → 98.4% (+136%)** at **5.4ms latency**.
+  - Polyglot AST semantic diff engine across Python \`ast\`, JS/TS, OpenAPI 3.x/Swagger 2.0 with ParamNode/ReturnTypeNode/ExceptionNode at **94.2% accuracy**.
+  - Live codebase vulnerability scanner & auto-refactor workbench CLI (\`python -m app.cli audit\`).
+  - Self-generating 3-Way Auto-RAGAS evaluation suite and Redis ZSET rate limiting across 40 tests.
 • 🐙 **GitHub**: [github.com/kartik-012/versionrag](https://github.com/kartik-012/versionrag)
 
-*Would you like to explore the version-partitioned indexing architecture?*`;
+*Would you like to explore the 3-stage hybrid retrieval pipeline?*`;
 
-    // 12. Project: GitHub MCP Toolkit
-    } else if (matchPattern(cleanLowerQuery, ["mcp", "mcp toolkit", "github mcp", "model context protocol", "fastmcp", "preview token", "sha-256", "saga rollback", "abac"])) {
-      textReply = `### Project Spotlight: GitHub MCP Toolkit
+    // 13. Project: Autonomous GitHub Agent Gateway MCP
+    } else if (matchPattern(cleanLowerQuery, ["mcp", "mcp toolkit", "github mcp", "model context protocol", "fastmcp", "preview token", "sha-256", "saga rollback", "abac", "gateway", "dlp"])) {
+      textReply = `### Project Spotlight: Autonomous GitHub Agent Gateway – MCP Governance Plane
 
-• 🔧 **Overview**: Production-ready MCP server for LLM-driven repository automation.
-• 🛠️ **Tech Stack**: Python, FastMCP, GitHub API, Ollama, Docker, GitHub Actions.
-• 📊 **Key Metrics**:
-  - Eliminated **14% blind bulk-mutation rate** via SHA-256 preview-token protocol.
-  - Intent execution accuracy: **64% → 100%**.
-  - **Zero prompt injections** across 20 adversarial test suites.
+• 🔧 **Overview**: Zero-trust governance plane over Model Context Protocol (MCP) for LLM-driven repository automation.
+• 🛠️ **Tech Stack**: Python, FastMCP, PyGithub, Pydantic, Docker, GitHub Actions, Redis.
+• 📊 **Key Metrics & Innovations**:
+  - Eliminated **14.0% blind state corruption to 0.0%**; achieved **100% intent classification** across 100 scenarios.
+  - Pure-Python Hybrid RRF ($k=60$) combining corpus TF-IDF with exact AST error-code matching (**0MB ML footprint**).
+  - Sub-microsecond (**0.8µs**) Outbound DLP scanner using Shannon entropy $H(X) \ge 3.8$ & ISO/IEC 7812 Luhn checksums to block secret exfiltration.
+  - 2-phase preview token protocol + append-only SHA-256 hash-chained Saga journal for out-of-order rollbacks by \`tx_id\`.
+  - RLock single-probe circuit breaker and adaptive compactor slashing context bloat by **-92.2%** across **120 unit tests (100% pass rate)**.
 • 🐙 **GitHub**: [github.com/kartik-012/github-mcp-toolkit](https://github.com/kartik-012/github-mcp-toolkit)
 
-*Would you like to learn about the ABAC security or Saga rollback?*`;
+*Would you like to learn about the 0.8µs DLP scanner or the Saga rollback journal?*`;
 
-    // 13. Project: ApexRAG
-    } else if (matchPattern(cleanLowerQuery, ["apexrag", "apex rag", "retrieval evaluation", "bm25", "cross encoder", "reranking", "query router", "retrieval benchmark"])) {
-      textReply = `### Project Spotlight: ApexRAG
+    // 14. Project: ApexRAG
+    } else if (matchPattern(cleanLowerQuery, ["apexrag", "apex rag", "retrieval evaluation", "bm25", "cross encoder", "reranking", "query router", "retrieval benchmark", "crag", "parent document"])) {
+      textReply = `### Project Spotlight: ApexRAG – Enterprise Zero-Cost RAG & Production Harness
 
-• 📊 **Overview**: Comprehensive RAG retrieval evaluation system.
-• 🛠️ **Tech Stack**: Python, FastAPI, ChromaDB, Sentence Transformers, Ollama, scikit-learn.
-• 📊 **Key Metrics**:
-  - **2,580 documentation chunks** and **100 human-verified Q&A pairs**.
-  - Retrieval accuracy: **61% (BM25) → 85% (Cross-Encoder Re-ranking)**.
-  - Established **ranking quality** as the primary bottleneck.
+• 📊 **Overview**: Production RAG harness and evaluation benchmark over 2,580 documentation chunks and 100 human-verified Q&A pairs.
+• 🛠️ **Tech Stack**: Python, FastAPI, ChromaDB, Sentence Transformers, Ollama, scikit-learn, OpenTelemetry, Prometheus, Docker.
+• 📊 **Key Metrics & Innovations**:
+  - Hierarchical AST parent-document chunking (100-word child for high-res vector retrieval / 600-word parent for LLM context).
+  - Hybrid BM25 + dense vector RRF ($k=60$) + Cross-Encoder reranker achieving Pareto-optimal latency **<37ms** across 82 tests (100% pass rate).
+  - Corrective RAG (CRAG) with self-reflective tripartite relevance grading, query reformulation, and sub-millisecond semantic cosine cache ($\ge 0.96$).
+  - Dense strategy router with Shannon entropy gating ($\le 1.25$) + Bayesian Thompson Sampling bandit.
+  - Multi-tenant clearance RBAC pre-filtering + dual-shield guardrails against PII and prompt injection.
+  - GitHub Actions CI/CD evaluation gate, OTel waterfall flamegraphs, Prometheus metrics, and SSE streaming TTFT <40ms.
 • 🐙 **GitHub**: [github.com/kartik-012/apexrag](https://github.com/kartik-012/apexrag)
 
-*Would you like to explore the 5 retrieval strategies?*`;
+*Would you like to explore the AST parent-document chunking or CRAG tripartite grading?*`;
 
-    // 14. Project: Atlas AI Resume
+    // 15. Project: Atlas AI Resume
     } else if (matchPattern(cleanLowerQuery, ["atlas ai resume", "telemetry", "kb studio", "knowledge base studio", "rate limit", "rag portfolio", "resume assistant"])) {
       textReply = `### Project Spotlight: Atlas AI Resume
 
@@ -778,84 +811,89 @@ app.post("/api/chat", apiLimiter, async (req, res) => {
 • 🛠️ **Tech Stack**: React 19, TypeScript, Node.js, Express, Gemini API, Vector Search, TailwindCSS, Vite.
 • ⚡ **Key Features**:
   1. **Dual-Layer RAG Engine**: Vector similarity search + LLM streaming + offline heuristic fallbacks.
-  2. **Recruiter Telemetry Console**: Real-time dashboard tracking visitor analytics.
-  3. **Knowledge Base Admin Studio**: Dynamic indexing and search diagnostics.
+  2. **Recruiter Telemetry Console**: Real-time dashboard tracking visitor analytics, token economics, and TTFT metrics.
+  3. **Interactive Benchmark Verifiers**: Proof mode executing real tests on AIOps, VersionRAG, MCP, and ApexRAG.
+  4. **Recruiter JD Matcher & Screening Packet**: Automated semantic job description fit scoring and 1-click executive packet generator.
+  5. **Knowledge Base Admin Studio**: Dynamic indexing and search diagnostics.
 • 🐙 **GitHub**: [github.com/kartik-012/Atlas-AI-Resume](https://github.com/kartik-012/Atlas-AI-Resume)
 
 *Would you like to explore another project or view his credentials?*`;
 
-    // 15. All Projects Overview
+    // 16. All Projects Overview
     } else if (matchPattern(cleanLowerQuery, ["project", "projects", "what did you build", "built", "work", "portfolio", "showcase"])) {
       textReply = `### Kartik's 5 Production Projects
 
-1. 🌐 **Atlas AI Resume**: RAG portfolio with Recruiter Telemetry Console & KB Studio.
-2. ⚡ **AIOps Root Cause Correlator**: 0.78s incident resolution, 100% Top-1 RCA accuracy.
-3. 📚 **VersionRAG**: 62.5% → 0.0% hallucination, 98.4% retrieval precision.
-4. 🔧 **GitHub MCP Toolkit**: 64% → 100% intent accuracy, zero prompt injections.
-5. 📊 **ApexRAG**: 61% → 85% retrieval accuracy across 5 strategies.
+1. 🌐 **Atlas AI Resume**: RAG portfolio with Recruiter Telemetry, Benchmark Verifiers, and KB Studio.
+2. ⚡ **AIOps Root Cause Correlator**: <45ms RCA time, 100% Top-1 accuracy, Kafka KRaft, Linux eBPF, gRPC.
+3. 📚 **VersionRAG**: 3-stage hybrid retrieval, 62.5% → 0.0% hallucination, 98.4% retrieval precision at 5.4ms.
+4. 🔧 **Autonomous GitHub Agent Gateway MCP**: 14.0% → 0.0% blind state corruption, 0.8µs Outbound Shannon entropy DLP, SHA-256 Saga journal.
+5. 📊 **ApexRAG**: AST parent-doc chunking, CRAG, hybrid BM25 + dense RRF, <37ms latency across 82 tests.
 
 *Which project would you like to dive into?*`;
 
-    // 16. Technical Skills & Tech Stack
-    } else if (matchPattern(cleanLowerQuery, ["skill", "skills", "tech stack", "technology", "technologies", "languages", "python", "typescript", "fastapi", "react", "nextjs", "database", "postgres", "qdrant", "redis", "docker", "tools", "frameworks", "stack", "pytorch"])) {
+    // 17. Technical Skills & Tech Stack
+    } else if (matchPattern(cleanLowerQuery, ["skill", "skills", "tech stack", "technology", "technologies", "languages", "python", "typescript", "fastapi", "react", "nextjs", "database", "postgres", "qdrant", "redis", "docker", "tools", "frameworks", "stack", "pytorch", "grpc", "kafka", "ebpf", "opentelemetry", "prometheus"])) {
       textReply = `### Kartik's Technical Stack & Skills
 
-• **Programming**: Python, JavaScript, TypeScript, SQL
-• **Frameworks**: FastAPI, React.js, Next.js, PyTorch
-• **AI/ML**: Generative AI, LLMs, RAG, Transformers, AI Evaluation, Prompt Engineering, Semantic Search, Vector Search
-• **Databases**: PostgreSQL (pgvector), MySQL, MongoDB, Redis, Qdrant
-• **Tools**: Git, GitHub, Docker, Linux, Postman, VS Code, GitHub Actions
-• **Data & Viz**: Power BI, Tableau, Microsoft Excel
+• **Frameworks & APIs**: FastAPI, React.js, Next.js, FastMCP, Pydantic, PyGithub, gRPC, OpenAPI/Swagger
+• **AI/ML & Retrieval**: Generative AI, LLMs, RAG, Transformers, AI Evaluation, Prompt Engineering, BM25, Reciprocal Rank Fusion (RRF), Cross-Encoder Reranking, Semantic Search, Vector Search, scikit-learn, PyTorch
+• **Databases & Messaging**: PostgreSQL, pgvector, MySQL, MongoDB, Redis, Qdrant, ChromaDB, Apache Kafka (KRaft)
+• **Observability & Infrastructure**: OpenTelemetry (OTLP), Prometheus, Linux eBPF, Docker, Docker Compose, Linux, Git, GitHub Actions
+• **Data & Visualization**: Pandas, Streamlit, Prophet, SARIMAX, Three.js, Power BI, Tableau, Microsoft Excel
+• **Languages**: Python, JavaScript, TypeScript, SQL
 
 *Would you like details on how any specific tool was used in his projects?*`;
 
-    // 17. Why Hire Kartik?
+    // 18. Why Hire Kartik?
     } else if (matchPattern(cleanLowerQuery, ["why hire", "hire kartik", "why should we hire", "why you", "why should i hire", "reasons to hire", "sell yourself", "pitch"])) {
       textReply = `### Why Hire Kartik Raikar? (Top 5 Reasons)
 
-1. ⚡ **Production AI with Measurable Impact**: 0.78s incident resolution (AIOps RCA), 62.5% → 0.0% hallucination (VersionRAG).
-2. 📚 **RAG Architecture Expert**: Version-partitioned indexing, 98.4% retrieval precision, 5-strategy benchmarking.
-3. 🔧 **LLM Tooling & Safety**: MCP server with 100% intent accuracy, zero prompt injections.
-4. 📊 **Scientific Evaluation Rigor**: ApexRAG systematically isolating retrieval bottlenecks.
-5. 🏅 **Leadership & Credentials**: VP of AI&ML Dept, 8.50 CGPA, 3 certifications (Oracle, AWS, Tata).
+1. 🏢 **Real Industry AI Experience**: AI Intern at **SPARK IIT** (AQI analysis over 29,531 records, Prophet vs SARIMAX with RMSE down 64.3%, Streamlit dashboard, AI resume screening).
+2. ⚡ **Production Systems Engineering**: Built AIOps RCA with <45ms incident resolution (Kafka KRaft, Linux eBPF, gRPC) and VersionRAG eliminating 62.5% hallucination to 0.0% via 3-stage hybrid retrieval.
+3. 📚 **Advanced RAG & Agentic Mastery**: AST parent-document chunking, CRAG self-reflective grading, semantic caching in ApexRAG; zero-trust MCP gateway with 0.8µs DLP and SHA-256 Saga rollback.
+4. 📜 **9 Verified Credentials & LeetCode Rigor**: 9 industry certifications (Hugging Face Agents, Oracle Agentic AI, Oracle AI Vector Search, Cognifyz ML, Kafka, AWS, Azure, Deloitte, Tata) and **104 LeetCode problems solved** (30E / 50M / 24H).
+5. 🏅 **Leadership & Academic Excellence**: Vice President of the AI & ML Department, 8.50 CGPA, Top 60 national finalist in Hack2Future 2.0 (IIIT Dharwad).
 
 *Would you like to schedule an interview or view his GitHub?*`;
 
-    // 18. Technical Challenge
+    // 19. Technical Challenge
     } else if (matchPattern(cleanLowerQuery, ["technical challenge", "challenge", "hardest problem", "bug", "difficult problem", "problem solved"])) {
-      textReply = `### Technical Challenge: Cross-Version Contamination in VersionRAG
+      textReply = `### Technical Challenge: Cross-Version Contamination & Alert Storms
 
-• **The Problem**: RAG systems hallucinating deprecated API calls 62.5% of the time due to cross-version contamination.
-• **Kartik's Solution**:
-  1. **Version-Partitioned Indexing**: Database-enforced version isolation eliminated contamination (62.5% → 0.0%).
-  2. **AST Semantic Diff Engine**: Detects undocumented breaking changes with 94.2% accuracy.
-  3. **Retrieval Precision**: Boosted from 41.7% to 98.4% (+136%) at 5.4ms HNSW latency.
+• **Challenge 1: VersionRAG Cross-Version Code Contamination**:
+  - *Problem*: RAG systems hallucinated deprecated API calls 62.5% of the time.
+  - *Kartik's Solution*: Designed 3-stage hybrid retrieval with database-enforced SQL version partition gates, driving contamination from 62.5% to 0.0% and boosting precision @k=6 from 41.7% to 98.4% at 5.4ms latency with a polyglot AST semantic diff engine (94.2% accuracy).
 
-*Would you like to explore the AIOps RCA challenge next?*`;
+• **Challenge 2: AIOps Alert Storms (<45ms RCA)**:
+  - *Problem*: Cascading microservice alerts took ~2 hours of manual tracing.
+  - *Kartik's Solution*: Dynamic 24h Fourier harmonic EWMA (z > 2.0σ) + MicroRCA++ edge-weighted PageRank on causal dependency graphs, isolated with Linux eBPF \`sys_enter_futex\` kernel probes in <45ms with 100% Top-1 accuracy.
 
-    // 19. RAG & Hallucination
-    } else if (matchPattern(cleanLowerQuery, ["hallucination", "rag", "faithfulness", "grounding", "prevent hallucination"])) {
-      textReply = `### RAG Reliability & Hallucination Mitigation
+*Would you like to explore the AST diff engine or the eBPF kernel tracing?*`;
 
-1. 📚 **Version-Partitioned Indexing** (VersionRAG): 62.5% → 0.0% hallucination.
-2. 🎯 **AST Semantic Diff**: Detects undocumented breaking changes (94.2% accuracy).
-3. 📊 **Multi-Strategy Evaluation** (ApexRAG): Benchmarked 5 strategies, 61% → 85%.
-4. 🔒 **Path-Based Hashing**: Eliminates data contamination and ID collisions.
-5. 🤖 **Dynamic Query Router**: Logistic Regression selects optimal retrieval strategy per query.
+    // 20. RAG & Hallucination
+    } else if (matchPattern(cleanLowerQuery, ["hallucination", "rag", "faithfulness", "grounding", "prevent hallucination", "real rag"])) {
+      textReply = `### Enterprise RAG Reliability & Hallucination Mitigation
+
+1. 🧩 **Hierarchical AST Parent-Document Chunking** (ApexRAG): 100-word child chunks for high-res vector retrieval fused with 600-word parent chunks for generation context.
+2. 📚 **Version-Partitioned Indexing** (VersionRAG): Database-enforced version isolation eliminating deprecated API hallucinations (62.5% → 0.0%).
+3. 🔄 **Corrective RAG (CRAG)**: Self-reflective tripartite relevance grading and query reformulation.
+4. ⚡ **Sub-millisecond Semantic Cosine Cache** (threshold $\ge 0.96$): Instant zero-cost responses.
+5. 🛡️ **Dual-Shield Guardrails**: Intercepts prompt injections and PII before retrieval or inference occurs.
 
 *Would you like to see how VersionRAG or ApexRAG implements this?*`;
 
-    // 20. Leadership & Achievements
-    } else if (matchPattern(cleanLowerQuery, ["leadership", "vice president", "achievements", "hackathon", "hack2future", "innovex", "team velora"])) {
+    // 21. Leadership & Achievements
+    } else if (matchPattern(cleanLowerQuery, ["leadership", "vice president", "achievements", "hackathon", "hack2future", "innovex", "team velora", "leetcode"])) {
       textReply = `### Leadership & Achievements
 
-• 🏅 **Vice President – AI & ML Department**: Led departmental initiatives and coordinated technical and academic programs at Jain College of Engineering, Belagavi.
-• 🏆 **Hack2Future 2.0 – IIIT Dharwad**: Competed as part of Team Velora in a national-level hackathon.
-• 💻 **Code for Innovex – NITTE NMAM IT**: Participated in a 24-hour national-level hackathon.
+• 🏅 **Vice President – AI & ML Department**: Elected VP at Jain College of Engineering, Belagavi. Led departmental technical symposiums and academic programs.
+• 🏆 **Hack2Future 2.0 – IIIT Dharwad (Nokia Track)**: Top 60 finalist team from 570+ national registrations. Built KubeShield (graph-based Kubernetes attack-path visualizer, 36h hackathon).
+• 💻 **Code for Innovex 2025 – NMAM IT**: 24-hour national hackathon by NSS IT Wing.
+• ⚡ **LeetCode Problem Solving**: 104 problems solved (30 Easy, 50 Medium, 24 Hard).
 
 *Would you like to explore his projects or certifications?*`;
 
-    // 21. Greetings & Casual
+    // 22. Greetings & Casual
     } else if (
       cleanLowerQuery === "hi" || 
       cleanLowerQuery === "hello" || 
@@ -868,41 +906,44 @@ app.post("/api/chat", apiLimiter, async (req, res) => {
     ) {
       textReply = `Hello! 👋 I'm **Atlas AI**, Kartik Raikar's candidate representative.
 
-I'm ready to answer any questions about Kartik's AI engineering background, projects, and credentials.
+I'm ready to answer any questions about Kartik's AI engineering background, industry experience, projects, and credentials.
 
 **Quick topics to explore:**
-• ⚡ **AIOps Root Cause Correlator**: 0.78s incident resolution, 100% accuracy
-• 📚 **VersionRAG**: 62.5% → 0.0% hallucination, 98.4% precision
-• 🔧 **GitHub MCP Toolkit**: 64% → 100% intent accuracy
-• 📊 **ApexRAG**: 61% → 85% retrieval accuracy across 5 strategies
-• 📜 **3 Certifications**: Oracle AI, AWS ML, Tata GenAI
+• 🏢 **SPARK IIT AI Internship**: AQI analysis (29,531 records), Prophet vs SARIMAX (RMSE down 64.3%)
+• ⚡ **AIOps Root Cause Correlator**: <45ms incident resolution, 100% accuracy, Kafka KRaft & eBPF
+• 📚 **VersionRAG**: 62.5% → 0.0% hallucination, 98.4% precision at 5.4ms
+• 🔧 **Autonomous GitHub Agent Gateway MCP**: 0.8µs Shannon entropy DLP, SHA-256 Saga rollback
+• 📊 **ApexRAG**: AST parent-doc chunking, CRAG, <37ms latency across 82 tests
+• 📜 **9 Verified Certifications**: Hugging Face, Oracle (Agentic AI & Vector Search), AWS, Kafka, Azure, Deloitte, Tata
 
 *Feel free to ask a question or pick a topic below!*`;
 
-    // 22. Bio / Introduction
+    // 23. Bio / Introduction
     } else if (matchPattern(cleanLowerQuery, ["who is", "about kartik", "tell me about yourself", "bio", "introduction", "overview", "summary", "introduce yourself", "profile"])) {
       textReply = `**Kartik Raikar** is an AI Engineer specializing in **Generative AI, LLMs, RAG, and AI Evaluation**, pursuing B.E. in CSE (AI & ML) at **Jain College of Engineering, Belagavi** (VTU, **8.50 CGPA**, Aug 2023 – Jul 2027).
 
 **Core Highlights:**
-• ⚡ **AIOps**: Built incident correlation engine with 100% Top-1 RCA accuracy in 0.78s.
-• 📚 **RAG Architecture**: Eliminated 62.5% hallucination to 0.0% in VersionRAG.
-• 🔧 **MCP Servers**: GitHub MCP Toolkit with 100% intent accuracy.
-• 🏅 **Leadership**: Vice President of AI & ML Department.
-• 📜 **Certified**: Oracle AI Foundations, AWS ML, Tata GenAI.
+• 🏢 **Industry Experience**: AI Intern at **SPARK IIT** (AQI analysis over 29,531 records, Prophet vs SARIMAX with RMSE down 64.3%, Streamlit dashboard, AI resume screening).
+• ⚡ **AIOps**: Built incident correlation engine with 100% Top-1 RCA accuracy in <45ms (Kafka KRaft, Linux eBPF, gRPC).
+• 📚 **RAG Architecture**: Eliminated 62.5% hallucination to 0.0% in VersionRAG via 3-stage hybrid retrieval.
+• 🔧 **MCP Governance**: Autonomous GitHub Agent Gateway MCP with 0.8µs DLP and SHA-256 Saga rollback.
+• 📊 **RAG Evaluation**: ApexRAG with AST parent-doc chunking, CRAG, and semantic caching (<37ms latency).
+• 🏅 **Leadership & Rigor**: Vice President of AI & ML Department, 9 certifications, 104 LeetCode solved.
 
 *Would you like to explore any project in detail or view his contact info?*`;
 
-    // 23. Context-Matched Fallback
+    // 24. Context-Matched Fallback
     } else if (contextText && bestMatch.score > 0.05) {
-      textReply = `Based on Kartik's official portfolio knowledge base:\n\n${bestMatch.chunk.content}\n\n*If you'd like to explore further, ask about his projects (AIOps RCA, VersionRAG, GitHub MCP Toolkit, ApexRAG), his 3 certifications, or his technical skills!*`;
+      textReply = `Based on Kartik's official portfolio knowledge base:\n\n${bestMatch.chunk.content}\n\n*If you'd like to explore further, ask about his experience at SPARK IIT, his projects (AIOps RCA, VersionRAG, GitHub MCP Gateway, ApexRAG), his 9 certifications, or his technical skills!*`;
     } else {
       textReply = `I'd be glad to help you learn more about Kartik Raikar! Here are key areas you can ask me about:
 
-1. 🚀 **His 5 Major Projects**: Atlas AI Resume, AIOps Root Cause Correlator, VersionRAG, GitHub MCP Toolkit, and ApexRAG.
-2. 🛠️ **Technical Stack**: Python, FastAPI, React.js, PostgreSQL, pgvector, Redis, Docker, PyTorch.
-3. 📜 **3 Certifications**: Oracle AI Foundations, AWS ML & AI, Tata GenAI.
-4. 🏅 **Leadership**: Vice President of AI & ML Department, hackathon competitor.
-5. 📞 **Contact**: Phone (+91 8660910358), Email, LinkedIn.
+1. 🏢 **Work Experience**: AI Intern at SPARK IIT (AQI analysis, Prophet vs SARIMAX, Streamlit, AI resume screening).
+2. 🚀 **His 5 Major Projects**: Atlas AI Resume, AIOps Root Cause Correlator, VersionRAG, Autonomous GitHub Agent Gateway MCP, and ApexRAG.
+3. 🛠️ **Technical Stack**: Python, FastAPI, React.js, PostgreSQL, pgvector, Redis, Kafka KRaft, Linux eBPF, Docker, PyTorch.
+4. 📜 **9 Certifications**: Hugging Face Agents, Oracle Agentic AI, Oracle AI Vector Search, Cognifyz ML, Kafka, AWS, Azure, Deloitte, Tata.
+5. 🏅 **Leadership & Problem Solving**: Vice President of AI & ML Department, Top 60 at Hack2Future 2.0, 104 LeetCode problems solved.
+6. 📞 **Contact**: Phone (+91 8660910358), Email, LinkedIn.
 
 Which area would you like to explore?`;
     }
@@ -973,22 +1014,45 @@ KARTIK'S VERIFIED GROUND TRUTH FACTS:
 - Full Name: Kartik Raikar
 - Role: AI Engineer — Generative AI — LLM Applications
 - Education: B.E. in Computer Science & Engineering (AI & ML) at Jain College of Engineering, Belagavi, VTU (Aug 2023 – Jul 2027, CGPA: 8.50/10.0). Pre-University: PCM at Jain PU College, Belagavi (2021–2023, 80%).
+- Experience / Internships:
+  • AI Intern at SPARK IIT (Jul 2026 – Sep 2026 | Remote / India):
+    - Conducted large-scale Air Quality Index (AQI) analysis across 29,531 records spanning 26 Indian cities.
+    - Engineered comparative Time-Series Forecasting models using Facebook Prophet and SARIMAX, cutting prediction error by 64.3% RMSE (from 249.54 to 89.03) and 67.6% MAE.
+    - Built an interactive multi-city Streamlit analytics dashboard for real-time pollution trend visualizer and automated health advisory warnings.
+    - Architected an AI-powered resume screening and candidate evaluation workflow integrating LLM extraction pipelines.
+  • Machine Learning Internship at Cognifyz Technologies (1-Month Intensive | 2026): Predictive modeling, feature engineering, and cross-validation pipelines.
 - Email: kartikraikar2005@gmail.com | Phone/WhatsApp: +91 8660910358
 - Location: Belagavi, Karnataka, India (Available for Remote, Hybrid, or Onsite roles)
 - GitHub: https://github.com/kartik-012 | LinkedIn: https://www.linkedin.com/in/kartik-raikar-kr | Portfolio: https://kartikportfolio-eta.vercel.app/ | Atlas AI Resume: https://atlas-ai-resume.vercel.app/
 - Professional Summary: AI Engineer specializing in Generative AI, LLMs, RAG, and AI evaluation. Experienced in building production-oriented AI applications using Python, FastAPI, React.js, SQL, vector databases, and modern LLM tooling.
-- 5 Major Projects:
-  1. Atlas AI Resume: RAG-Powered AI Portfolio & Interactive Resume Assistant (React 19, TypeScript, Node.js, Express, Gemini API, RAG, Vector Search, TailwindCSS, Vite)
-  2. AIOps Root Cause Correlator – Incident Engine: Autonomous incident correlation engine resolving cascading microservice alert storms in 0.78s (down from 1-4 hours), achieving 100% Top-1 RCA accuracy across 30 benchmark scenarios. EWMA anomaly detection (z > 2.0σ) with causal DAG traversal in NetworkX. 3D topology visualizer with Three.js/WebGL. (Python, FastAPI, PostgreSQL, Redis, NetworkX, Three.js, pgvector)
-  3. VersionRAG – Documentation Intelligence: Enterprise RAG eliminating cross-version code contamination. Hallucinated deprecated API calls from 62.5% to 0.0%. AST semantic diff engine with 94.2% accuracy. Retrieval precision @k=6 from 41.7% to 98.4% (+136%) at 5.4ms HNSW latency. 4-step Chain-of-Version reasoning pipeline. (Python 3.12, FastAPI, PostgreSQL, pgvector, React 18, TypeScript, Tailwind)
-  4. GitHub MCP Toolkit – Fault-Tolerant MCP Server: Production-ready Anthropic Model Context Protocol (MCP) server. Eliminated 14% blind bulk-mutation rate via SHA-256 preview-token protocol. Intent execution accuracy from 64% to 100%. Zero prompt injections across 20 adversarial suites. (Python, FastMCP, GitHub API, Ollama, Docker, GitHub Actions)
-  5. ApexRAG – RAG Retrieval Evaluation System: Comprehensive RAG evaluation benchmark over 2,580 docs and 100 Q&A pairs. Improved retrieval accuracy from 61% (BM25) to 85% (Cross-Encoder Re-ranking). Path-based hashing. Logistic Regression query router. (Python, FastAPI, ChromaDB, Sentence Transformers, Ollama, scikit-learn)
-- 3 Certifications:
-  - Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate
-  - AWS Training & Certification – Fundamentals of Machine Learning and Artificial Intelligence
-  - Tata – GenAI Powered Data Analytics Job Simulation (Forage)
-- Technical Skills: Programming: Python, JavaScript, TypeScript, SQL. Frameworks: FastAPI, React.js, Next.js, PyTorch. Databases: PostgreSQL, MySQL, MongoDB, Redis, Qdrant. Tools: Git, GitHub, Docker, Linux, Postman, VS Code. Data & Viz: Power BI, Tableau, Excel. AI/ML: Generative AI, LLMs, RAG, Transformers, AI Evaluation, Prompt Engineering, Semantic Search, Vector Search.
-- Leadership: Vice President – Department of AI & ML, Jain College of Engineering. Hack2Future 2.0 (IIIT Dharwad). Code for Innovex (NITTE NMAM IT).
+- 5 Major Production Projects:
+  1. Atlas AI Resume: RAG-Powered AI Portfolio & Interactive Resume Assistant with Gemini, real-time Recruiter Telemetry Console, Benchmark Verifiers proof mode, Recruiter JD Matcher, and dynamic KB Studio. (React 19, TypeScript, Node.js, Express, Gemini API, RAG, Vector Search, TailwindCSS, Vite)
+  2. AIOps Root Cause Correlator – Incident Engine: Autonomous incident correlation engine resolving cascading microservice alert storms in <45ms (down from ~2 hours of manual tracing) with 100% Top-1 RCA accuracy across 30 benchmark scenarios. Implements dynamic 24h Fourier harmonic EWMA anomaly detection (z > 2.0σ) with MicroRCA++ edge-weighted PageRank on causal dependency graphs (100% false-positive suppression). Traces Linux eBPF kernel probes (sys_enter_futex contention) and streams telemetry over Kafka KRaft (10K ring buffer with 80% backpressure shed) and gRPC :50051. Online Thompson Sampling bandit for automated remediation with HMAC-SHA256 mobile canary approval. 118 unit & integration tests (100% pass rate). (Python, FastAPI, PostgreSQL, pgvector, Redis, NetworkX, Three.js, Kafka KRaft, Linux eBPF, gRPC)
+  3. VersionRAG – Documentation & Code Migration Intelligence: Enterprise RAG eliminating cross-version code contamination, driving hallucinated deprecated API calls from 62.5% to 0.0%. Features 3-stage hybrid retrieval (SQL version partition gate + parallel Okapi BM25 k1=1.5, b=0.75 + pgvector HNSW + RRF k=60 + Cross-Encoder reranking), boosting precision @k=6 from 41.7% to 98.4% (+136%) at 5.4ms latency. Structure-aware polyglot AST semantic diff engine across Python ast, JS/TS, OpenAPI 3.x/Swagger 2.0 with ParamNode/ReturnTypeNode/ExceptionNode at 94.2% accuracy. Includes live codebase vulnerability scanner & auto-refactor workbench CLI (python -m app.cli audit), self-generating 3-Way Auto-RAGAS, Redis ZSET rate limiting, 40 tests. (Python 3.12, FastAPI, PostgreSQL, pgvector, React 18, TypeScript, TailwindCSS, Okapi BM25, Cross-Encoder, Docker)
+  4. Autonomous GitHub Agent Gateway – MCP Governance Plane: Zero-trust governance plane over Model Context Protocol (MCP) for LLM-driven repository automation. Eliminates 14.0% blind state corruption to 0.0% and delivers 100% intent classification accuracy across 100 scenarios. Pure-Python Hybrid RRF (k=60) combining corpus TF-IDF with exact AST error-code matching (0MB ML footprint). Sub-microsecond (0.8µs) Outbound DLP scanner using Shannon entropy H(X) >= 3.8 and ISO/IEC 7812 Luhn checksums to block secret exfiltration. 2-phase preview token protocol + append-only SHA-256 hash-chained Saga journal for out-of-order rollbacks by tx_id, RLock single-probe circuit breaker, adaptive compactor slashing context bloat by -92.2% across 120 tests (100% pass rate). (Python, FastMCP, PyGithub, Pydantic, Docker, GitHub Actions, Redis)
+  5. ApexRAG – Enterprise Zero-Cost RAG & Production Harness: Production RAG harness and evaluation benchmark over 2,580 documentation chunks and 100 human-verified Q&A pairs on local CPU infrastructure. Hierarchical AST parent-document chunking (100-word child for high-res vector retrieval / 600-word parent for LLM context), hybrid BM25 + dense vector RRF (k=60), and Cross-Encoder reranker achieving Pareto-optimal latency <37ms across 82 unit/integration tests (100% pass rate). Corrective RAG (CRAG) with self-reflective tripartite relevance grading, query reformulation, and sub-millisecond semantic cosine cache (>= 0.96). Dense strategy router with Shannon entropy gating (<= 1.25) + Bayesian Thompson Sampling bandit. Multi-tenant clearance RBAC pre-filtering, dual-shield guardrails against PII and prompt injection, GitHub Actions CI/CD evaluation gate, OTel waterfall flamegraphs, Prometheus metrics, SSE streaming TTFT <40ms. (Python, FastAPI, ChromaDB, Sentence Transformers, Ollama, scikit-learn, OpenTelemetry, Prometheus, Docker)
+- 9 Verified Professional Certifications:
+  1. Fundamentals of Agents (Hugging Face Agents Course) – Hugging Face (2026)
+  2. Agentic AI Certified Foundations Associate – Oracle (2026)
+  3. AI Vector Search Certified Professional – Oracle (2026)
+  4. Machine Learning Internship (1-Month Intensive) – Cognifyz Technologies (2026)
+  5. Apache Kafka Essential Training: Building Scalable Applications – LinkedIn Learning (2026)
+  6. Fundamentals of Machine Learning and Artificial Intelligence – AWS Training & Certification (2026)
+  7. Microsoft Azure: Describe Cloud Computing – Microsoft (2026)
+  8. Data Analytics Job Simulation – Deloitte (Forage, 2026)
+  9. GenAI Powered Data Analytics Job Simulation – Tata Group (Forage, 2026)
+- Technical Skills:
+  • Frameworks & APIs: FastAPI, React.js, Next.js, FastMCP, Pydantic, PyGithub, gRPC, OpenAPI/Swagger
+  • AI/ML & Retrieval: Generative AI, LLMs, RAG, Transformers, AI Evaluation, Prompt Engineering, BM25, Reciprocal Rank Fusion (RRF), Cross-Encoder Reranking, Semantic Search, Vector Search, scikit-learn, PyTorch
+  • Databases & Messaging: PostgreSQL, pgvector, MySQL, MongoDB, Redis, Qdrant, ChromaDB, Apache Kafka (KRaft)
+  • Observability & Infrastructure: OpenTelemetry (OTLP), Prometheus, Linux eBPF, Docker, Docker Compose, Linux, Git, GitHub Actions
+  • Data & Visualization: Pandas, Streamlit, Prophet, SARIMAX, Three.js, Power BI, Tableau, Microsoft Excel
+  • Programming Languages: Python, JavaScript, TypeScript, SQL
+- Leadership & Achievements:
+  • Vice President – Department of Artificial Intelligence & Machine Learning, Jain College of Engineering, Belagavi
+  • Hack2Future 2.0 – IIIT Dharwad (Nokia Track): Top 60 finalist team from 570+ national registrations. Built KubeShield (graph-based Kubernetes attack-path visualizer, 36h hackathon)
+  • Code for Innovex 2025 – NMAM Institute of Technology: 24h national-level hackathon by NSS IT Wing
+  • LeetCode Problem Solving: 104 problems solved (30 Easy, 50 Medium, 24 Hard)
 - Relevant Coursework: Data Structures & Algorithms, OOP, DBMS, Data Science, OS, Computer Networks, Software Engineering, AI, Machine Learning.
 - Availability: Immediate availability for AI Engineering, Generative AI, and LLM Application roles.
 

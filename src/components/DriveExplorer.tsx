@@ -78,6 +78,14 @@ const MOCK_FILES: MockDriveFile[] = [
     modifiedTime: new Date("2026-07-12T10:15:00Z").toISOString(),
   },
   {
+    id: "folder-experience",
+    name: "Experience & Internships",
+    mimeType: "application/vnd.google-apps.folder",
+    parentId: "root",
+    owners: [{ displayName: "Kartik Raikar" }],
+    modifiedTime: new Date("2026-09-26T10:10:00Z").toISOString(),
+  },
+  {
     id: "folder-cert-ach",
     name: "Certifications & Achievements",
     mimeType: "application/vnd.google-apps.folder",
@@ -180,6 +188,28 @@ const MOCK_FILES: MockDriveFile[] = [
     description: "Interactive RAG portfolio and recruiter telemetry console."
   },
 
+  // --- EXPERIENCE & INTERNSHIPS FOLDER ---
+  {
+    id: "file-spark-iit",
+    name: "SPARK IIT AI Internship.txt",
+    mimeType: "text/plain",
+    size: "940",
+    parentId: "folder-experience",
+    owners: [{ displayName: "Kartik Raikar" }],
+    modifiedTime: new Date("2026-09-26T10:12:00Z").toISOString(),
+    description: "AI Intern at SPARK IIT: AQI analysis across 29,531 records, Prophet vs SARIMAX (-64.3% RMSE), Streamlit dashboard.",
+  },
+  {
+    id: "file-cognifyz",
+    name: "Cognifyz ML Internship.txt",
+    mimeType: "text/plain",
+    size: "420",
+    parentId: "folder-experience",
+    owners: [{ displayName: "Kartik Raikar" }],
+    modifiedTime: new Date("2026-09-26T10:14:00Z").toISOString(),
+    description: "1-Month Intensive Machine Learning Internship: predictive pipelines and cross-validation.",
+  },
+
   // --- CERTIFICATIONS & ACHIEVEMENTS FOLDER ---
   {
     id: "file-certifications",
@@ -248,71 +278,103 @@ Data Structures & Algorithms, Object-Oriented Programming, Database Management S
 PROGRAMMING LANGUAGES:
 - Python, JavaScript, TypeScript, SQL
 
-FRAMEWORKS & LIBRARIES:
-- FastAPI, React.js, Next.js, PyTorch
+FRAMEWORKS & APIS:
+- FastAPI, React.js, Next.js, FastMCP, Pydantic, PyGithub, gRPC, OpenAPI/Swagger
 
-DATABASES:
-- PostgreSQL, MySQL, MongoDB, Redis, Qdrant
+DATABASES & MESSAGING:
+- PostgreSQL, pgvector, MySQL, MongoDB, Redis, Qdrant, ChromaDB, Apache Kafka (KRaft)
 
-DEVELOPER TOOLS & INFRASTRUCTURE:
-- Git, GitHub, Docker, Linux, Postman, VS Code
+OBSERVABILITY & INFRASTRUCTURE:
+- OpenTelemetry (OTLP), Prometheus, Linux eBPF, Docker, Docker Compose, Linux, Git, GitHub Actions
 
 DATA & VISUALIZATION:
-- Power BI, Tableau, Microsoft Excel
+- Pandas, Streamlit, Prophet, SARIMAX, Three.js, Power BI, Tableau, Microsoft Excel
 
 AI / ML SPECIALIZATIONS:
-- Generative AI, Large Language Models (LLMs), Retrieval-Augmented Generation (RAG), Transformer Models, AI Evaluation, Prompt Engineering, Semantic Search, Vector Search`,
+- Generative AI, Large Language Models (LLMs), Retrieval-Augmented Generation (RAG), Transformers, AI Evaluation, Prompt Engineering, BM25, Reciprocal Rank Fusion (RRF), Cross-Encoder Reranking, Semantic Search, Vector Search, scikit-learn, PyTorch`,
+
+  "file-spark-iit": `EXPERIENCE PROFILE: AI INTERN – SPARK IIT
+Role: AI Intern
+Organization: SPARK IIT
+Period: Jul 2026 – Sep 2026
+Location: Remote / India
+Technologies: Python, Streamlit, Prophet, SARIMAX, Pandas, NumPy, scikit-learn, LLMs, Matplotlib, Seaborn
+
+Key Deliverables:
+- Large-Scale AQI Analysis: Ingested and analyzed 29,531 records spanning 26 Indian cities to identify critical pollution clusters and seasonal particulate trends.
+- Time-Series Forecasting: Engineered comparative forecasting models using Facebook Prophet and SARIMAX, reducing prediction error by 64.3% RMSE (from 249.54 to 89.03) and 67.6% MAE.
+- Interactive Analytics Dashboard: Built an interactive multi-city Streamlit dashboard for real-time pollution visualizer and automated health advisory warnings.
+- AI Resume Screening: Architected an AI-powered resume screening and candidate evaluation workflow integrating LLM extraction pipelines.`,
+
+  "file-cognifyz": `EXPERIENCE PROFILE: MACHINE LEARNING INTERN – COGNIFYZ TECHNOLOGIES
+Role: Machine Learning Intern (1-Month Intensive)
+Organization: Cognifyz Technologies
+Period: 2026
+Location: Remote
+Technologies: Python, scikit-learn, Pandas, NumPy, Feature Engineering, Cross-Validation
+
+Key Deliverables:
+- Applied supervised machine learning algorithms, exploratory data analysis, and predictive modeling pipelines.
+- Implemented robust feature selection and cross-validation pipelines in Python and scikit-learn.`,
 
   "file-proj-aiops": `PROJECT PROFILE: AIOPS ROOT CAUSE CORRELATOR – INCIDENT ENGINE
-Tech Stack: Python, FastAPI, PostgreSQL, Redis, NetworkX, Three.js, WebSockets, pgvector
+Tech Stack: Python, FastAPI, PostgreSQL, pgvector, Redis, NetworkX, Three.js, Apache Kafka (KRaft), Linux eBPF, gRPC
 GitHub: https://github.com/kartik-012/aiops-rca
 Demo: https://aiops-rca.kartik.dev
 
 Description:
-Autonomous incident correlation engine resolving cascading microservice alert storms in 0.78s (down from 1–4 hours of manual tracing), achieving 100% Top-1 RCA accuracy across 30 benchmark scenarios.
+Autonomous incident correlation engine resolving cascading microservice alert storms in <45ms (down from ~2 hours of manual tracing), achieving 100% Top-1 RCA accuracy across 30 benchmark scenarios.
 
 Key Features & Implementations:
-- Implemented dynamic EWMA anomaly detection (z > 2.0σ) with causal DAG traversal in NetworkX.
-- Isolated multi-root-cause failures and achieved 100% precision/recall in false-positive alert suppression.
-- Built a real-time 3D topology telemetry visualizer with Three.js/WebGL and streaming WebSockets, supporting counterfactual what-if blast radius simulation over PostgreSQL 16 + pgvector.`,
+- Implemented dynamic 24h Fourier harmonic EWMA anomaly detection (z > 2.0σ) with MicroRCA++ edge-weighted PageRank on causal dependency graphs (100% false-positive suppression).
+- Traced Linux eBPF kernel probes (sys_enter_futex contention) and streamed telemetry over Kafka KRaft (10K ring buffer with 80% backpressure shed) and gRPC :50051.
+- Online Thompson Sampling bandit for automated remediation with HMAC-SHA256 mobile canary approval.
+- Verified across 118 unit & integration tests (100% pass rate).`,
 
-  "file-proj-versionrag": `PROJECT PROFILE: VERSIONRAG – DOCUMENTATION INTELLIGENCE
-Tech Stack: Python 3.12, FastAPI, PostgreSQL, pgvector, React 18, TypeScript, Tailwind
+  "file-proj-versionrag": `PROJECT PROFILE: VERSIONRAG – DOCUMENTATION & CODE MIGRATION INTELLIGENCE
+Tech Stack: Python 3.12, FastAPI, PostgreSQL, pgvector, React 18, TypeScript, TailwindCSS, Okapi BM25, Cross-Encoder, Docker
 GitHub: https://github.com/kartik-012/versionrag
 Demo: https://versionrag.kartik.dev
 
 Description:
-Enterprise RAG architecture resolving cross-version code contamination, eliminating hallucinated deprecated API calls from 62.5% to 0.0% via database-enforced version-partitioned vector indexing.
+Enterprise RAG architecture eliminating cross-version code contamination, driving hallucinated deprecated API calls from 62.5% to 0.0% via 3-stage hybrid retrieval.
 
 Key Features & Implementations:
-- Engineered structure-aware AST semantic diff engine detecting undocumented breaking changes with 94.2% accuracy.
-- Boosted retrieval precision @ k=6 from 41.7% to 98.4% (+136%) at 5.4ms HNSW latency.
-- Integrated a 4-step Chain-of-Version reasoning pipeline with live X-Ray diagnostic chunk inspection, Bcrypt-hashed OTP email auth, and resilient pgvector fallbacks.`,
+- 3-stage hybrid retrieval: SQL version partition gate + parallel Okapi BM25 (k1=1.5, b=0.75) + pgvector HNSW + RRF (k=60) + Cross-Encoder reranking.
+- Boosted retrieval precision @k=6 from 41.7% to 98.4% (+136%) at 5.4ms HNSW latency.
+- Structure-aware polyglot AST semantic diff engine across Python ast, JS/TS, and OpenAPI 3.x/Swagger 2.0 with 94.2% accuracy.
+- Live codebase vulnerability scanner & auto-refactor workbench CLI (python -m app.cli audit).
+- Self-generating 3-Way Auto-RAGAS and Redis ZSET rate limiting across 40 unit/integration tests.`,
 
-  "file-proj-mcp": `PROJECT PROFILE: GITHUB MCP TOOLKIT – FAULT-TOLERANT MCP SERVER
-Tech Stack: Python, FastMCP, GitHub API, Ollama, Docker, GitHub Actions
+  "file-proj-mcp": `PROJECT PROFILE: AUTONOMOUS GITHUB AGENT GATEWAY – MCP GOVERNANCE PLANE
+Tech Stack: Python, FastMCP, PyGithub, Pydantic, Docker, GitHub Actions, Redis
 GitHub: https://github.com/kartik-012/github-mcp-toolkit
 Demo: https://github-mcp.kartik.dev
 
 Description:
-Production-ready Anthropic Model Context Protocol (MCP) server for LLM-driven repository automation, semantic search, and deterministic issue triage with reversible write workflows.
+Zero-trust governance plane over Model Context Protocol (MCP) for LLM-driven repository automation, eliminating 14.0% blind state corruption to 0.0% and delivering 100% intent classification accuracy across 100 scenarios.
 
 Key Features & Implementations:
-- Eliminated a measured 14% blind bulk-mutation rate via a two-phase SHA-256 preview-token protocol requiring explicit human approval before mutating remote repository states.
-- Improved intent execution accuracy from 64% to 100% and neutralized prompt injections across 20 adversarial test suites using ABAC security, circuit breakers, Saga rollback, and Pydantic validation.`,
+- Pure-Python Hybrid RRF (k=60) combining corpus TF-IDF with exact AST error-code matching (0MB ML footprint).
+- Sub-microsecond (0.8µs) Outbound DLP scanner using Shannon entropy H(X) >= 3.8 & ISO/IEC 7812 Luhn checksums to block secret exfiltration.
+- 2-phase preview token protocol + append-only SHA-256 hash-chained Saga journal for out-of-order rollbacks by tx_id.
+- RLock single-probe circuit breaker and adaptive compactor slashing context bloat by -92.2% across 120 tests (100% pass rate).`,
 
-  "file-proj-apexrag": `PROJECT PROFILE: APEXRAG – RAG RETRIEVAL EVALUATION SYSTEM
-Tech Stack: Python, FastAPI, ChromaDB, Sentence Transformers, Ollama, scikit-learn
+  "file-proj-apexrag": `PROJECT PROFILE: APEXRAG – ENTERPRISE ZERO-COST RAG & PRODUCTION HARNESS
+Tech Stack: Python, FastAPI, ChromaDB, Sentence Transformers, Ollama, scikit-learn, OpenTelemetry, Prometheus, Docker
 GitHub: https://github.com/kartik-012/apexrag
 Demo: https://apexrag.kartik.dev
 
 Description:
-Comprehensive RAG evaluation benchmark over 2,580 documentation chunks and 100 human-verified Q&A pairs on local CPU infrastructure to systematically isolate retrieval bottlenecks.
+Production RAG harness and evaluation benchmark over 2,580 documentation chunks and 100 human-verified Q&A pairs on local CPU infrastructure.
 
 Key Features & Implementations:
-- Benchmarked 5 retrieval strategies, improving retrieval accuracy from 61% (BM25) to 85% (Cross-Encoder Re-ranking), establishing ranking quality as the primary bottleneck.
-- Eliminated data contamination and ID collisions using path-based hashing.
-- Deployed a Logistic Regression query strategy router for dynamic retrieval optimization.`,
+- Hierarchical AST parent-document chunking (100-word child for high-res vector retrieval / 600-word parent for LLM context).
+- Hybrid BM25 + dense vector RRF (k=60) + Cross-Encoder reranker achieving Pareto-optimal latency <37ms across 82 tests (100% pass rate).
+- Corrective RAG (CRAG) with self-reflective tripartite relevance grading, query reformulation, and sub-millisecond semantic cosine cache (>= 0.96).
+- Dense strategy router with Shannon entropy gating (<= 1.25) + Bayesian Thompson Sampling bandit.
+- Multi-tenant clearance RBAC pre-filtering + dual-shield guardrails against PII and prompt injection.
+- GitHub Actions CI/CD evaluation gate, OTel waterfall flamegraphs, Prometheus metrics, and SSE streaming TTFT <40ms.`,
 
   "file-proj-atlas-resume": `PROJECT PROFILE: ATLAS AI RESUME
 Tech Stack: React 19, TypeScript, Node.js, Express, Gemini API, RAG, Vector Search, TailwindCSS, Vite
@@ -320,37 +382,56 @@ GitHub: https://github.com/kartik-012/Atlas-AI-Resume
 Demo: https://atlas-ai-resume.vercel.app/
 
 Description:
-RAG-Powered AI Portfolio & Interactive Resume Assistant with Gemini, real-time Recruiter Telemetry Console, and dynamic Knowledge Base Admin Studio.
+RAG-Powered AI Portfolio & Interactive Resume Assistant with Gemini, real-time Recruiter Telemetry Console, Benchmark Verifiers, and dynamic Knowledge Base Admin Studio.
 
 Key Features & Implementations:
-- Dual-layer RAG pipeline with Gemini and custom vector cosine similarity search.
-- Interactive Recruiter Telemetry Console with real-time analytics, question monitoring, and time tracking.
-- Dynamic Knowledge Base Admin Studio for chunk ingestion, embedding generation, and live retrieval diagnostics.`,
+- Dual-layer RAG pipeline with Gemini, local vector cosine similarity, and semantic keyword routing.
+- Real-time Recruiter Telemetry Console with visitor analytics, token economics, and TTFT tracking.
+- Interactive Benchmark Verifiers proof mode for live evaluation of AIOps, VersionRAG, MCP, and ApexRAG.
+- Recruiter JD Matcher with automated fit scoring and 1-Click Executive Screening Packet generator.`,
 
-  "file-certifications": `PROFESSIONAL CERTIFICATIONS
-1. Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate
-   - Issuer: Oracle
-   - Scope: Generative AI, Machine Learning, OCI AI Services, Large Language Models.
+  "file-certifications": `VERIFIED PROFESSIONAL CERTIFICATIONS (9 TOTAL)
+1. Fundamentals of Agents (Hugging Face Agents Course) – Hugging Face (2026)
+   - Scope: Autonomous agent architectures, ReAct decision loops, tool calling, multi-agent workflows.
 
-2. AWS Training & Certification – Fundamentals of Machine Learning and Artificial Intelligence
-   - Issuer: Amazon Web Services (AWS)
-   - Scope: Machine Learning, Amazon SageMaker, Bedrock, Computer Vision, NLP.
+2. Agentic AI Certified Foundations Associate – Oracle (2026)
+   - Scope: Autonomous decision systems, goal decomposition, and OCI foundation services.
 
-3. Tata – GenAI Powered Data Analytics Job Simulation
-   - Issuer: Forage (Tata)
-   - Scope: Generative AI, Data Analytics, Prompt Engineering, Data Modeling.`,
+3. AI Vector Search Certified Professional – Oracle (2026)
+   - Scope: Enterprise vector search, HNSW indexing algorithms, high-dimensional similarity math, and semantic retrieval.
+
+4. Machine Learning Internship (1-Month Intensive) – Cognifyz Technologies (2026)
+   - Scope: Exploratory data analysis, predictive modeling pipelines, feature selection, and cross-validation.
+
+5. Apache Kafka Essential Training: Building Scalable Applications – LinkedIn Learning (2026)
+   - Scope: KRaft consensus, event streaming, consumer group rebalancing, and backpressure handling.
+
+6. Fundamentals of Machine Learning and AI – AWS Training & Certification (2026)
+   - Scope: Core AI algorithms, Amazon SageMaker pipelines, Bedrock foundation models, and cloud AI deployments.
+
+7. Microsoft Azure: Describe Cloud Computing – Microsoft (2026)
+   - Scope: High availability, fault tolerance, scalability, and Azure core infrastructure.
+
+8. Data Analytics Job Simulation – Deloitte (Forage, 2026)
+   - Scope: Data wrangling, business intelligence, executive dashboarding, and consulting reporting.
+
+9. GenAI Powered Data Analytics Job Simulation – Tata Group (Forage, 2026)
+   - Scope: Generative AI analytics automation, prompt engineering, and executive storytelling.`,
 
   "file-achievements": `LEADERSHIP & ACHIEVEMENTS
 1. Vice President – Department of Artificial Intelligence & Machine Learning
    - Institution: Jain College of Engineering, Belagavi
-   - Role: Led departmental initiatives and coordinated technical and academic programs.
+   - Role: Led departmental technical symposiums, coordinated academic programs, and mentored junior engineers.
 
-2. Hack2Future 2.0 – IIIT Dharwad
-   - Event: National-Level Hackathon at Indian Institute of Information Technology (IIIT) Dharwad
-   - Participation: Competed as part of Team Velora.
+2. Hack2Future 2.0 – IIIT Dharwad (Nokia Track)
+   - Achievement: Selected in Top 60 finalist teams out of 570+ national registrations.
+   - Built KubeShield — a graph-based Kubernetes attack-path visualizer and automated security auditor in 36 hours.
 
-3. Code for Innovex – NITTE NMAM Institute of Technology
-   - Event: 24-Hour National-Level Hackathon at NITTE NMAM IT.`
+3. Code for Innovex 2025 – NMAM Institute of Technology
+   - Achievement: Competed in 24-hour national-level hackathon organized by NSS IT Wing.
+
+4. LeetCode Problem Solving – 104 Problems Solved
+   - Mastery of data structures, dynamic programming, and graph algorithms (30 Easy, 50 Medium, 24 Hard).`
 };
 
 interface DriveExplorerProps {

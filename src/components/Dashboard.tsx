@@ -8,7 +8,7 @@ import {
   Compass, Navigation, Milestone, MessageSquare, Activity, Layers, Flag, 
   Globe, Github, Linkedin, ExternalLink, Sparkles, Send, Upload, RefreshCw, 
   Trash2, Mail, Phone, MapPin, Check, Copy, Zap, ShieldAlert, Cpu, GitCompare, Play, Terminal,
-  Download, FileText, Network, CheckCircle2
+  Download, FileText, Network, CheckCircle2, Briefcase
 } from "lucide-react";
 import { resumeData, Project, Certification } from "../data/resumeData";
 
@@ -29,7 +29,7 @@ interface AnalyticsData {
 }
 
 export default function Dashboard({ onAskAIAboutProject, onTrackAction }: DashboardProps) {
-  const [activeTab, setActiveTab] = useState<"projects" | "proof" | "jd" | "blueprint" | "certificates" | "skills" | "analytics" | "admin" | "contact">("projects");
+  const [activeTab, setActiveTab] = useState<"projects" | "experience" | "proof" | "jd" | "blueprint" | "certificates" | "skills" | "analytics" | "admin" | "contact">("projects");
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [loadingAnalytics, setLoadingAnalytics] = useState<boolean>(false);
   const [copiedLabel, setCopiedLabel] = useState<string | null>(null);
@@ -159,61 +159,93 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
 
 ---
 
-## 2. PRODUCTION PROJECT BENCHMARKS & VERIFIED EVIDENCE
+## 2. PROFESSIONAL INDUSTRY EXPERIENCE
 
-### A. AIOps Root Cause Correlator (Incident Engine)
-- **Problem**: Cascading microservice failures take 1–4 hours of manual engineer triage.
-- **Solution**: Built an autonomous incident correlation engine combining EWMA anomaly detection (z > 2.0σ) with NetworkX causal DAG traversal.
+### AI Intern — SPARK IIT (Jul 2026 – Sep 2026 | Remote / India)
+- **Large-Scale AQI Analysis**: Analyzed 29,531 air quality records across 26 Indian cities to identify critical particulate trends and emission clusters.
+- **Time-Series Forecasting**: Engineered comparative forecasting models using Facebook Prophet and SARIMAX, cutting prediction error by **64.3% RMSE** (from 249.54 to 89.03) and **67.6% MAE**.
+- **Interactive Streamlit Dashboard**: Developed multi-city real-time pollution visualizer and automated health advisory warnings.
+- **AI Resume Screening**: Architected candidate evaluation workflow integrating LLM extraction pipelines.
+- **Tech Stack**: Python, Streamlit, Prophet, SARIMAX, Pandas, NumPy, scikit-learn, LLMs, Matplotlib, Seaborn.
+
+---
+
+## 3. PRODUCTION PROJECT BENCHMARKS & VERIFIED EVIDENCE
+
+### A. AIOps Root Cause Correlator – Incident Engine
+- **Problem**: Cascading microservice failures take ~2 hours of manual engineer triage.
+- **Solution**: Built an autonomous incident correlation engine combining dynamic 24h Fourier harmonic EWMA (z > 2.0σ) with MicroRCA++ edge-weighted PageRank on causal dependency graphs, tracing Linux eBPF kernel probes (sys_enter_futex).
 - **Key Metrics**:
-  - Isolated root causes in **0.78 seconds** (down from hours).
+  - Isolated root causes in **<45ms** (down from ~2 hours).
   - **100% Top-1 RCA accuracy** across 30 benchmark microservice outage scenarios.
   - **100% false-positive alert suppression** via topological parent isolation.
-- **Tech Stack**: Python, FastAPI, PostgreSQL, Redis, NetworkX, Three.js, pgvector.
+  - Kafka KRaft 10K ring buffer with 80% backpressure shedding & gRPC :50051 streaming telemetry.
+  - Online Thompson Sampling bandit for automated remediation with HMAC-SHA256 mobile canary approval.
+  - Verified across **118 unit & integration tests (100% pass rate)**.
+- **Tech Stack**: Python, FastAPI, PostgreSQL, pgvector, Redis, NetworkX, Three.js, Apache Kafka (KRaft), Linux eBPF, gRPC.
 - **GitHub**: https://github.com/kartik-012/aiops-rca
 
-### B. VersionRAG (Documentation Intelligence RAG)
+### B. VersionRAG – Documentation & Code Migration Intelligence
 - **Problem**: Cross-version documentation contamination causing RAG systems to hallucinate deprecated APIs 62.5% of the time.
-- **Solution**: Engineered database-enforced version-partitioned vector indexing paired with an AST semantic diff parser.
+- **Solution**: 3-stage hybrid retrieval combining SQL version partition gates, parallel Okapi BM25 (k1=1.5, b=0.75), pgvector HNSW, RRF (k=60), and Cross-Encoder reranking.
 - **Key Metrics**:
   - Eliminated deprecated API hallucinations: **62.5% → 0.0%**.
-  - AST semantic diff breaking change accuracy: **94.2%**.
+  - Polyglot AST semantic diff engine across Python ast, JS/TS, OpenAPI 3.x/Swagger 2.0 detecting breaking changes with **94.2% accuracy**.
   - Retrieval precision @k=6: **41.7% → 98.4% (+136%)** at **5.4ms HNSW latency**.
-- **Tech Stack**: Python 3.12, FastAPI, PostgreSQL (pgvector HNSW), React, TypeScript.
+  - Live codebase vulnerability scanner & auto-refactor workbench CLI (python -m app.cli audit).
+  - 40 verified unit & integration tests.
+- **Tech Stack**: Python 3.12, FastAPI, PostgreSQL, pgvector, React 18, TypeScript, TailwindCSS, Okapi BM25, Cross-Encoder, Docker.
 - **GitHub**: https://github.com/kartik-012/versionrag
 
-### C. GitHub MCP Toolkit (Fault-Tolerant MCP Server)
-- **Problem**: Blind mutations, hallucinated repo wipes, and prompt injections in LLM-driven developer tools.
-- **Solution**: Two-phase commit protocol with SHA-256 preview tokens and Saga rollback compensation.
+### C. Autonomous GitHub Agent Gateway – MCP Governance Plane
+- **Problem**: Blind mutations, state corruption, and prompt injections in LLM-driven developer agents.
+- **Solution**: Zero-trust MCP governance plane with pure-Python Hybrid RRF (k=60), 0.8µs Outbound Shannon entropy DLP, and 2-phase preview tokens.
 - **Key Metrics**:
-  - Zero prompt injection vulnerabilities across 20 adversarial attack test suites.
-  - Intent execution accuracy: **64% → 100%**.
-  - Eliminated 14% blind bulk-mutation rate.
-- **Tech Stack**: Python, FastMCP, GitHub REST/GraphQL API, Ollama, Docker.
+  - Eliminated blind state corruption from **14.0% to 0.0%**; **100% intent classification accuracy** across 100 scenarios.
+  - Sub-microsecond (**0.8µs**) Outbound DLP scanner using Shannon entropy H(X) >= 3.8 & ISO/IEC 7812 Luhn checksums.
+  - Append-only SHA-256 hash-chained Saga journal for out-of-order rollbacks by tx_id.
+  - RLock single-probe circuit breaker and adaptive compactor slashing context bloat by **-92.2%** across 120 tests (100% pass rate).
+- **Tech Stack**: Python, FastMCP, PyGithub, Pydantic, Docker, GitHub Actions, Redis.
 - **GitHub**: https://github.com/kartik-012/github-mcp-toolkit
 
-### D. ApexRAG (Systematic Retrieval Evaluation Benchmark)
-- **Problem**: Unprincipled vector search selection without empirical latency vs. ranking trade-offs.
-- **Solution**: Benchmarked 5 retrieval strategies across 2,580 chunks and 100 human-verified Q&A pairs.
+### D. ApexRAG – Enterprise Zero-Cost RAG & Production Harness
+- **Problem**: Unprincipled vector chunking and lack of self-reflective query correction in production RAG.
+- **Solution**: Hierarchical AST parent-document chunking (100-word child / 600-word parent) + Corrective RAG (CRAG) + hybrid BM25 + dense RRF (k=60).
 - **Key Metrics**:
-  - Retrieval accuracy: **61.0% (BM25) → 85.0% (Cross-Encoder Re-ranker)**.
-  - Proved that ranking quality—not vector index size—is the primary bottleneck in production RAG.
-  - Logistic Regression Dynamic Query Router optimal latency: **12.6ms** at 84.2% accuracy.
-- **Tech Stack**: Python, FastAPI, ChromaDB, Sentence Transformers, scikit-learn.
+  - Pareto-optimal latency **<37ms** across 82 unit/integration tests (100% pass rate).
+  - Corrective RAG (CRAG) with self-reflective tripartite relevance grading and query reformulation.
+  - Sub-millisecond semantic cosine cache (threshold >= 0.96) delivering 0-token inference.
+  - Dense strategy router with Shannon entropy gating (<= 1.25) + Bayesian Thompson Sampling bandit.
+  - OTel waterfall flamegraphs, Prometheus metrics, and SSE streaming with TTFT <40ms.
+- **Tech Stack**: Python, FastAPI, ChromaDB, Sentence Transformers, Ollama, scikit-learn, OpenTelemetry, Prometheus, Docker.
 - **GitHub**: https://github.com/kartik-012/apexrag
 
 ---
 
-## 3. VERIFIED INDUSTRY CREDENTIALS
-1. **Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate** (GenAI, LLMs, OCI AI services)
-2. **AWS Training & Certification – Fundamentals of Machine Learning and AI** (SageMaker, Bedrock, NLP)
-3. **Tata – GenAI Powered Data Analytics Job Simulation (Forage)** (Data analytics, Prompt Engineering)
+## 4. VERIFIED INDUSTRY CREDENTIALS (9 TOTAL)
+1. **Fundamentals of Agents** — Hugging Face Agents Course (2026)
+2. **Agentic AI Certified Foundations Associate** — Oracle (2026)
+3. **AI Vector Search Certified Professional** — Oracle (2026)
+4. **Machine Learning Internship (1-Month Intensive)** — Cognifyz Technologies (2026)
+5. **Apache Kafka Essential Training: Building Scalable Applications** — LinkedIn Learning (2026)
+6. **Fundamentals of Machine Learning and Artificial Intelligence** — AWS Training & Certification (2026)
+7. **Microsoft Azure: Describe Cloud Computing** — Microsoft (2026)
+8. **Data Analytics Job Simulation** — Deloitte (Forage, 2026)
+9. **GenAI Powered Data Analytics Job Simulation** — Tata Group (Forage, 2026)
 
 ---
 
-## 4. SUGGESTED INTERVIEW PROMPTS FOR TECHNICAL SCREEN
-1. "In VersionRAG, how did your AST semantic diff engine parse syntax changes across library versions?"
-2. "Walk through the two-phase commit protocol and SHA-256 preview tokens in your GitHub MCP server."
-3. "How did you balance EWMA z-score thresholds with false-positive suppression in the AIOps correlator?"
+## 5. PROBLEM SOLVING & ALGORITHMIC RIGOR
+- **LeetCode**: 104 Problems Solved (Easy: 30, Medium: 50, Hard: 24)
+- **Hackathons**: Top 60 finalist in Hack2Future 2.0 (IIIT Dharwad, 570+ teams, KubeShield 36h hackathon), Code for Innovex 2025 (NMAMIT 24h).
+
+---
+
+## 6. SUGGESTED INTERVIEW PROMPTS FOR TECHNICAL SCREEN
+1. "In VersionRAG, how does your 3-stage hybrid retrieval balance lexical BM25 with dense pgvector HNSW using Reciprocal Rank Fusion?"
+2. "Walk through the sub-microsecond Outbound Shannon entropy DLP and Saga rollback journal in your GitHub MCP gateway."
+3. "How did you use Linux eBPF kernel probes (sys_enter_futex) and MicroRCA++ PageRank to achieve <45ms RCA time in AIOps?"
+4. "Describe your hierarchical AST parent-document chunking and Corrective RAG (CRAG) tripartite grading in ApexRAG."
 
 ---
 *Generated by Atlas AI Candidate Representative | https://atlas-ai-resume.vercel.app/*
@@ -655,6 +687,21 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
           <span>Interactive Projects</span>
         </button>
         <button
+          onClick={() => setActiveTab("experience")}
+          className={`flex items-center space-x-2.5 rounded-xl px-4 py-3 text-xs font-semibold whitespace-nowrap md:whitespace-normal transition-all focus-visible:outline-2 ${
+            activeTab === "experience" ? "bg-gradient-to-r from-purple-500/20 to-indigo-500/20 text-purple-300 border border-purple-500/40 shadow-md shadow-purple-500/10" : "text-slate-400 hover:bg-white/5 hover:text-white"
+          }`}
+          id="tab-experience"
+        >
+          <Briefcase className="h-4.5 w-4.5 text-purple-400" />
+          <div className="flex items-center gap-1.5">
+            <span>Experience</span>
+            <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-purple-500/20 text-purple-300 border border-purple-500/30">
+              Industry
+            </span>
+          </div>
+        </button>
+        <button
           onClick={() => setActiveTab("proof")}
           className={`flex items-center space-x-2.5 rounded-xl px-4 py-3 text-xs font-semibold whitespace-nowrap md:whitespace-normal transition-all focus-visible:outline-2 ${
             activeTab === "proof" ? "bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 text-emerald-300 border border-emerald-500/40 shadow-md shadow-emerald-500/10" : "text-slate-400 hover:bg-white/5 hover:text-white"
@@ -834,6 +881,144 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* ==================== EXPERIENCE TAB ==================== */}
+        {activeTab === "experience" && (
+          <div className="space-y-6 animate-in fade-in-50 duration-200">
+            <div className="border-b border-white/10 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xl font-extrabold text-white flex items-center gap-2">
+                    <Briefcase className="h-5 w-5 text-purple-400" />
+                    Professional Experience & Internships
+                  </h2>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-purple-500/10 text-purple-300 border border-purple-500/30">
+                    VERIFIED RESUME
+                  </span>
+                </div>
+                <p className="text-xs text-slate-400 mt-1">
+                  Demonstrated production impact across large-scale environmental time-series forecasting, predictive machine learning, and AI workflows.
+                </p>
+              </div>
+              <button
+                onClick={() => onAskAIAboutProject("Tell me about your experience at SPARK IIT")}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xxs font-bold transition self-start sm:self-auto"
+              >
+                <Sparkles className="h-3.5 w-3.5" />
+                <span>Ask AI About Internships</span>
+              </button>
+            </div>
+
+            {/* Experience Cards */}
+            <div className="space-y-4">
+              {resumeData.experience.map((exp) => (
+                <div
+                  key={exp.id}
+                  className="rounded-2xl border border-purple-500/20 bg-purple-500/[0.03] p-5 hover:border-purple-500/40 transition-all duration-200"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3 border-b border-white/10">
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="text-base font-extrabold text-white">{exp.role}</h3>
+                        <span className="text-purple-400 font-bold text-sm">@ {exp.company}</span>
+                        <span className="px-2 py-0.5 rounded-md bg-purple-500/20 text-purple-300 font-mono text-3xs border border-purple-500/30">
+                          {exp.period}
+                        </span>
+                      </div>
+                      <p className="text-xxs font-mono text-slate-400 mt-0.5 flex items-center gap-1.5">
+                        <MapPin className="h-3 w-3 text-slate-500" />
+                        <span>{exp.location}</span>
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap gap-1.5">
+                      <span className="px-2 py-0.5 rounded-md bg-black/40 border border-white/10 text-3xs font-mono text-emerald-400">
+                        29,531 Records
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-black/40 border border-white/10 text-3xs font-mono text-cyan-400">
+                        -64.3% RMSE
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-black/40 border border-white/10 text-3xs font-mono text-purple-400">
+                        26 Cities
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-slate-300 mt-3 leading-relaxed">
+                    {exp.description}
+                  </p>
+
+                  {/* Key Deliverables Bullet Points */}
+                  <div className="mt-4 space-y-2">
+                    <h4 className="text-xxs font-mono uppercase tracking-wider font-bold text-purple-400">
+                      Key Deliverables & Engineering Metrics:
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                      {exp.keyPoints.map((point, idx) => (
+                        <div
+                          key={idx}
+                          className="p-3 rounded-xl bg-black/40 border border-white/5 text-xxs text-slate-300 leading-relaxed flex items-start gap-2"
+                        >
+                          <span className="text-purple-400 font-bold mt-0.5 shrink-0">▸</span>
+                          <span>{point}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Tech Stack Pills */}
+                  <div className="mt-4 pt-3 border-t border-white/5 flex flex-wrap items-center gap-1.5">
+                    <span className="text-4xs font-mono text-slate-500 uppercase mr-1">Stack:</span>
+                    {exp.technologies.map((t) => (
+                      <span
+                        key={t}
+                        className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-slate-400 text-3xs font-mono"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+
+              {/* Cognifyz Technologies Card */}
+              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-5 hover:border-white/20 transition-all duration-200">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3 border-b border-white/10">
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h3 className="text-base font-extrabold text-white">Machine Learning Intern (1-Month Intensive)</h3>
+                      <span className="text-cyan-400 font-bold text-sm">@ Cognifyz Technologies</span>
+                      <span className="px-2 py-0.5 rounded-md bg-cyan-500/20 text-cyan-300 font-mono text-3xs border border-cyan-500/30">
+                        2026
+                      </span>
+                    </div>
+                    <p className="text-xxs font-mono text-slate-400 mt-0.5 flex items-center gap-1.5">
+                      <MapPin className="h-3 w-3 text-slate-500" />
+                      <span>Remote</span>
+                    </p>
+                  </div>
+                  <span className="px-2 py-0.5 rounded-md bg-black/40 border border-white/10 text-3xs font-mono text-cyan-400">
+                    Predictive Modeling
+                  </span>
+                </div>
+                <p className="text-xs text-slate-300 mt-3 leading-relaxed">
+                  Completed intensive machine learning curriculum focusing on supervised learning architectures, automated feature engineering, exploratory data analysis, and cross-validation pipelines in Python and scikit-learn.
+                </p>
+                <div className="mt-4 pt-3 border-t border-white/5 flex flex-wrap items-center gap-1.5">
+                  <span className="text-4xs font-mono text-slate-500 uppercase mr-1">Stack:</span>
+                  {["Python", "scikit-learn", "Pandas", "NumPy", "Feature Engineering", "Model Evaluation"].map((t) => (
+                    <span
+                      key={t}
+                      className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-slate-400 text-3xs font-mono"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         )}
