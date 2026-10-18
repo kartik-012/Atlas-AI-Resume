@@ -15,7 +15,7 @@ Atlas AI Resume and Kartik's AI engineering portfolio are architected to demonst
 | **5** | **Latency & Token Economics** | Repeated LLM invocations costing \$0.03-\$0.12/query and 1.5s-3.5s latency. | **Sub-millisecond Semantic Cache ($\ge 0.96$) & Router Gating**: Bypasses LLM for recurring queries with Shannon entropy router ($H(X) \le 1.25$). |
 | **6** | **Security & Observability** | No prompt injection defense, no PII redaction, zero telemetry. | **0.8µs Outbound Shannon DLP, SHA-256 Saga Rollbacks & OpenTelemetry**: Real-time flamegraphs, Luhn checksums, and reversible state transitions. |
 
----
+
 
 ## 🚀 Key Features
 
