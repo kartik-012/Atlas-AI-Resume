@@ -3,7 +3,6 @@
 Atlas AI Resume is a production-quality, ultra-premium, full-stack AI Resume Portal. Designed with a futuristic dark glassmorphic design and smooth micro-interactions, the portal allows engineering recruiters and hiring managers to explore Kartik Raikar's resume interactively, view high-fidelity printable layouts, inspect real-time SRE architecture blueprints, and chat with **Atlas AI**—an intelligent agent trained on his verified credentials, real-world internships, systems engineering projects, and architectural pillars.
 
 ---
-
 ## 🏛️ What 99% of Common Projects Do vs. What the Top 1% Production IT Standard Does
 
 Atlas AI Resume and Kartik's AI engineering portfolio are architected to demonstrate top-tier production enterprise standards across the **6 Core Pillars of Production RAG**:
