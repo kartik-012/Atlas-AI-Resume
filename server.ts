@@ -1382,6 +1382,27 @@ app.post("/api/recruiter/match-jd", apiLimiter, async (req, res) => {
   res.json(fitAnalysis);
 });
 
+// ==================== SYSTEM HEALTH & TELEMETRY API ====================
+app.get("/api/health", (req, res) => {
+  const memory = process.memoryUsage();
+  res.json({
+    status: "healthy",
+    engine: "Atlas AI Resume",
+    version: "2.4.0-enterprise",
+    timestamp: new Date().toISOString(),
+    uptimeSeconds: Math.floor(process.uptime()),
+    knowledgeBase: {
+      totalChunks: knowledgeBase.length,
+      embeddedChunks: knowledgeBase.filter(c => !!c.embedding).length
+    },
+    systemMetrics: {
+      memoryRssMb: Math.round(memory.rss / (1024 * 1024) * 100) / 100,
+      memoryHeapTotalMb: Math.round(memory.heapTotal / (1024 * 1024) * 100) / 100,
+      memoryHeapUsedMb: Math.round(memory.heapUsed / (1024 * 1024) * 100) / 100
+    }
+  });
+});
+
 // ==================== VITE & STATIC SERVING ====================
 
 if (!process.env.VERCEL) {
