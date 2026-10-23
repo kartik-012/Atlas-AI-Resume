@@ -17,6 +17,56 @@ Atlas AI Resume and Kartik's AI engineering portfolio are architected to demonst
 
 
 
+---
+
+## 📐 Production Architecture Workflows
+
+### 1. Autonomous GitHub Agent Gateway: 2-Phase Commit & Outbound DLP
+```mermaid
+sequenceDiagram
+    autonumber
+    actor LLM as LLM Agent
+    participant GW as MCP Gateway (FastMCP)
+    participant DLP as 0.8µs Shannon DLP
+    participant GH as GitHub API
+    participant SAGA as SHA-256 Saga Journal
+
+    LLM->>GW: mutate_repo(payload)
+    GW->>DLP: Scan entropy H(X) >= 3.8 + Luhn Checksum
+    alt Exfiltration Detected
+        DLP-->>GW: Blocked (403 Policy Violation)
+        GW-->>LLM: Refusal: High-entropy secret detected
+    else Payload Sanitized
+        DLP-->>GW: Sanitized
+        GW->>GW: Generate Ephemeral SHA-256 Preview Token
+        GW-->>LLM: Return Unified Diff & Confirmation Token
+        LLM->>GW: confirm_mutation(token)
+        GW->>SAGA: Write Append-Only Tx Entry (tx_id)
+        GW->>GH: Execute Git Mutation
+        GH-->>GW: Success
+        GW-->>LLM: Mutation Committed
+    end
+```
+
+### 2. ApexRAG Corrective RAG (CRAG) Tripartite Self-Correction
+```mermaid
+flowchart TD
+    Q["User Query"] --> C["Semantic Cosine Cache >= 0.96"]
+    C -->|"Hit <1ms"| R["Return Cached Synthesis"]
+    C -->|"Miss"| H["Hybrid BM25 + pgvector HNSW"]
+    H --> RRF["Reciprocal Rank Fusion k=60"]
+    RRF --> CE["Cross-Encoder Reranker <37ms"]
+    CE --> CRAG{"CRAG Tripartite Grading"}
+    CRAG -->|"CORRECT"| S["LLM Synthesis Context"]
+    CRAG -->|"AMBIGUOUS"| RE["Query Reformulation Bandit"]
+    RE --> H
+    CRAG -->|"INCORRECT"| WEB["Fallback Knowledge Base"]
+    WEB --> S
+    S --> STREAM["SSE Streaming TTFT <40ms"]
+```
+
+---
+
 ## 🚀 Key Features
 
 - **Interactive High-Fidelity PDF Viewer**: Typeset responsive resume with page pagination, real-time keyword highlights, zoom controls, and a direct download/print trigger.
