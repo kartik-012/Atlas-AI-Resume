@@ -1325,7 +1325,10 @@ app.post("/api/recruiter/match-jd", apiLimiter, async (req, res) => {
     { skill: "Time-Series Forecasting & ML Analytics", category: "Data Science & ML", projectEvidence: "SPARK IIT (AQI analysis over 29,531 records, Prophet vs SARIMAX -64.3% RMSE)" },
     { skill: "Docker & Containerization", category: "DevOps / Infra", projectEvidence: "GitHub MCP Toolkit, Microservices topology" },
     { skill: "React.js & TypeScript", category: "Full-Stack UI", projectEvidence: "Atlas AI Resume, VersionRAG web client" },
-    { skill: "Redis & Caching", category: "High Performance", projectEvidence: "AIOps RCA alert storm pipeline" }
+    { skill: "Redis & Caching", category: "High Performance", projectEvidence: "AIOps RCA alert storm pipeline" },
+    { skill: "Outbound DLP & Secret Scanning", category: "AI Safety & Governance", projectEvidence: "GitHub MCP Toolkit (0.8µs Shannon entropy H(X)>=3.8 + Luhn checksums)" },
+    { skill: "Corrective RAG (CRAG) & AST Chunking", category: "Advanced RAG Architecture", projectEvidence: "ApexRAG (100-word child / 600-word parent, CRAG tripartite grading)" },
+    { skill: "Cross-Encoder Reranking & Hybrid RRF", category: "Information Retrieval", projectEvidence: "VersionRAG & ApexRAG (Okapi BM25 + pgvector HNSW fused via RRF k=60)" }
   ];
 
   const jdLower = jobDescription.toLowerCase();
