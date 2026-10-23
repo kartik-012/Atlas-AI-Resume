@@ -1867,7 +1867,7 @@ Requirements:
                       Core Pipeline 02
                     </span>
                     <h3 className="text-base font-extrabold text-white mt-0.5">
-                      AIOps Incident Correlator: EWMA Anomaly & Causal DAG Traversal
+                      AIOps Incident Correlator: MicroRCA++ PageRank, Kafka KRaft & Linux eBPF
                     </h3>
                   </div>
                   <a
@@ -1966,9 +1966,9 @@ Requirements:
                       <span>PHASE 2</span>
                       <span>Execution Gate</span>
                     </div>
-                    <div className="font-bold text-white text-xs">ABAC Attribute-Based Authorization</div>
+                    <div className="font-bold text-white text-xs">0.8µs Outbound Shannon DLP + Luhn Checksum</div>
                     <p className="text-xxs text-slate-400 leading-relaxed">
-                      Validates branch protection policies, repository access scope, and prevents blind bulk mutations.
+                      Scans outbound LLM tool payloads for secret exfiltration with Shannon entropy H(X) ≥ 3.8 and ISO/IEC 7812 credit/key validation.
                     </p>
                   </div>
 
@@ -1977,9 +1977,9 @@ Requirements:
                       <span>FAULT TOLERANCE</span>
                       <span>Saga Compensation</span>
                     </div>
-                    <div className="font-bold text-white text-xs">Deterministic Reversible Rollbacks</div>
+                    <div className="font-bold text-white text-xs">Append-Only SHA-256 Saga Journal</div>
                     <p className="text-xxs text-slate-400 leading-relaxed">
-                      If an intermediate API call fails or an injection pattern is detected, compensation transactions cleanly restore previous git state.
+                      Hash-chained Saga journal for out-of-order compensation rollbacks by tx_id, RLock circuit breaker, and -92.2% adaptive compactor.
                     </p>
                   </div>
                 </div>
