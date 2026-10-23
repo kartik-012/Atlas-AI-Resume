@@ -934,14 +934,20 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
                     </div>
 
                     <div className="flex flex-wrap gap-1.5">
-                      <span className="px-2 py-0.5 rounded-md bg-black/40 border border-white/10 text-3xs font-mono text-emerald-400">
-                        29,531 Records
+                      <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-3xs font-mono text-emerald-400">
+                        29,531 Records (2015–2020)
                       </span>
-                      <span className="px-2 py-0.5 rounded-md bg-black/40 border border-white/10 text-3xs font-mono text-cyan-400">
-                        -64.3% RMSE
+                      <span className="px-2 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/30 text-3xs font-mono text-cyan-400">
+                        RMSE: 249.54 → 89.03 (-64.3%)
                       </span>
-                      <span className="px-2 py-0.5 rounded-md bg-black/40 border border-white/10 text-3xs font-mono text-purple-400">
-                        26 Cities
+                      <span className="px-2 py-0.5 rounded-md bg-blue-500/10 border border-blue-500/30 text-3xs font-mono text-blue-400">
+                        MAE: 235.33 → 76.29 (-67.6%)
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/30 text-3xs font-mono text-purple-300">
+                        180-Day Holdout Evaluation
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-3xs font-mono text-amber-300">
+                        95% CI 12-Month Forecast
                       </span>
                     </div>
                   </div>
