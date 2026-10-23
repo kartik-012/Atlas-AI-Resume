@@ -2296,6 +2296,90 @@ Requirements:
                 </div>
               </div>
 
+              {/* Competitive Programming & Leadership Section */}
+              <div className="rounded-xl bg-gradient-to-br from-amber-500/10 via-purple-500/5 to-cyan-500/10 border border-amber-500/20 p-5 md:col-span-2">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3 mb-4">
+                  <div>
+                    <h3 className="text-sm font-extrabold text-white flex items-center gap-2">
+                      <span className="text-amber-400">⚡</span>
+                      Algorithmic Problem Solving & Competitive Honors
+                    </h3>
+                    <p className="text-xxs text-slate-400 mt-0.5">
+                      Verified algorithmic problem solving and hackathon achievements from the official resume.
+                    </p>
+                  </div>
+                  <a
+                    href="https://leetcode.com/u/kartikraikar2005"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xxs font-bold transition self-start sm:self-auto"
+                  >
+                    <span>View LeetCode Profile (104 Solved)</span>
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  {/* LeetCode Card */}
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-amber-500/20 space-y-2">
+                    <div className="flex items-center justify-between text-amber-400 font-mono text-[10px]">
+                      <span className="font-bold">LEETCODE</span>
+                      <span className="text-white font-bold text-xs">104 Total</span>
+                    </div>
+                    <div className="space-y-1 font-mono text-3xs">
+                      <div className="flex justify-between items-center text-emerald-400">
+                        <span>Easy</span>
+                        <span className="font-bold">30 Solved</span>
+                      </div>
+                      <div className="flex justify-between items-center text-amber-400">
+                        <span>Medium</span>
+                        <span className="font-bold">50 Solved</span>
+                      </div>
+                      <div className="flex justify-between items-center text-rose-400">
+                        <span>Hard</span>
+                        <span className="font-bold">24 Solved</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Hack2Future 2.0 */}
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-purple-500/20 space-y-1.5">
+                    <div className="flex items-center justify-between text-purple-400 font-mono text-[10px]">
+                      <span className="font-bold">HACK2FUTURE 2.0</span>
+                      <span className="px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300 font-bold">Top 60</span>
+                    </div>
+                    <p className="text-xs font-bold text-white">IIIT Dharwad (Nokia Track)</p>
+                    <p className="text-3xs text-slate-400 leading-relaxed">
+                      Selected Top 60 of 570+ national teams. Developed KubeShield graph attack-path visualizer.
+                    </p>
+                  </div>
+
+                  {/* Code for Innovex */}
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-cyan-500/20 space-y-1.5">
+                    <div className="flex items-center justify-between text-cyan-400 font-mono text-[10px]">
+                      <span className="font-bold">INNOVEX 2025</span>
+                      <span className="text-cyan-300 font-bold">National</span>
+                    </div>
+                    <p className="text-xs font-bold text-white">NMAM IT (NSS IT Wing)</p>
+                    <p className="text-3xs text-slate-400 leading-relaxed">
+                      24-hour national hackathon collaborating on high-velocity prototyping and AI solutions.
+                    </p>
+                  </div>
+
+                  {/* Department Leadership */}
+                  <div className="p-3.5 rounded-xl bg-black/40 border border-emerald-500/20 space-y-1.5">
+                    <div className="flex items-center justify-between text-emerald-400 font-mono text-[10px]">
+                      <span className="font-bold">LEADERSHIP</span>
+                      <span className="text-emerald-300 font-bold">JCE (VTU)</span>
+                    </div>
+                    <p className="text-xs font-bold text-white">Vice President — AI &amp; ML</p>
+                    <p className="text-3xs text-slate-400 leading-relaxed">
+                      Coordinated departmental initiatives, symposiums, and peer academic mentorship.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               {/* Grid of details */}
               <div className="rounded-xl bg-white/5 border border-white/10 p-5 md:col-span-2">
                 <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 font-display">
