@@ -572,6 +572,36 @@ The art and science of structuring inputs to guide LLMs toward high-quality outp
 **Kartik's Contribution**: Systematically benchmarked 5 retrieval strategies in ApexRAG, establishing ranking quality as the primary bottleneck.`
   },
 
+  // ==================== 5b. SPARK IIT RESEARCH DEEP-DIVE ====================
+  {
+    id: "spark_iit_research",
+    exactMatches: ["spark iit", "spark iit research", "aqi analysis", "prophet vs sarimax", "tell me about spark iit"],
+    patterns: ["spark iit", "aqi analysis", "prophet vs sarimax", "holdout dataset", "air quality modeling"],
+    handler: () => `### Industry Experience: AI Intern at SPARK IIT (Jul 2026 – Sep 2026)
+
+• 🔬 **Large-Scale AQI Processing**: Analyzed **29,531 air-quality records** across **26 Indian cities (2015–2020)** using Python and Pandas.
+• 📈 **Data Engineering**: Applied temporal interpolation and monthly median imputation to resolve missingness, investigating cross-pollutant correlations (PM2.5, PM10, NO2, SO2, CO, O3) and diurnal/seasonal trends.
+• ⚡ **Time-Series Forecasting Benchmark**:
+  - Tested **Facebook Prophet vs. SARIMAX** on a rigorous **180-day holdout dataset**.
+  - **RMSE reduced by 64.3%** (249.54 down to 89.03) relative to the baseline.
+  - **MAE reduced by 67.6%** (235.33 down to 76.29) relative to the baseline.
+• 🖥️ **Interactive Analytics Dashboard**: Deployed a high-throughput Streamlit application delivering historical air quality analytics and 12-month forward forecasts with **95% confidence intervals**.
+• 🤖 **AI Resume-Screening Workflow**: Designed an automated NLP/LLM resume evaluation pipeline matching candidate profiles against job requisition requirements.`
+  },
+  {
+    id: "rag_pillars_mastery",
+    exactMatches: ["6 rag pillars", "rag pillars", "what makes rag production grade", "what 99% of projects do vs top 1%"],
+    patterns: ["6 rag pillars", "production rag standard", "top 1% rag", "rag architectural pillars"],
+    handler: () => `### The 6 Core Pillars of Production RAG (Top 1% Standard)
+
+1. ✂️ **Chunking**: Hierarchical AST Parent-Document chunking (100-word child for high-resolution vector search / 600-word parent for LLM synthesis).
+2. 🔀 **Hybrid Retrieval**: Parallel Okapi BM25 ($k_1=1.5, b=0.75$) + Dense pgvector HNSW fused via Reciprocal Rank Fusion ($k=60$) eliminating vocabulary mismatch.
+3. 🎯 **Re-ranking**: Cross-Encoder joint query-document cross-attention scoring with Pareto-optimal latency (<37ms).
+4. 🔄 **Self-Correction (CRAG)**: Corrective RAG with tripartite relevance grading (CORRECT, AMBIGUOUS, INCORRECT) and dynamic query reformulation.
+5. ⚡ **Economics & Latency**: Sub-millisecond semantic cosine cache ($\\ge 0.96$) and Shannon entropy router gating ($\\le 1.25$) with Thompson Sampling bandit.
+6. 🛡️ **Security & Observability**: 0.8µs Outbound Shannon entropy DLP ($H(X) \\ge 3.8$), ISO/IEC 7812 Luhn checksums, append-only SHA-256 Saga rollback journal, and OTel waterfall flamegraphs.`
+  },
+
   // ==================== 6. ALL PROJECTS & SYSTEM DESIGN ====================
   {
     id: "projects",
@@ -698,11 +728,11 @@ The art and science of structuring inputs to guide LLMs toward high-quality outp
   - Intent execution accuracy: **64% → 100%**.
   - **Zero prompt injections** across 20 adversarial test suites.
 • ⚡ **Key Features**:
-  1. **Two-Phase Preview Protocol**: SHA-256 tokens require explicit human approval before mutations.
-  2. **ABAC Security**: Attribute-Based Access Control for fine-grained permissions.
-  3. **Saga Rollback**: Reversible write workflows with complete state rollback.
-  4. **Pydantic Validation**: Strict input validation neutralizing prompt injections.
-  5. **Circuit Breakers**: Resilient fault tolerance patterns.
+  1. **0.8µs Outbound DLP Scanner**: Shannon entropy H(X) ≥ 3.8 and ISO/IEC 7812 Luhn checksums halt secret/key exfiltration.
+  2. **Pure-Python Hybrid RRF (k=60)**: Corpus TF-IDF + exact AST error-code matching with 0 MB ML footprint.
+  3. **Two-Phase Preview Protocol**: Ephemeral SHA-256 preview tokens eliminate 14% blind state corruption.
+  4. **Append-Only Saga Journal**: SHA-256 hash-chained journal for out-of-order rollbacks by tx_id.
+  5. **Fault Tolerance**: RLock single-probe circuit breaker and adaptive compactor (-92.2% context bloat).
 • 🐙 **GitHub**: [github.com/kartik-012/github-mcp-toolkit](https://github.com/kartik-012/github-mcp-toolkit)
 
 *Would you like to learn about the SHA-256 preview protocol or ABAC security?*`
