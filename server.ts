@@ -139,6 +139,22 @@ function buildDefaultKnowledgeBase() {
     });
   });
 
+  // 4b. Six Enterprise RAG Production Pillars
+  chunks.push({
+    id: "rag-production-pillars",
+    title: "The 6 Production RAG Architectural Pillars (Top 1% Standard)",
+    source: "System_Architecture.pdf",
+    content: "The 6 Core Architectural Pillars of Production RAG implemented in Kartik's engineering systems: 1) Ingestion & Chunking: Hierarchical AST Parent-Document Chunking (100-word child for vector resolution, 600-word parent for LLM synthesis). 2) Hybrid Retrieval: Okapi BM25 (k1=1.5, b=0.75) + Dense HNSW pgvector fused via Reciprocal Rank Fusion (RRF, k=60). 3) Re-ranking: Cross-Encoder joint scoring with <37ms Pareto-optimal latency. 4) Self-Correction: Corrective RAG (CRAG) tripartite relevance grading (CORRECT, AMBIGUOUS, INCORRECT) with query reformulation. 5) Latency & Economics: Semantic cosine cache (>= 0.96) and Shannon entropy router gating (<= 1.25) with Thompson Sampling bandit. 6) Security & Observability: 0.8µs Outbound Shannon entropy DLP (H(X) >= 3.8) with Luhn checksums, append-only SHA-256 Saga rollback journal, and OTel waterfall flamegraphs."
+  });
+
+  // 4c. Technical Skills Taxonomy (Official Resume Grouping)
+  chunks.push({
+    id: "skills-official-taxonomy",
+    title: "Complete Technical Skills Breakdown by Category",
+    source: "Resume.pdf",
+    content: "Kartik Raikar Technical Skills Taxonomy: Programming Languages: Python, JavaScript, TypeScript, SQL. Frameworks & APIs: FastAPI, React.js, Next.js, FastMCP, Pydantic, PyGithub, gRPC, OpenAPI/Swagger. AI/ML & Retrieval: LLMs, RAG, Transformers, AI Evaluation, Prompt Engineering, BM25, Reciprocal Rank Fusion (RRF), Cross-Encoder Reranking, Semantic Search, Vector Search, scikit-learn. Databases & Messaging: PostgreSQL, pgvector, MySQL, MongoDB, Redis, Qdrant, ChromaDB, Apache Kafka (KRaft). Observability & Infrastructure: OpenTelemetry (OTLP), Prometheus, Linux eBPF, Docker, Docker Compose, Linux. Data & Visualization: Pandas, Streamlit, Prophet, SARIMAX, Three.js, Power BI, Tableau, Microsoft Excel. Developer Tools: Git, GitHub, Postman, VS Code, Vercel, Render."
+  });
+
   // 5. Technical Skills
   chunks.push({
     id: "skills-languages",
