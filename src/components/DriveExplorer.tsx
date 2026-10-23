@@ -300,11 +300,10 @@ Period: Jul 2026 – Sep 2026
 Location: Remote / India
 Technologies: Python, Streamlit, Prophet, SARIMAX, Pandas, NumPy, scikit-learn, LLMs, Matplotlib, Seaborn
 
-Key Deliverables:
-- Large-Scale AQI Analysis: Ingested and analyzed 29,531 records spanning 26 Indian cities to identify critical pollution clusters and seasonal particulate trends.
-- Time-Series Forecasting: Engineered comparative forecasting models using Facebook Prophet and SARIMAX, reducing prediction error by 64.3% RMSE (from 249.54 to 89.03) and 67.6% MAE.
-- Interactive Analytics Dashboard: Built an interactive multi-city Streamlit dashboard for real-time pollution visualizer and automated health advisory warnings.
-- AI Resume Screening: Architected an AI-powered resume screening and candidate evaluation workflow integrating LLM extraction pipelines.`,
+Key Deliverables & Engineering Metrics:
+- AQI Analysis & Data Processing: Analyzed 29,531 air-quality records across 26 Indian cities (2015–2020) using Python and Pandas; applied temporal interpolation and monthly median imputation and investigated pollutant correlations and seasonal trends.
+- Time-Series Forecasting: Benchmarked Facebook Prophet against SARIMAX on a 180-day holdout dataset, reducing RMSE by 64.3% (249.54 to 89.03) and MAE by 67.6% (235.33 to 76.29) relative to the baseline.
+- AI Applications & Visualization: Built a Streamlit dashboard for historical AQI analysis and 12-month forecasts with reported 95% confidence intervals; also worked on an AI-based resume-screening workflow to evaluate candidate resumes against job requirements.`,
 
   "file-cognifyz": `EXPERIENCE PROFILE: MACHINE LEARNING INTERN – COGNIFYZ TECHNOLOGIES
 Role: Machine Learning Intern (1-Month Intensive)
