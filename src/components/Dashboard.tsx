@@ -1275,6 +1275,29 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
                   </div>
                 </div>
 
+                {/* Polyglot AST Diff & Vulnerability Workbench Badges */}
+                <div className="flex flex-wrap items-center gap-2 p-2.5 rounded-xl bg-black/40 border border-cyan-500/20 text-xxs font-mono">
+                  <div className="flex items-center gap-1.5 text-cyan-400">
+                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                    <span className="font-bold">Polyglot AST Engine:</span>
+                  </div>
+                  <span className="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                    ParamNode
+                  </span>
+                  <span className="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                    ReturnTypeNode
+                  </span>
+                  <span className="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                    ExceptionNode
+                  </span>
+                  <span className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20">
+                    CLI Gate: python -m app.cli audit
+                  </span>
+                  <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+                    3-Way Auto-RAGAS (40 Tests)
+                  </span>
+                </div>
+
                 {/* Interactive Inspection Comparison */}
                 <div className="rounded-xl border border-white/10 bg-black/60 p-4 font-mono text-[11px] space-y-3">
                   <div className="flex items-center justify-between text-slate-500 border-b border-white/5 pb-2 text-[10px]">
