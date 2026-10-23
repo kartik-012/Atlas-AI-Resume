@@ -45,6 +45,11 @@ export interface Certification {
   brandColor: string;
 }
 
+export interface SkillCategory {
+  name: string;
+  skills: string[];
+}
+
 export interface ResumeData {
   name: string;
   tagline: string;
@@ -81,6 +86,7 @@ export interface ResumeData {
     dataViz: string[];
     observability?: string[];
   };
+  skillCategories: SkillCategory[];
   projects: Project[];
   achievements: Achievement[];
   certifications: Certification[];
@@ -128,10 +134,9 @@ export const resumeData: ResumeData = {
       period: "Jul 2026 – Sep 2026",
       description: "Spearheaded large-scale AQI environmental analytics, predictive time-series modeling, interactive visual intelligence dashboards, and automated AI resume-screening workflows.",
       keyPoints: [
-        "Conducted large-scale Air Quality Index (AQI) analysis across 29,531 records spanning 26 Indian cities to identify critical pollution clusters and seasonal particulate trends.",
-        "Engineered comparative Time-Series Forecasting models using Facebook Prophet and SARIMAX, reducing prediction error by 64.3% RMSE (from 249.54 to 89.03) and 67.6% MAE.",
-        "Built an interactive multi-city Streamlit analytics dashboard for real-time pollution trend visualizer and automated health advisory warnings.",
-        "Architected an AI-powered resume screening and candidate evaluation workflow integrating LLM extraction pipelines."
+        "Analyzed 29,531 air-quality records across 26 Indian cities (2015–2020) using Python and Pandas; applied temporal interpolation and monthly median imputation and investigated pollutant correlations and seasonal trends.",
+        "Benchmarked Facebook Prophet against SARIMAX on a 180-day holdout dataset, reducing RMSE by 64.3% (249.54 to 89.03) and MAE by 67.6% (235.33 to 76.29) relative to the baseline.",
+        "Built a Streamlit dashboard for historical AQI analysis and 12-month forecasts with reported 95% confidence intervals; also worked on an AI-based resume-screening workflow to evaluate candidate resumes against job requirements."
       ],
       technologies: ["Python", "Streamlit", "Prophet", "SARIMAX", "Pandas", "NumPy", "scikit-learn", "LLMs", "Matplotlib", "Seaborn"]
     }
@@ -146,6 +151,15 @@ export const resumeData: ResumeData = {
     observability: ["OpenTelemetry (OTLP)", "Prometheus", "OTel Waterfall Flamegraphs", "eBPF Probes"],
     dataViz: ["Pandas", "Streamlit", "Prophet", "SARIMAX", "Three.js", "Power BI", "Tableau", "Microsoft Excel"]
   },
+  skillCategories: [
+    { name: "Programming Languages", skills: ["Python", "JavaScript", "TypeScript", "SQL"] },
+    { name: "Frameworks & APIs", skills: ["FastAPI", "React.js", "Next.js", "FastMCP", "Pydantic", "PyGithub", "gRPC", "OpenAPI/Swagger"] },
+    { name: "AI/ML & Retrieval", skills: ["LLMs", "RAG", "Transformers", "AI Evaluation", "Prompt Engineering", "BM25", "Reciprocal Rank Fusion (RRF)", "Cross-Encoder Reranking", "Semantic Search", "Vector Search", "scikit-learn"] },
+    { name: "Databases & Messaging", skills: ["PostgreSQL", "pgvector", "MySQL", "MongoDB", "Redis", "Qdrant", "ChromaDB", "Apache Kafka (KRaft)"] },
+    { name: "Observability & Infrastructure", skills: ["OpenTelemetry (OTLP)", "Prometheus", "Linux eBPF", "Docker", "Docker Compose", "Linux"] },
+    { name: "Data & Visualization", skills: ["Pandas", "Streamlit", "Prophet", "SARIMAX", "Three.js", "Power BI", "Tableau", "Microsoft Excel"] },
+    { name: "Developer Tools & Deployment", skills: ["Git", "GitHub", "Postman", "VS Code", "Vercel", "Render"] }
+  ],
   projects: [
     {
       id: "atlas-ai-resume",
