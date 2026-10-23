@@ -22,7 +22,13 @@ export default function PDFViewer({
   onToggleChat
 }: PDFViewerProps) {
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const [activePage, setActivePage] = useState<number>(1);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const jumpToPage = (pageNum: number) => {
+    setActivePage(pageNum);
+    onTrackAction(`pdf_jump_page_${pageNum}`);
+  };
 
   // Track Fullscreen
   const toggleFullscreen = () => {
@@ -87,13 +93,38 @@ export default function PDFViewer({
               </span>
             </div>
             <span className="text-[10px] text-slate-400 font-mono">
-              Kartik Raikar • AI & ML Systems Engineer (8.5 CGPA)
+              Kartik Raikar • AI Engineer (8.50 CGPA • SPARK IIT Intern • 9 Certs)
             </span>
           </div>
         </div>
 
-        {/* Right: Actions */}
+        {/* Center/Right: Page Switcher & Actions */}
         <div className="flex items-center space-x-2">
+          {/* Quick Page Jump Pills */}
+          <div className="hidden md:flex items-center space-x-1 rounded-lg bg-black/40 border border-cyan-500/20 p-1">
+            <button
+              onClick={() => jumpToPage(1)}
+              className={`px-2.5 py-1 rounded text-3xs font-mono font-bold transition-all ${
+                activePage === 1
+                  ? "bg-cyan-500/20 text-[#4FC0D0] border border-cyan-500/40"
+                  : "text-slate-400 hover:text-white"
+              }`}
+              title="Page 1: Summary, Skills, SPARK IIT Experience, AIOps RCA, VersionRAG"
+            >
+              Page 1 (Experience)
+            </button>
+            <button
+              onClick={() => jumpToPage(2)}
+              className={`px-2.5 py-1 rounded text-3xs font-mono font-bold transition-all ${
+                activePage === 2
+                  ? "bg-cyan-500/20 text-[#4FC0D0] border border-cyan-500/40"
+                  : "text-slate-400 hover:text-white"
+              }`}
+              title="Page 2: GitHub MCP, ApexRAG, 9 Certifications, Leadership, LeetCode"
+            >
+              Page 2 (Credentials)
+            </button>
+          </div>
           {/* AI Assistant Toggle Button (Desktop & Mobile) */}
           {onToggleChat && (
             <button
@@ -147,7 +178,7 @@ export default function PDFViewer({
       {/* PDF Embed */}
       <div className="flex-1 min-h-0 h-full bg-[#0B1120] relative" id="pdf-paper-canvas">
         <iframe
-          src={`${RESUME_URL}#toolbar=1&navpanes=0&scrollbar=1&view=FitH`}
+          src={`${RESUME_URL}#page=${activePage}&toolbar=1&navpanes=0&scrollbar=1&view=FitH`}
           title="Kartik Raikar Resume"
           className="w-full h-full border-0 block absolute inset-0"
           aria-label="Kartik Raikar's Resume PDF"
