@@ -961,7 +961,13 @@ export default function DriveExplorer({ isDarkMode, onTrackAction, onViewChange 
             <div className="absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full bg-emerald-500 border-2 border-[#09090B]" />
           </div>
           <div>
-            <h1 className="text-sm font-bold tracking-tight">Google Drive Workspace</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-sm font-bold tracking-tight">Google Drive Workspace</h1>
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-mono font-bold tracking-wider uppercase border border-cyan-500/30 bg-cyan-500/10 text-cyan-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                7 Knowledge Assets Indexed
+              </span>
+            </div>
             <p className={`text-[10px] font-semibold tracking-wide ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}>
               Full Cloud File Operations & Atlas AI Document Summaries
             </p>
@@ -1340,14 +1346,14 @@ export default function DriveExplorer({ isDarkMode, onTrackAction, onViewChange 
                           key={file.id}
                           onClick={() => handleFileClick(file)}
                           onDoubleClick={() => handleFileDoubleClick(file)}
-                          className={`cursor-pointer group transition-all duration-150 ${
+                          className={`cursor-pointer group transition-all duration-200 ${
                             isSelected
                               ? isDarkMode
-                                ? "bg-indigo-600/20"
-                                : "bg-indigo-50 border-indigo-200/50"
+                                ? "bg-indigo-600/20 border-l-2 border-indigo-500"
+                                : "bg-indigo-50 border-l-2 border-indigo-500"
                               : isDarkMode
-                                ? "hover:bg-white/5"
-                                : "hover:bg-slate-50"
+                                ? "hover:bg-gradient-to-r hover:from-indigo-500/10 hover:to-transparent hover:translate-x-0.5"
+                                : "hover:bg-gradient-to-r hover:from-indigo-50/80 hover:to-transparent hover:translate-x-0.5"
                           }`}
                         >
                           {/* File Name Panel */}
