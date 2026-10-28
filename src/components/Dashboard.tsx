@@ -860,23 +860,22 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
                   </div>
 
                   {/* Actions footer */}
-                  <div className="flex items-center space-x-3 mt-6 pt-4 border-t border-white/5">
+                  <div className="flex items-center space-x-2 mt-6 pt-4 border-t border-white/5">
                     <a
                       href={p.githubUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center space-x-1.5 text-slate-400 hover:text-white text-xxs font-bold transition focus-visible:outline-2"
+                      className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/5 hover:border-cyan-500/30 text-xxs font-bold transition-all hover:scale-105 active:scale-95 focus-visible:outline-2"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <Github className="h-3.5 w-3.5" />
                       <span>View Code</span>
                     </a>
-                    <span className="text-slate-800">•</span>
                     <a
                       href={p.liveUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center space-x-1.5 text-slate-400 hover:text-white text-xxs font-bold transition focus-visible:outline-2"
+                      className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 hover:text-cyan-200 border border-cyan-500/20 hover:border-cyan-400/40 text-xxs font-bold transition-all hover:scale-105 active:scale-95 focus-visible:outline-2 shadow-xs shadow-cyan-500/10"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
