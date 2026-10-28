@@ -70,16 +70,16 @@ export default function Navbar({
 
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
         {/* ── Wordmark ── */}
-        <div className="flex items-center space-x-2.5 select-none">
+        <div className="flex items-center space-x-2.5 select-none group cursor-pointer" onClick={() => setCurrentView("pdf")}>
           {/* Compass icon as brand mark */}
           <div
-            className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${
+            className={`flex h-8 w-8 items-center justify-center rounded-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-cyan-500/25 ${
               isDarkMode
-                ? "bg-[#1B6B93]/20 text-[#4FC0D0]"
-                : "bg-[#1B6B93]/10 text-[#1B6B93]"
+                ? "bg-[#1B6B93]/20 text-[#4FC0D0] group-hover:border group-hover:border-cyan-400/30"
+                : "bg-[#1B6B93]/10 text-[#1B6B93] group-hover:border group-hover:border-cyan-600/30"
             }`}
           >
-            <Compass className="h-[18px] w-[18px]" strokeWidth={2.2} />
+            <Compass className="h-[18px] w-[18px] transition-transform duration-500 group-hover:rotate-45" strokeWidth={2.2} />
           </div>
           <div className="flex flex-col">
             <span className="text-[15px] font-display font-bold tracking-tight leading-tight">
