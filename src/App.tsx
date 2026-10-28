@@ -110,10 +110,10 @@ export default function App() {
       }`}>
         {/* Atmospheric ambient lights */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none select-none z-0">
-          <div className={`absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full blur-[120px] transition-all duration-500 ${
+          <div className={`absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full blur-[120px] transition-all duration-500 animate-float-soft ${
             isDarkMode ? "bg-[#1B6B93]/15" : "bg-[#4FC0D0]/5"
           }`} />
-          <div className={`absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full blur-[120px] transition-all duration-500 ${
+          <div className={`absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full blur-[120px] transition-all duration-500 animate-float-soft delay-1000 ${
             isDarkMode ? "bg-[#4FC0D0]/10" : "bg-[#A2D2DF]/5"
           }`} />
         </div>
@@ -187,24 +187,31 @@ export default function App() {
         </main>
 
         {/* Bottom Status Bar */}
-        <footer className={`h-6.5 border-t px-4 flex items-center justify-between text-[10px] font-semibold select-none z-20 shrink-0 transition-all ${
+        <footer className={`h-7 border-t px-4 flex items-center justify-between text-[10px] font-semibold select-none z-20 shrink-0 transition-all ${
           isDarkMode 
-            ? "bg-[#080D1A] border-slate-800/80 text-slate-400" 
-            : "bg-white border-slate-200 text-slate-500 shadow-[0_-1px_3px_rgba(0,0,0,0.02)]"
+            ? "bg-[#080D1A]/95 border-white/[0.07] text-slate-400 backdrop-blur-md" 
+            : "bg-white/95 border-slate-200 text-slate-500 backdrop-blur-md shadow-[0_-1px_3px_rgba(0,0,0,0.02)]"
         }`}>
-          <div className="flex gap-4 uppercase tracking-widest text-[9px]">
-            <span className="flex items-center gap-1.5 text-emerald-400">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Atlas AI Active
+          <div className="flex items-center gap-3 uppercase tracking-widest text-[9px] font-mono">
+            <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Atlas AI Engine v2.4.0
             </span>
-            <span className="hidden sm:inline text-slate-500">324 Master Intents Loaded</span>
+            <span className="hidden sm:inline text-slate-600">•</span>
+            <span className="hidden sm:inline text-slate-400">Gemini 2.5 Flash Connected</span>
+            <span className="hidden md:inline text-slate-600">•</span>
+            <span className="hidden md:inline text-cyan-400/90 font-mono">TTFT &lt;40ms</span>
           </div>
           <div className="flex gap-4 items-center">
             <span className="hidden sm:inline font-mono text-[9px] text-slate-500">
               © {new Date().getFullYear()} Kartik Raikar • 8.5 CGPA • Jain College of Engineering
             </span>
-            <span className="text-[#4FC0D0] font-mono text-[9px]">
-              {isChatOpen ? "Dual View Active" : "Resume Full View"}
+            <span className={`px-2 py-0.5 rounded text-[9px] font-mono font-bold tracking-wider ${
+              isChatOpen 
+                ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20" 
+                : "bg-white/5 text-slate-400 border border-white/5"
+            }`}>
+              {isChatOpen ? "DUAL SPLIT" : "FULL RESUME"}
             </span>
           </div>
         </footer>
