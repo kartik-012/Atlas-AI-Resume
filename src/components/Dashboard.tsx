@@ -820,7 +820,7 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
                 <div
                   key={p.id}
                   onClick={() => onTrackAction("project_click", { title: p.title })}
-                  className="group relative flex flex-col rounded-xl bg-white/5 border border-white/10 p-5 hover:border-[#1B6B93]/40 hover:bg-white/[0.08] hover:shadow-[#1B6B93]/5 shadow-lg transition-all duration-300 cursor-pointer"
+                  className="group relative flex flex-col rounded-2xl bg-white/[0.03] border border-white/10 p-5 hover:border-cyan-500/40 hover:bg-white/[0.06] hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/10 shadow-lg transition-all duration-300 cursor-pointer"
                 >
                   {/* Subtle hover gradient light effect */}
                   <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#4FC0D0]/30 to-transparent opacity-0 group-hover:opacity-100 transition" />
@@ -834,7 +834,7 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
                         e.stopPropagation();
                         onAskAIAboutProject(p.title);
                       }}
-                      className="flex items-center space-x-1 rounded-lg bg-[#1B6B93] hover:bg-[#164E6B] px-2.5 py-1 text-2xs font-bold text-white transition shadow-md shadow-[#1B6B93]/25"
+                      className="flex items-center space-x-1 rounded-xl bg-gradient-to-r from-[#1B6B93] to-[#4FC0D0] hover:from-[#164E6B] hover:to-[#38A8B8] px-3 py-1.5 text-2xs font-bold text-white transition shadow-md shadow-cyan-500/20 active:scale-95"
                     >
                       <Compass className="h-3 w-3 animate-spin-slow" />
                       <span>Ask AI</span>
@@ -852,7 +852,7 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
                     {p.techStack.map((tech, i) => (
                       <span
                         key={i}
-                        className="rounded bg-white/5 px-2 py-0.5 text-xxs font-medium text-slate-400 border border-white/5"
+                        className="rounded-lg bg-black/40 px-2 py-0.5 text-xxs font-mono text-slate-300 border border-white/10 group-hover:border-cyan-500/25 transition-colors"
                       >
                         {tech}
                       </span>
