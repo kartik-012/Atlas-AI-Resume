@@ -77,7 +77,7 @@ export default function PDFViewer({
       id="pdf-viewer-root"
     >
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-[#0E1726]/90 px-4 py-2.5 border-b border-cyan-500/20 backdrop-blur-md shrink-0">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-[#0E1726]/90 px-4 py-2.5 border-b border-cyan-500/20 backdrop-blur-md shrink-0 shadow-lg shadow-black/20">
         {/* Left: File info */}
         <div className="flex items-center space-x-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1B6B93]/25 text-[#4FC0D0] border border-cyan-500/30">
@@ -88,8 +88,9 @@ export default function PDFViewer({
               <span className="text-xs font-bold text-slate-200 tracking-tight">
                 {RESUME_FILENAME}
               </span>
-              <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[9px] font-mono bg-cyan-950/60 text-[#4FC0D0] border border-cyan-500/30 font-semibold">
-                ATS Verified
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-semibold shadow-sm shadow-emerald-500/15">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                ATS 100% Verified
               </span>
             </div>
             <span className="text-[10px] text-slate-400 font-mono">
@@ -157,8 +158,8 @@ export default function PDFViewer({
 
           <button
             onClick={handleDownload}
-            className="flex items-center space-x-1.5 rounded-lg bg-[#1B6B93] hover:bg-[#164E6B] text-white px-3 py-1.5 text-xs font-bold transition-all active:scale-95 shadow-md shadow-[#1B6B93]/20"
-            title="Download PDF"
+            className="group relative flex items-center space-x-1.5 rounded-lg bg-gradient-to-r from-[#1B6B93] to-[#4FC0D0] hover:from-[#164E6B] hover:to-[#38A8B8] text-white px-3.5 py-1.5 text-xs font-bold transition-all active:scale-95 shadow-md shadow-cyan-500/20 hover:shadow-cyan-500/35 overflow-hidden"
+            title="Download PDF Copy"
             id="pdf-download"
           >
             <Download className="h-3.5 w-3.5" />
