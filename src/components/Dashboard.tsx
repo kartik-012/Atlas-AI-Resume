@@ -1440,11 +1440,11 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
 
             {/* 4. APEXRAG STRATEGY EVALUATOR */}
             {activeVerifier === "apexrag" && (
-              <div className="space-y-4 rounded-2xl border border-purple-500/20 bg-purple-500/[0.03] p-5">
+              <div className="space-y-4 rounded-2xl border border-purple-500/20 bg-purple-500/[0.03] p-5 shadow-lg shadow-purple-500/5 transition-all">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
                     <h3 className="text-base font-bold text-white flex items-center gap-2">
-                      <Cpu className="h-4 w-4 text-purple-400" />
+                      <Cpu className="h-4 w-4 text-purple-400 animate-pulse" />
                       ApexRAG Systematic Retrieval Strategy Benchmark
                     </h3>
                     <p className="text-xs text-slate-400 mt-0.5">
@@ -1459,10 +1459,10 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
                         key={strat}
                         onClick={() => runApexBenchmark(strat)}
                         disabled={apexBenchmarking}
-                        className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold uppercase transition border ${
+                        className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold uppercase transition-all duration-200 border cursor-pointer active:scale-95 ${
                           apexStrategy === strat
-                            ? "bg-purple-500/20 text-purple-300 border-purple-500/40"
-                            : "bg-white/5 text-slate-400 hover:text-white border-white/5"
+                            ? "bg-purple-500/25 text-purple-200 border-purple-500/50 shadow-md shadow-purple-500/20 scale-102"
+                            : "bg-white/5 text-slate-400 hover:text-white border-white/10 hover:border-purple-500/30 hover:scale-102"
                         }`}
                       >
                         {strat.replace("_", " ")}
