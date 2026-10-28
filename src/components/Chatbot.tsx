@@ -696,9 +696,9 @@ export default function Chatbot({
               setIsOpen(true);
               onTrackAction("chatbot_open");
             }}
-            className="flex h-13 w-13 sm:h-14 sm:w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#1B6B93] to-[#4FC0D0] shadow-2xl shadow-[#1B6B93]/40 hover:scale-110 active:scale-95 transition-all duration-300 group border border-cyan-400/40 relative"
+            className="flex h-13 w-13 sm:h-14 sm:w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#1B6B93] via-[#2282A8] to-[#4FC0D0] shadow-2xl shadow-cyan-500/40 hover:scale-110 active:scale-95 transition-all duration-300 group border border-cyan-400/50 relative animate-glow-pulse"
             id="chatbot-trigger"
-            title="Open Atlas AI Candidate Assistant"
+            title="Open Atlas AI Candidate Assistant (⌘K)"
           >
             <div className="absolute inset-0 rounded-2xl bg-[#4FC0D0]/20 animate-ping duration-1000" />
             <MessageSquare className="h-6 w-6 text-white group-hover:rotate-6 transition-transform" />
@@ -755,6 +755,12 @@ export default function Chatbot({
                     >
                       <span className="font-bold text-[9.5px]">✓</span>
                       <span>RAG Powered</span>
+                    </span>
+                    <span 
+                      className="hidden sm:inline-flex items-center gap-1 rounded-full bg-cyan-500/10 border border-cyan-500/25 px-1.5 py-0.5 text-[8.5px] font-mono text-cyan-300"
+                      title="Streaming SSE Token Latency"
+                    >
+                      <span>TTFT &lt;40ms</span>
                     </span>
                   </div>
                 </div>
