@@ -149,8 +149,8 @@ export default function PDFViewer({
 
           <button
             onClick={handleOpenTab}
-            className="flex items-center space-x-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white px-3 py-1.5 text-xs font-semibold transition-all"
-            title="Open in new tab"
+            className="flex items-center space-x-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cyan-500/30 text-slate-300 hover:text-white px-3 py-1.5 text-xs font-semibold transition-all hover:scale-102 active:scale-98 cursor-pointer"
+            title="Open PDF in new tab"
           >
             <ExternalLink className="h-3.5 w-3.5" />
             <span className="hidden sm:inline">Open</span>
@@ -158,7 +158,7 @@ export default function PDFViewer({
 
           <button
             onClick={handleDownload}
-            className="group relative flex items-center space-x-1.5 rounded-lg bg-gradient-to-r from-[#1B6B93] to-[#4FC0D0] hover:from-[#164E6B] hover:to-[#38A8B8] text-white px-3.5 py-1.5 text-xs font-bold transition-all active:scale-95 shadow-md shadow-cyan-500/20 hover:shadow-cyan-500/35 overflow-hidden"
+            className="group relative flex items-center space-x-1.5 rounded-lg bg-gradient-to-r from-[#1B6B93] to-[#4FC0D0] hover:from-[#164E6B] hover:to-[#38A8B8] text-white px-3.5 py-1.5 text-xs font-bold transition-all hover:scale-102 active:scale-95 shadow-md shadow-cyan-500/20 hover:shadow-cyan-500/35 overflow-hidden cursor-pointer"
             title="Download PDF Copy"
             id="pdf-download"
           >
@@ -168,7 +168,7 @@ export default function PDFViewer({
 
           <button
             onClick={toggleFullscreen}
-            className="p-2 rounded-lg bg-black/30 border border-white/10 text-slate-400 hover:text-white transition"
+            className="p-2 rounded-lg bg-black/30 border border-white/10 hover:border-cyan-500/30 text-slate-400 hover:text-white transition-all hover:scale-105 active:scale-95 cursor-pointer"
             title="Toggle Fullscreen"
           >
             {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
