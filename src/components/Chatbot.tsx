@@ -1131,7 +1131,7 @@ export default function Chatbot({
             <div className={`border-t shrink-0 ${s.inputBox} ${
               isDarkMode ? "border-cyan-500/20 bg-[#0B1120]" : "border-slate-200 bg-white"
             }`}>
-              <div className={`relative flex items-center border rounded-2xl focus-within:ring-2 focus-within:ring-[#4FC0D0]/50 transition-all ${
+              <div className={`relative flex items-center border rounded-2xl focus-within:ring-2 focus-within:ring-[#4FC0D0]/50 focus-within:border-cyan-400/50 focus-within:shadow-[0_0_15px_rgba(79,192,208,0.18)] transition-all ${
                 isDarkMode ? "bg-[#121827] border-cyan-500/25" : "bg-slate-50 border-slate-200"
               }`}>
                 <textarea
@@ -1152,7 +1152,7 @@ export default function Chatbot({
                 <button
                   onClick={() => handleSendMessage(inputQuery)}
                   disabled={!inputQuery.trim() || isTyping}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-r from-[#1B6B93] to-[#4FC0D0] text-white disabled:opacity-40 hover:scale-105 active:scale-95 transition shadow-md shadow-[#1B6B93]/30"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-r from-[#1B6B93] to-[#4FC0D0] text-white disabled:opacity-40 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-cyan-400/30 transition-all cursor-pointer shadow-md shadow-[#1B6B93]/30"
                   title="Send message (Enter)"
                 >
                   <Send className="h-3.5 w-3.5" />
