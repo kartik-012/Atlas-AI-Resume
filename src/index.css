@@ -38,24 +38,26 @@ pre, code, .font-mono {
 .text-3xs  { font-size: 0.5625rem; line-height: 0.8rem; }
 .text-4xs  { font-size: 0.5rem;   line-height: 0.7rem; }
 
-/* ─── Custom Scrollbar (dark themed) ─── */
+/* ─── Custom Scrollbar (dark themed with cyan glow) ─── */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(11, 17, 32, 0.4);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(79, 192, 208, 0.22);
   border-radius: 999px;
-  transition: background 0.2s;
+  border: 1px solid rgba(79, 192, 208, 0.15);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(79, 192, 208, 0.5);
+  box-shadow: 0 0 8px rgba(79, 192, 208, 0.4);
 }
 
 /* Light mode scrollbar variant */
