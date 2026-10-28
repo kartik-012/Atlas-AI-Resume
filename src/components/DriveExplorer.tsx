@@ -1260,8 +1260,10 @@ export default function DriveExplorer({ isDarkMode, onTrackAction, onViewChange 
                   <button
                     type="button"
                     onClick={handleResetSearch}
-                    className={`absolute right-2.5 top-1/2 -translate-y-1/2 text-2xs font-bold uppercase py-0.5 px-1.5 rounded transition ${
-                      isDarkMode ? "text-slate-400 hover:text-white" : "text-slate-500 hover:text-slate-800"
+                    className={`absolute right-2 top-1/2 -translate-y-1/2 text-[9px] font-mono font-bold uppercase py-0.5 px-2 rounded-md transition-all hover:scale-105 active:scale-95 cursor-pointer border ${
+                      isDarkMode 
+                        ? "bg-white/10 border-white/10 text-slate-300 hover:text-white hover:bg-white/20" 
+                        : "bg-slate-200/80 border-slate-300 text-slate-700 hover:text-slate-900 hover:bg-slate-300"
                     }`}
                   >
                     Clear
