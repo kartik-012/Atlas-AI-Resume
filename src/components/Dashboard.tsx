@@ -2160,11 +2160,11 @@ Requirements:
                 .map((c) => (
                 <div
                   key={c.id}
-                  className="group relative flex flex-col rounded-2xl bg-white/[0.04] border border-white/10 p-5 hover:border-[#1B6B93]/50 hover:bg-white/[0.07] transition-all duration-300 overflow-hidden"
+                  className="group relative flex flex-col rounded-2xl bg-white/[0.03] border border-white/10 p-5 hover:border-[#1B6B93]/50 hover:bg-white/[0.06] hover:-translate-y-1 hover:shadow-xl hover:shadow-black/40 transition-all duration-300 overflow-hidden"
                   style={{ ['--cert-color' as string]: c.brandColor }}
                 >
                   {/* Subtle colored top accent line */}
-                  <div className="absolute inset-x-0 top-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: c.brandColor }} />
+                  <div className="absolute inset-x-0 top-0 h-[2.5px] opacity-40 group-hover:opacity-100 transition-opacity shadow-sm" style={{ background: c.brandColor }} />
 
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
