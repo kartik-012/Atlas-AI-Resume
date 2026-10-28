@@ -1174,13 +1174,20 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
                 </div>
 
                 {/* Live Terminal Output */}
-                <div className="rounded-xl border border-white/10 bg-black/60 p-4 font-mono text-[11px] text-slate-300 space-y-2">
-                  <div className="flex items-center justify-between text-slate-500 border-b border-white/5 pb-2 text-[10px]">
-                    <span className="flex items-center gap-1.5">
-                      <Terminal className="h-3 w-3 text-emerald-400" />
-                      AIOPS TELEMETRY AUDIT CONSOLE
-                    </span>
-                    <span>NetworkX v3.4 + EWMA Dynamic Filter</span>
+                <div className="rounded-xl border border-white/10 bg-black/70 p-4 font-mono text-[11px] text-slate-300 space-y-2 shadow-inner">
+                  <div className="flex items-center justify-between text-slate-500 border-b border-white/5 pb-2.5 text-[10px]">
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center space-x-1.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80 inline-block"></span>
+                        <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80 inline-block"></span>
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block"></span>
+                      </div>
+                      <span className="flex items-center gap-1.5 ml-1 text-slate-300 font-bold">
+                        <Terminal className="h-3 w-3 text-emerald-400" />
+                        AIOPS TELEMETRY AUDIT CONSOLE
+                      </span>
+                    </div>
+                    <span className="text-emerald-400/80 font-mono text-3xs">NetworkX v3.4 + EWMA Dynamic Filter</span>
                   </div>
                   {aiopsLogs.length === 0 && !aiopsResult && (
                     <p className="text-slate-500 italic py-2">
