@@ -1059,12 +1059,12 @@ export default function Chatbot({
                   }`}>
                     <div className="absolute top-0 left-0 bottom-0 w-[3px] bg-[#4FC0D0]" />
                     <div className="flex items-center space-x-2 py-1 px-1">
-                      <div className="flex items-center space-x-1">
-                        <span className="h-2 w-2 rounded-full bg-[#4FC0D0] animate-bounce" />
-                        <span className="h-2 w-2 rounded-full bg-[#1B6B93] animate-bounce [animation-delay:0.2s]" />
-                        <span className="h-2 w-2 rounded-full bg-[#A2D2DF] animate-bounce [animation-delay:0.4s]" />
+                      <div className="flex items-center space-x-1.5">
+                        <span className="h-2 w-2 rounded-full bg-cyan-400 animate-bounce shadow-sm shadow-cyan-400/50" />
+                        <span className="h-2 w-2 rounded-full bg-blue-500 animate-bounce [animation-delay:150ms] shadow-sm shadow-blue-500/50" />
+                        <span className="h-2 w-2 rounded-full bg-purple-400 animate-bounce [animation-delay:300ms] shadow-sm shadow-purple-400/50" />
                       </div>
-                      <span className="text-[11px] font-semibold text-slate-400">Atlas AI is formulating answer...</span>
+                      <span className="text-[11px] font-mono text-cyan-300 font-medium tracking-tight">Synthesizing verified knowledge...</span>
                     </div>
                   </div>
                 </div>
