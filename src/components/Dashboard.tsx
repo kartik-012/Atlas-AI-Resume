@@ -747,13 +747,18 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
         </button>
         <button
           onClick={() => setActiveTab("certificates")}
-          className={`flex items-center space-x-2.5 rounded-xl px-4 py-3 text-xs font-semibold whitespace-nowrap md:whitespace-normal transition-all focus-visible:outline-2 ${
-            activeTab === "certificates" ? "bg-[#1B6B93]/20 text-[#4FC0D0] border border-[#1B6B93]/30 shadow-md" : "text-slate-400 hover:bg-white/5 hover:text-white"
+          className={`group flex items-center space-x-2.5 rounded-xl px-4 py-3 text-xs font-semibold whitespace-nowrap md:whitespace-normal transition-all focus-visible:outline-2 ${
+            activeTab === "certificates" ? "bg-[#1B6B93]/25 text-[#4FC0D0] border border-cyan-500/40 shadow-md shadow-cyan-500/10" : "text-slate-400 hover:bg-white/5 hover:text-white"
           }`}
           id="tab-certificates"
         >
-          <Milestone className="h-4.5 w-4.5" />
-          <span>Credentials</span>
+          <Milestone className="h-4.5 w-4.5 text-amber-400 group-hover:scale-110 transition-transform" />
+          <div className="flex items-center gap-1.5">
+            <span>Credentials</span>
+            <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              9 Verified
+            </span>
+          </div>
         </button>
         <button
           onClick={() => setActiveTab("skills")}
