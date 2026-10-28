@@ -2465,34 +2465,34 @@ Requirements:
               </div>
             ) : (
               <div className="space-y-6">
-                {/* Visual Counters Grid */}
+                {/* Visual Counters Grid with Glassmorphic Glow */}
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                  <div className="rounded-xl bg-white/5 border border-white/10 p-4 animate-count-up delay-75">
-                    <p className="text-xxs font-bold text-slate-500 uppercase">Total Visits</p>
+                  <div className="rounded-2xl bg-white/[0.03] border border-white/10 hover:border-white/25 p-4 animate-count-up delay-75 hover:-translate-y-1 transition-all duration-200">
+                    <p className="text-xxs font-bold text-slate-500 uppercase tracking-wider">Total Visits</p>
                     <p className="text-2xl font-black text-white mt-1">
                       {analytics?.visits ?? 0}
                     </p>
                   </div>
-                  <div className="rounded-xl bg-white/5 border border-white/10 p-4 animate-count-up delay-150">
-                    <p className="text-xxs font-bold text-slate-500 uppercase">Queries Solved</p>
+                  <div className="rounded-2xl bg-cyan-500/[0.04] border border-cyan-500/25 hover:border-cyan-500/45 p-4 animate-count-up delay-150 hover:-translate-y-1 transition-all duration-200 shadow-sm shadow-cyan-500/5">
+                    <p className="text-xxs font-bold text-cyan-400/70 uppercase tracking-wider">Queries Solved</p>
                     <p className="text-2xl font-black text-[#4FC0D0] mt-1">
                       {analytics?.questionsAsked ?? 0}
                     </p>
                   </div>
-                  <div className="rounded-xl bg-white/5 border border-white/10 p-4 animate-count-up delay-225">
-                    <p className="text-xxs font-bold text-slate-500 uppercase">Downloads</p>
-                    <p className="text-2xl font-black text-[#1B6B93] mt-1">
+                  <div className="rounded-2xl bg-blue-500/[0.04] border border-blue-500/25 hover:border-blue-500/45 p-4 animate-count-up delay-225 hover:-translate-y-1 transition-all duration-200 shadow-sm shadow-blue-500/5">
+                    <p className="text-xxs font-bold text-blue-400/70 uppercase tracking-wider">Downloads</p>
+                    <p className="text-2xl font-black text-blue-400 mt-1">
                       {analytics?.resumeDownloads ?? 0}
                     </p>
                   </div>
-                  <div className="rounded-xl bg-white/5 border border-white/10 p-4 animate-count-up delay-300">
-                    <p className="text-xxs font-bold text-slate-500 uppercase">Projects Explored</p>
+                  <div className="rounded-2xl bg-emerald-500/[0.04] border border-emerald-500/25 hover:border-emerald-500/45 p-4 animate-count-up delay-300 hover:-translate-y-1 transition-all duration-200 shadow-sm shadow-emerald-500/5">
+                    <p className="text-xxs font-bold text-emerald-400/70 uppercase tracking-wider">Projects Explored</p>
                     <p className="text-2xl font-black text-emerald-400 mt-1">
                       {analytics?.projectsOpened ?? 0}
                     </p>
                   </div>
-                  <div className="rounded-xl bg-white/5 border border-white/10 p-4 col-span-2 md:col-span-1 animate-count-up delay-400">
-                    <p className="text-xxs font-bold text-slate-500 uppercase">Interaction Time</p>
+                  <div className="rounded-2xl bg-amber-500/[0.04] border border-amber-500/25 hover:border-amber-500/45 p-4 col-span-2 md:col-span-1 animate-count-up delay-400 hover:-translate-y-1 transition-all duration-200 shadow-sm shadow-amber-500/5">
+                    <p className="text-xxs font-bold text-amber-400/70 uppercase tracking-wider">Interaction Time</p>
                     <p className="text-2xl font-black text-amber-400 mt-1">
                       {analytics?.timeSpent ? Math.round(analytics.timeSpent / 60) : 0} <span className="text-xs font-semibold text-slate-400">min</span>
                     </p>
