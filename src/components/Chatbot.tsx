@@ -1104,10 +1104,10 @@ export default function Chatbot({
                   key={idx}
                   onClick={() => handleSendMessage(q)}
                   disabled={isTyping}
-                  className={`font-semibold border transition text-left leading-tight truncate max-w-full disabled:opacity-40 shadow-sm ${s.suggestedBtn} ${
+                  className={`font-semibold border transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] text-left leading-tight truncate max-w-full disabled:opacity-40 shadow-sm hover:shadow-md hover:shadow-cyan-500/15 cursor-pointer ${s.suggestedBtn} ${
                     isDarkMode 
-                      ? "border-cyan-500/20 hover:border-cyan-400/60 bg-cyan-950/20 hover:bg-cyan-900/30 text-cyan-200 hover:text-white" 
-                      : "border-slate-200 hover:border-cyan-500/40 bg-white hover:bg-cyan-50/50 text-slate-700 hover:text-cyan-900"
+                      ? "border-cyan-500/20 hover:border-cyan-400/60 bg-cyan-950/25 hover:bg-cyan-900/40 text-cyan-200 hover:text-white hover:shadow-cyan-500/20" 
+                      : "border-slate-200 hover:border-cyan-500/40 bg-white hover:bg-cyan-50/80 text-slate-700 hover:text-cyan-900"
                   }`}
                 >
                   {q}
