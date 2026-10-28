@@ -2332,12 +2332,20 @@ Requirements:
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                  {/* LeetCode Card */}
-                  <div className="p-3.5 rounded-xl bg-black/40 border border-amber-500/20 space-y-2">
+                  {/* LeetCode Card with Difficulty Segment Bar */}
+                  <div className="p-3.5 rounded-xl bg-black/50 border border-amber-500/30 space-y-2 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-amber-500/10 transition-all duration-200">
                     <div className="flex items-center justify-between text-amber-400 font-mono text-[10px]">
                       <span className="font-bold">LEETCODE</span>
                       <span className="text-white font-bold text-xs">104 Total</span>
                     </div>
+
+                    {/* Segmented Progress Distribution */}
+                    <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden flex gap-0.5 my-1.5">
+                      <div style={{ width: "28.8%" }} className="bg-emerald-400 h-full rounded-l-full" title="Easy: 30 (28.8%)" />
+                      <div style={{ width: "48.1%" }} className="bg-amber-400 h-full" title="Medium: 50 (48.1%)" />
+                      <div style={{ width: "23.1%" }} className="bg-rose-500 h-full rounded-r-full" title="Hard: 24 (23.1%)" />
+                    </div>
+
                     <div className="space-y-1 font-mono text-3xs">
                       <div className="flex justify-between items-center text-emerald-400">
                         <span>Easy</span>
