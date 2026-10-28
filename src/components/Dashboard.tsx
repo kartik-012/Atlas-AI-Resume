@@ -921,7 +921,7 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
               {resumeData.experience.map((exp) => (
                 <div
                   key={exp.id}
-                  className="rounded-2xl border border-purple-500/20 bg-purple-500/[0.03] p-5 hover:border-purple-500/40 transition-all duration-200"
+                  className="rounded-2xl border border-purple-500/25 bg-gradient-to-br from-purple-950/20 via-black/40 to-black/60 p-5 hover:border-purple-500/45 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3 border-b border-white/10">
                     <div>
@@ -970,9 +970,9 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
                       {exp.keyPoints.map((point, idx) => (
                         <div
                           key={idx}
-                          className="p-3 rounded-xl bg-black/40 border border-white/5 text-xxs text-slate-300 leading-relaxed flex items-start gap-2"
+                          className="group p-3 rounded-xl bg-black/50 border border-white/5 hover:border-purple-500/30 hover:bg-black/70 text-xxs text-slate-300 leading-relaxed flex items-start gap-2.5 transition-all duration-200"
                         >
-                          <span className="text-purple-400 font-bold mt-0.5 shrink-0">▸</span>
+                          <span className="text-purple-400 font-bold mt-0.5 shrink-0 group-hover:translate-x-0.5 transition-transform">▸</span>
                           <span>{point}</span>
                         </div>
                       ))}
