@@ -915,9 +915,9 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
               </div>
               <button
                 onClick={() => onAskAIAboutProject("Tell me about your experience at SPARK IIT")}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xxs font-bold transition self-start sm:self-auto"
+                className="group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 hover:border-purple-500/50 text-purple-300 text-xxs font-bold transition-all duration-200 hover:scale-102 active:scale-98 hover:shadow-md hover:shadow-purple-500/20 cursor-pointer self-start sm:self-auto"
               >
-                <Sparkles className="h-3.5 w-3.5" />
+                <Sparkles className="h-3.5 w-3.5 group-hover:rotate-12 group-hover:text-purple-200 transition-transform duration-300" />
                 <span>Ask AI About Internships</span>
               </button>
             </div>
