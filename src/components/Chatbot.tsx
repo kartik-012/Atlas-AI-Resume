@@ -907,7 +907,8 @@ export default function Chatbot({
                               {/* Copy button */}
                               <button
                                 onClick={() => handleCopyMessage(m.content, m.id)}
-                                className="flex items-center space-x-1 hover:text-white transition px-2 py-0.5 rounded hover:bg-white/5"
+                                aria-label={isCopied ? "Response copied to clipboard" : "Copy full response"}
+                                className="flex items-center space-x-1 hover:text-white transition-all duration-150 active:scale-95 cursor-pointer px-2 py-0.5 rounded hover:bg-white/5"
                                 title="Copy full response"
                               >
                                 {isCopied ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
@@ -917,7 +918,8 @@ export default function Chatbot({
                               {/* Listen / Speak Button */}
                               <button
                                 onClick={() => handleSpeak(m.content, m.id)}
-                                className={`flex items-center space-x-1 transition px-2 py-0.5 rounded hover:bg-white/5 ${
+                                aria-label={isSpeaking ? "Stop speaking" : "Listen to audio response"}
+                                className={`flex items-center space-x-1 transition-all duration-150 active:scale-95 cursor-pointer px-2 py-0.5 rounded hover:bg-white/5 ${
                                   isSpeaking ? "text-[#4FC0D0] font-bold animate-pulse" : "hover:text-white"
                                 }`}
                                 title={isSpeaking ? "Stop Speaking" : "Listen to Response"}
