@@ -677,13 +677,20 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
       <div className="w-full md:w-64 bg-white/[0.02] p-4 border-b md:border-b-0 md:border-r border-[#1B6B93]/20 flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-x-visible custom-scrollbar select-none">
         <button
           onClick={() => setActiveTab("projects")}
-          className={`flex items-center space-x-2.5 rounded-xl px-4 py-3 text-xs font-semibold whitespace-nowrap md:whitespace-normal transition-all focus-visible:outline-2 ${
+          role="tab"
+          aria-selected={activeTab === "projects"}
+          className={`flex items-center space-x-2.5 rounded-xl px-4 py-3 text-xs font-semibold whitespace-nowrap md:whitespace-normal transition-all cursor-pointer focus-visible:outline-2 ${
             activeTab === "projects" ? "bg-[#1B6B93]/20 text-[#4FC0D0] border border-[#1B6B93]/30 shadow-md" : "text-slate-400 hover:bg-white/5 hover:text-white"
           }`}
           id="tab-projects"
         >
           <Compass className="h-4.5 w-4.5" />
-          <span>Interactive Projects</span>
+          <div className="flex items-center gap-1.5">
+            <span>Interactive Projects</span>
+            <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+              4 Live
+            </span>
+          </div>
         </button>
         <button
           onClick={() => setActiveTab("experience")}
