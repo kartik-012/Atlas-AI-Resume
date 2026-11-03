@@ -199,26 +199,28 @@ export default function Navbar({
             <a
               href={resumeData.github}
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
+              aria-label="Kartik Raikar's GitHub Profile"
               className={`rounded-md p-1.5 transition-all duration-200 hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 ${
                 isDarkMode
                   ? "text-slate-400 hover:text-slate-200 hover:bg-white/[0.06] focus-visible:outline-[#4FC0D0]"
                   : "text-slate-400 hover:text-slate-700 hover:bg-slate-100 focus-visible:outline-[#1B6B93]"
               }`}
-              title="GitHub"
+              title="GitHub Profile"
             >
               <Github className="h-[18px] w-[18px]" />
             </a>
             <a
               href={resumeData.linkedin}
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
+              aria-label="Kartik Raikar's LinkedIn Profile"
               className={`rounded-md p-1.5 transition-all duration-200 hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 ${
                 isDarkMode
                   ? "text-slate-400 hover:text-slate-200 hover:bg-white/[0.06] focus-visible:outline-[#4FC0D0]"
                   : "text-slate-400 hover:text-slate-700 hover:bg-slate-100 focus-visible:outline-[#1B6B93]"
               }`}
-              title="LinkedIn"
+              title="LinkedIn Profile"
             >
               <Linkedin className="h-[18px] w-[18px]" />
             </a>
