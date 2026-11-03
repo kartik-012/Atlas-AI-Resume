@@ -2284,8 +2284,8 @@ Requirements:
                     { name: "FastAPI", desc: "High-performance endpoints and AI backend serving" },
                     { name: "Node.js & Express", desc: "This portfolio's secure server middleware" }
                   ].map((item, idx) => (
-                    <div key={idx} className="rounded-lg bg-white/[0.03] border border-white/10 p-3">
-                      <span className="text-xs font-bold text-white block">{item.name}</span>
+                    <div key={idx} className="group rounded-lg bg-white/[0.03] border border-white/10 hover:border-cyan-500/35 hover:bg-white/[0.06] hover:scale-[1.02] transition-all duration-200 p-3 shadow-xs hover:shadow-cyan-500/10">
+                      <span className="text-xs font-bold text-white group-hover:text-[#4FC0D0] transition-colors block">{item.name}</span>
                       <span className="text-[10px] text-slate-400 mt-1 block leading-relaxed">{item.desc}</span>
                     </div>
                   ))}
