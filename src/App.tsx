@@ -49,6 +49,9 @@ export default function App() {
 
   // Track initial visit and log active session metrics
   useEffect(() => {
+    if (typeof performance !== "undefined" && performance.mark) {
+      performance.mark("atlas_portal_ready");
+    }
     trackAction("visit");
     const interval = setInterval(() => {
       trackAction("time_spent", { seconds: 30 });
