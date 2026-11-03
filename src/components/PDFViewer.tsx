@@ -105,10 +105,11 @@ export default function PDFViewer({
           <div className="hidden md:flex items-center space-x-1 rounded-lg bg-black/40 border border-cyan-500/20 p-1">
             <button
               onClick={() => jumpToPage(1)}
-              className={`px-2.5 py-1 rounded text-3xs font-mono font-bold transition-all ${
+              aria-pressed={activePage === 1}
+              className={`px-2.5 py-1 rounded text-3xs font-mono font-bold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 ${
                 activePage === 1
-                  ? "bg-cyan-500/20 text-[#4FC0D0] border border-cyan-500/40"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-cyan-500/20 text-[#4FC0D0] border border-cyan-500/40 shadow-xs shadow-cyan-500/20"
+                  : "text-slate-400 hover:text-white hover:bg-white/5"
               }`}
               title="Page 1: Summary, Skills, SPARK IIT Experience, AIOps RCA, VersionRAG"
             >
@@ -116,10 +117,11 @@ export default function PDFViewer({
             </button>
             <button
               onClick={() => jumpToPage(2)}
-              className={`px-2.5 py-1 rounded text-3xs font-mono font-bold transition-all ${
+              aria-pressed={activePage === 2}
+              className={`px-2.5 py-1 rounded text-3xs font-mono font-bold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 ${
                 activePage === 2
-                  ? "bg-cyan-500/20 text-[#4FC0D0] border border-cyan-500/40"
-                  : "text-slate-400 hover:text-white"
+                  ? "bg-cyan-500/20 text-[#4FC0D0] border border-cyan-500/40 shadow-xs shadow-cyan-500/20"
+                  : "text-slate-400 hover:text-white hover:bg-white/5"
               }`}
               title="Page 2: GitHub MCP, ApexRAG, 9 Certifications, Leadership, LeetCode"
             >
