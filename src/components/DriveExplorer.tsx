@@ -1672,10 +1672,10 @@ export default function DriveExplorer({ isDarkMode, onTrackAction, onViewChange 
                   placeholder="e.g. Recruiter Briefings"
                   value={newFolderName}
                   onChange={(e) => setNewFolderName(e.target.value)}
-                  className={`w-full px-3 py-2 text-xs rounded-xl outline-none border focus:ring-1 focus:ring-indigo-500 transition ${
+                  className={`w-full px-3 py-2 text-xs rounded-xl outline-none border focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-400/60 transition-all duration-200 ${
                     isDarkMode 
-                      ? "bg-[#16161D] border-white/10 text-white placeholder:text-slate-600" 
-                      : "bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400"
+                      ? "bg-[#16161D] border-white/10 text-white placeholder:text-slate-600 focus:bg-[#1b1b24]" 
+                      : "bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus:bg-white"
                   }`}
                 />
               </div>
