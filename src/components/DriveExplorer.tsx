@@ -36,22 +36,37 @@ import {
 } from "../lib/driveAuth";
 import type { User } from "firebase/auth";
 
+/** Unified file metadata model returned from Google Drive v3 REST API or portfolio mock store */
 interface DriveFile {
+  /** Unique Google Drive file/folder identifier or local mock UUID */
   id: string;
+  /** Display filename with extension */
   name: string;
+  /** MIME type classification string */
   mimeType: string;
+  /** Formatted byte size or human-readable file weight */
   size?: string;
+  /** ISO 8601 timestamp representing the last modification */
   modifiedTime?: string;
+  /** Direct Google Drive web preview link */
   webViewLink?: string;
+  /** Google Drive asset icon link */
   iconLink?: string;
+  /** Array of file owners and avatar links */
   owners?: { displayName: string; photoLink?: string }[];
+  /** Optional file description or ATS summary excerpt */
   description?: string;
 }
 
+/** Structured document synthesis produced by the Atlas AI Gemini Flash RAG pipeline */
 interface AIAnalysis {
+  /** Executive summary of the parsed document contents */
   summary: string;
+  /** Technical classification and schema review */
   fileTypeAnalysis: string;
+  /** Actionable architectural key insights extracted from content */
   insights: string[];
+  /** Recruiter-oriented follow-up prompts and discussion questions */
   aiSuggestions: string[];
 }
 
