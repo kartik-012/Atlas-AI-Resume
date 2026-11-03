@@ -2142,10 +2142,11 @@ Requirements:
                 <button
                   key={cat}
                   onClick={() => setCertFilter(cat)}
-                  className={`rounded-full px-3 py-1.5 text-xxs font-bold transition-all ${
+                  aria-pressed={certFilter === cat}
+                  className={`rounded-full px-3 py-1.5 text-xxs font-bold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 ${
                     certFilter === cat
-                      ? "bg-[#1B6B93] text-white shadow-lg shadow-[#1B6B93]/30"
-                      : "border border-white/15 bg-white/5 text-slate-400 hover:text-white hover:border-white/30"
+                      ? "bg-[#1B6B93] text-white shadow-lg shadow-[#1B6B93]/30 scale-102"
+                      : "border border-white/15 bg-white/5 text-slate-400 hover:text-white hover:border-white/30 hover:scale-102 active:scale-98"
                   }`}
                 >
                   {cat === "all" ? "All Credentials" :
