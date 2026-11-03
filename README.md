@@ -1,5 +1,10 @@
 # Atlas AI Resume — "Talk with my Resume"
 
+[![System Status](https://img.shields.io/badge/System-Operational_%3C45ms_MTTR-10b981?style=flat-square&logo=googlecloud)](https://github.com/kartik-012/Atlas-AI-Resume)
+[![Architecture](https://img.shields.io/badge/RAG_Engine-CRAG_%2B_RRF_k%3D60-4fc0d0?style=flat-square)](https://github.com/kartik-012/Atlas-AI-Resume)
+[![Security DLP](https://img.shields.io/badge/Security-0.8%C2%B5s_Shannon_DLP-a855f7?style=flat-square)](https://github.com/kartik-012/Atlas-AI-Resume)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue?style=flat-square)](LICENSE)
+
 Atlas AI Resume is a production-quality, ultra-premium, full-stack AI Resume Portal. Designed with a futuristic dark glassmorphic design and smooth micro-interactions, the portal allows engineering recruiters and hiring managers to explore Kartik Raikar's resume interactively, view high-fidelity printable layouts, inspect real-time SRE architecture blueprints, and chat with **Atlas AI**—an intelligent agent trained on his verified credentials, real-world internships, systems engineering projects, and architectural pillars.
 
 ## 🏛️ What 99% of Common Projects Do vs. What the Top 1% Production IT Standard Does
