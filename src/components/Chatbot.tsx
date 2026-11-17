@@ -750,17 +750,17 @@ export default function Chatbot({
                   </div>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <span 
-                      className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 px-1.5 py-0.5 text-[9px] font-semibold text-emerald-400 cursor-help hover:bg-emerald-500/20 transition group"
-                      title="Responses are generated only from verified resume knowledge using Retrieval-Augmented Generation (RAG)."
+                      className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 px-2 py-0.5 text-xs font-semibold text-emerald-400 cursor-help"
+                      title="Responses are generated only from verified resume knowledge using Retrieval-Augmented Generation."
                     >
-                      <span className="font-bold text-[9.5px]">✓</span>
-                      <span>RAG Powered</span>
+                      <span className="font-bold text-xs">✓</span>
+                      <span>Verified RAG</span>
                     </span>
                     <span 
-                      className="hidden sm:inline-flex items-center gap-1 rounded-full bg-cyan-500/10 border border-cyan-500/25 px-1.5 py-0.5 text-[8.5px] font-mono text-cyan-300"
-                      title="Streaming SSE Token Latency"
+                      className="hidden sm:inline-flex items-center gap-1 rounded-full bg-cyan-500/10 border border-cyan-500/25 px-2 py-0.5 text-xs font-mono text-cyan-300"
+                      title="Server-Sent Events streaming with low first-token latency"
                     >
-                      <span>TTFT &lt;40ms</span>
+                      <span>SSE Stream</span>
                     </span>
                   </div>
                 </div>
