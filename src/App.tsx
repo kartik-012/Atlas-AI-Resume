@@ -4,7 +4,8 @@
  */ 
  
 import { useState, useEffect } from "react";  
-import Navbar from "./components/Navbar"; 
+import Navbar from "./components/Navbar";
+import RecruiterHero from "./components/RecruiterHero"; 
 import PDFViewer from "./components/PDFViewer";
 import Dashboard from "./components/Dashboard";
 import DriveExplorer from "./components/DriveExplorer";
@@ -64,6 +65,17 @@ export default function App() {
     trackAction("ask_ai_trigger", { item: projectTitle });
     setChatInitialQuery(`Explain Kartik's "${projectTitle}" project in detail and tell me why it stands out.`);
     setIsChatOpen(true);
+  };
+
+  // Handle direct resume PDF download
+  const handleDownloadPDF = () => {
+    trackAction("hero_download_resume");
+    const link = document.createElement("a");
+    link.href = "/resume.pdf";
+    link.download = "Kartik_Raikar_Resume.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   // Handle view switch with animation key
@@ -132,6 +144,14 @@ export default function App() {
               setIsChatOpen(true);
               trackAction("navbar_ask_ai");
             }}
+          />
+          <RecruiterHero
+            onAskAI={() => {
+              setIsChatOpen(true);
+              trackAction("hero_ask_ai");
+            }}
+            onDownloadResume={handleDownloadPDF}
+            isChatOpen={isChatOpen}
           />
         </div>
 
