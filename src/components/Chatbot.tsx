@@ -1091,24 +1091,36 @@ export default function Chatbot({
               )}
             </div>
 
-            {/* ─── Suggested Follow-Up Questions ─── */}
-            <div className={`border-t flex flex-wrap select-none shrink-0 overflow-y-auto custom-scrollbar ${s.suggestedBox} ${
-              isDarkMode ? "border-cyan-500/15 bg-[#080C14]/90" : "border-slate-200 bg-slate-50/90"
+            {/* ─── Suggested Recruiter Prompts ─── */}
+            <div className={`border-t select-none shrink-0 overflow-y-auto custom-scrollbar p-2.5 transition-colors ${
+              isDarkMode ? "border-cyan-500/15 bg-[#080C14]/95" : "border-slate-200 bg-slate-50/95"
             }`}>
-              {suggestedQuestions.map((q, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => handleSendMessage(q)}
-                  disabled={isTyping}
-                  className={`font-semibold border transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] text-left leading-tight truncate max-w-full disabled:opacity-40 shadow-sm hover:shadow-md hover:shadow-cyan-500/15 cursor-pointer ${s.suggestedBtn} ${
-                    isDarkMode 
-                      ? "border-cyan-500/20 hover:border-cyan-400/60 bg-cyan-950/25 hover:bg-cyan-900/40 text-cyan-200 hover:text-white hover:shadow-cyan-500/20" 
-                      : "border-slate-200 hover:border-cyan-500/40 bg-white hover:bg-cyan-50/80 text-slate-700 hover:text-cyan-900"
-                  }`}
-                >
-                  {q}
-                </button>
-              ))}
+              <div className="flex items-center justify-between mb-1.5 px-0.5">
+                <span className={`text-[10px] font-mono uppercase tracking-wider font-semibold flex items-center gap-1 ${
+                  isDarkMode ? "text-cyan-400" : "text-[#1B6B93]"
+                }`}>
+                  <Sparkles className="w-2.5 h-2.5 text-cyan-400" /> Recruiter Quick Questions
+                </span>
+                <span className={`text-[9px] font-mono ${isDarkMode ? "text-slate-500" : "text-slate-400"}`}>
+                  1-click prompt
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                {suggestedQuestions.slice(0, 4).map((q, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => handleSendMessage(q)}
+                    disabled={isTyping}
+                    className={`group text-left text-[11px] leading-snug p-2 rounded-lg border font-medium transition-all duration-150 active:scale-[0.98] disabled:opacity-40 cursor-pointer focus-visible:outline-none focus-visible:ring-2 ${
+                      isDarkMode 
+                        ? "border-cyan-500/20 bg-cyan-950/20 hover:bg-cyan-900/35 hover:border-cyan-400/50 text-slate-200 hover:text-white focus-visible:ring-cyan-400/60" 
+                        : "border-slate-200 bg-white hover:bg-cyan-50/70 hover:border-[#1B6B93]/40 text-slate-700 hover:text-[#1B6B93] focus-visible:ring-[#1B6B93]/50 shadow-xs"
+                    }`}
+                  >
+                    <span className="line-clamp-2">{q}</span>
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* ─── Trust Indicator (Above Input Box) ─── */}
