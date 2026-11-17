@@ -169,11 +169,7 @@ export default function App() {
               /* Side-by-Side Dynamic Workspace (Resume adjusts smoothly when Chatbot opens) */
               <div className="flex-1 flex flex-row gap-3 h-full min-h-0 overflow-hidden">
                 {/* Resume PDF Container (Adjusts width automatically without overlapping) */}
-                <div className={`h-full min-h-0 flex flex-col transition-all duration-300 ease-in-out ${
-                  isChatOpen 
-                    ? "w-full lg:w-[calc(100%-390px)] xl:w-[calc(100%-420px)]" 
-                    : "w-full"
-                }`}>
+                <div className="h-full min-h-0 flex-1 flex flex-col transition-[max-width,width] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden">
                   <PDFViewer
                     onAskAIAboutProject={handleAskAIAboutProject}
                     onTrackAction={trackAction}
@@ -182,20 +178,25 @@ export default function App() {
                   />
                 </div>
 
-                {/* Right Side Docked Chatbot Panel (Desktop: Side-by-Side, NOT covering Resume) */}
-                {isChatOpen && (
-                  <div className="hidden lg:flex w-[380px] xl:w-[410px] h-full min-h-0 shrink-0 flex-col animate-in fade-in slide-in-from-right-4 duration-300">
-                    <Chatbot
-                      isOpen={isChatOpen}
-                      setIsOpen={setIsChatOpen}
-                      initialQuery={chatInitialQuery}
-                      clearInitialQuery={() => setChatInitialQuery(undefined)}
-                      onTrackAction={trackAction}
-                      isDarkMode={isDarkMode}
-                      isEmbedded={true}
-                    />
-                  </div>
-                )}
+                {/* Right Side Docked Chatbot Panel (Desktop: Smooth expansion without layout jump) */}
+                <div
+                  className={`hidden lg:flex flex-col h-full min-h-0 shrink-0 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                    isChatOpen
+                      ? "w-[390px] xl:w-[420px] opacity-100 translate-x-0"
+                      : "w-0 opacity-0 translate-x-6 pointer-events-none overflow-hidden"
+                  }`}
+                  aria-hidden={!isChatOpen}
+                >
+                  <Chatbot
+                    isOpen={isChatOpen}
+                    setIsOpen={setIsChatOpen}
+                    initialQuery={chatInitialQuery}
+                    clearInitialQuery={() => setChatInitialQuery(undefined)}
+                    onTrackAction={trackAction}
+                    isDarkMode={isDarkMode}
+                    isEmbedded={true}
+                  />
+                </div>
               </div>
             ) : currentView === "dashboard" ? (
               <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
