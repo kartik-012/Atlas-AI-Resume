@@ -97,13 +97,13 @@ export default function Navbar({
             </span>
           </div>
 
-          {/* SRE Live Telemetry Indicator Pill */}
-          <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 font-mono text-[9px] font-semibold tracking-tight shadow-sm shadow-emerald-500/10">
+          {/* Real Portal Status Indicator Pill */}
+          <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 font-mono text-xs font-semibold tracking-tight shadow-sm shadow-emerald-500/10">
             <span className="relative flex h-1.5 w-1.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
             </span>
-            <span>SYSTEM LIVE • &lt;45MS MTTR</span>
+            <span>PORTAL ONLINE • AI RAG VERIFIED</span>
           </div>
         </div>
 
