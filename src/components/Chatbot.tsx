@@ -925,7 +925,51 @@ export default function Chatbot({
                       {/* Content */}
                       {m.role === "assistant" ? (
                         <div>
-                          <MarkdownContent content={m.content} isDarkMode={isDarkMode} chatSize={chatSize} />
+                          {m.id === "welcome" ? (
+                            <div className="space-y-3">
+                              <div className="flex items-center gap-2 pb-2 border-b border-cyan-500/20">
+                                <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold text-xs shrink-0">
+                                  KR
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="text-[13px] font-bold tracking-tight text-white flex items-center gap-1.5">
+                                    <span className="truncate">Kartik Raikar</span>
+                                    <span className="text-[9.5px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">VERIFIED CANDIDATE</span>
+                                  </div>
+                                  <div className="text-[11px] text-cyan-300/80 font-medium truncate">Target: AI Engineering / Generative AI</div>
+                                </div>
+                              </div>
+                              <MarkdownContent content={m.content} isDarkMode={isDarkMode} chatSize={chatSize} />
+                              <div className="pt-2 border-t border-white/10">
+                                <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1">
+                                  <Sparkles className="w-2.5 h-2.5 text-cyan-400" />
+                                  <span>Quick-Start Recruiter Prompts</span>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                                  {[
+                                    { label: "Why hire Kartik?", query: "Why should we hire Kartik for an AI Engineering role?" },
+                                    { label: "AIOps RCA System", query: "Tell me about AIOps Root Cause Correlator." },
+                                    { label: "VersionRAG Defense", query: "How does VersionRAG defend against doc drift and hallucinations?" },
+                                    { label: "Research Fellowship", query: "Tell me about the SPARK Research Fellowship at IIT Roorkee." }
+                                  ].map((item, idx) => (
+                                    <button
+                                      key={idx}
+                                      onClick={() => handleSendMessage(item.query)}
+                                      className={`text-left text-[11px] px-2.5 py-1.5 rounded-lg border font-medium transition-all duration-150 active:scale-95 cursor-pointer ${
+                                        isDarkMode
+                                          ? "border-cyan-500/25 bg-cyan-950/30 hover:bg-cyan-900/40 text-cyan-200 hover:text-white hover:border-cyan-400/50"
+                                          : "border-slate-200 bg-slate-50 hover:bg-cyan-50 text-slate-700 hover:text-[#1B6B93]"
+                                      }`}
+                                    >
+                                      → {item.label}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            <MarkdownContent content={m.content} isDarkMode={isDarkMode} chatSize={chatSize} />
+                          )}
                           {m.isOfflineFallback && (
                             <div className={`mt-2.5 flex items-center gap-2 px-2.5 py-1.5 rounded-lg border text-[11px] font-mono select-none ${
                               isDarkMode
