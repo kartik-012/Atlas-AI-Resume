@@ -17,6 +17,7 @@ const RESUME_URL = "/resume.pdf";
 const RESUME_FILENAME = "Kartik_Raikar_Resume.pdf";
 
 export default function PDFViewer({ 
+  onAskAIAboutProject,
   onTrackAction,
   isChatOpen = true,
   onToggleChat
@@ -177,6 +178,34 @@ export default function PDFViewer({
           </button>
         </div>
       </div>
+
+      {/* Quick Interactive Project Insights Strip */}
+      {onAskAIAboutProject && (
+        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-[#090E17]/95 border-b border-cyan-500/15 overflow-x-auto custom-scrollbar select-none shrink-0">
+          <span className="text-[10px] font-mono text-cyan-400 font-semibold uppercase tracking-wider flex items-center gap-1 shrink-0">
+            <Sparkles className="w-3 h-3 text-cyan-400" /> Ask AI about:
+          </span>
+          {[
+            { label: "AIOps RCA System", project: "AIOps Root Cause Correlator" },
+            { label: "VersionRAG", project: "VersionRAG" },
+            { label: "GitHub MCP Server", project: "GitHub MCP Toolkit" },
+            { label: "SPARK IIT Fellowship", project: "SPARK Research Fellowship (IIT Roorkee)" },
+            { label: "ApexRAG", project: "ApexRAG" }
+          ].map((item, idx) => (
+            <button
+              key={idx}
+              onClick={() => {
+                onAskAIAboutProject(item.project);
+                onTrackAction("pdf_ask_ai_project_chip", { project: item.project });
+              }}
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-medium font-sans border border-cyan-500/20 bg-cyan-950/25 hover:bg-cyan-900/40 text-cyan-200 hover:text-white hover:border-cyan-400/50 transition-all duration-150 active:scale-95 cursor-pointer shrink-0 whitespace-nowrap"
+            >
+              <span>{item.label}</span>
+              <span className="text-[10px] text-cyan-400/60">↗</span>
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* PDF Embed */}
       <div className="flex-1 min-h-0 h-full bg-[#0B1120] relative" id="pdf-paper-canvas">
