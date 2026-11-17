@@ -4,21 +4,34 @@
  */
 
 import { useState, useEffect } from "react";
-import { Github, Linkedin, ExternalLink, Sun, Moon, FileText, LayoutDashboard, HardDrive, MessageCircle, Compass, Menu, X } from "lucide-react";
+import { Github, Linkedin, ExternalLink, Sun, Moon, FileText, LayoutDashboard, HardDrive, MessageCircle, Compass, Menu, X, ShieldAlert, Briefcase } from "lucide-react";
 import { resumeData } from "../data/resumeData";
+
+export type DashboardTabKey = "projects" | "experience" | "proof" | "jd" | "blueprint" | "certificates" | "skills" | "analytics" | "admin" | "contact";
 
 interface NavbarProps {
   currentView: "pdf" | "dashboard" | "drive";
   setCurrentView: (view: "pdf" | "dashboard" | "drive") => void;
+  activeDashboardTab?: DashboardTabKey;
+  onSelectDashboardTab?: (tab: DashboardTabKey) => void;
   isDarkMode: boolean;
   setIsDarkMode: (val: boolean) => void;
   onOpenChat: () => void;
 }
 
-const NAV_TABS = [
-  { key: "pdf" as const, label: "Resume", icon: FileText, coord: "48.2°N" },
-  { key: "dashboard" as const, label: "Dashboard", icon: LayoutDashboard, coord: "13.0°E" },
-  { key: "drive" as const, label: "Drive", icon: HardDrive, coord: "77.6°E" },
+export interface NavTabItem {
+  key: "pdf" | "chat" | "proof" | "jd";
+  label: string;
+  icon: any;
+  coord: string;
+  badge?: string;
+}
+
+const PRIMARY_NAV_TABS: NavTabItem[] = [
+  { key: "pdf", label: "Resume", icon: FileText, coord: "RESUME" },
+  { key: "chat", label: "Ask AI", icon: MessageCircle, coord: "RAG" },
+  { key: "proof", label: "Proof Mode", icon: ShieldAlert, coord: "VERIFIED", badge: "4" },
+  { key: "jd", label: "JD Matcher", icon: Briefcase, coord: "MATCH" },
 ];
 
 const STATUS_MESSAGES = [
@@ -31,11 +44,34 @@ const STATUS_MESSAGES = [
 export default function Navbar({
   currentView,
   setCurrentView,
+  activeDashboardTab,
+  onSelectDashboardTab,
   isDarkMode,
   setIsDarkMode,
   onOpenChat
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleTabClick = (tabKey: NavTabItem["key"]) => {
+    if (tabKey === "pdf") {
+      setCurrentView("pdf");
+    } else if (tabKey === "chat") {
+      onOpenChat();
+    } else if (tabKey === "proof") {
+      setCurrentView("dashboard");
+      onSelectDashboardTab?.("proof");
+    } else if (tabKey === "jd") {
+      setCurrentView("dashboard");
+      onSelectDashboardTab?.("jd");
+    }
+  };
+
+  const isTabActive = (tabKey: NavTabItem["key"]) => {
+    if (tabKey === "pdf") return currentView === "pdf";
+    if (tabKey === "proof") return currentView === "dashboard" && activeDashboardTab === "proof";
+    if (tabKey === "jd") return currentView === "dashboard" && activeDashboardTab === "jd";
+    return false;
+  };
   const [statusIndex, setStatusIndex] = useState(0);
   const [statusFading, setStatusFading] = useState(false);
 
@@ -118,13 +154,13 @@ export default function Navbar({
               aria-hidden="true"
             />
 
-            {NAV_TABS.map((tab, index) => {
-              const isActive = currentView === tab.key;
+            {PRIMARY_NAV_TABS.map((tab, index) => {
+              const isActive = isTabActive(tab.key);
               const Icon = tab.icon;
               return (
                 <button
                   key={tab.key}
-                  onClick={() => setCurrentView(tab.key)}
+                  onClick={() => handleTabClick(tab.key)}
                   className={`
                     relative flex items-center space-x-1.5 px-4 py-1.5 text-[13px] font-semibold
                     rounded-md transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2
@@ -276,14 +312,14 @@ export default function Navbar({
         } ${isDarkMode ? "border-slate-700/60 bg-[#0B1120]" : "border-slate-200 bg-white"}`}
       >
         <nav className="flex flex-col p-2 space-y-0.5" aria-label="Mobile navigation">
-          {NAV_TABS.map((tab) => {
-            const isActive = currentView === tab.key;
+          {PRIMARY_NAV_TABS.map((tab) => {
+            const isActive = isTabActive(tab.key);
             const Icon = tab.icon;
             return (
               <button
                 key={tab.key}
                 onClick={() => {
-                  setCurrentView(tab.key);
+                  handleTabClick(tab.key);
                   setMobileMenuOpen(false);
                 }}
                 className={`
