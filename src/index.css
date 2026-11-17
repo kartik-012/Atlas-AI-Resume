@@ -40,11 +40,22 @@ pre, code, .font-mono {
   font-family: var(--font-mono);
 }
 
-/* ─── Missing Text Size Utilities ─── */
-.text-xxs  { font-size: 0.65rem;  line-height: 0.95rem; }
-.text-2xs  { font-size: 0.6875rem; line-height: 1rem; }
-.text-3xs  { font-size: 0.5625rem; line-height: 0.8rem; }
-.text-4xs  { font-size: 0.5rem;   line-height: 0.7rem; }
+/* ─── Accessible Text Size Utilities (Clamped to WCAG AA min readable size) ─── */
+.text-xxs  { font-size: 0.75rem;  line-height: 1.05rem; }
+.text-2xs  { font-size: 0.75rem;  line-height: 1.05rem; }
+.text-3xs  { font-size: 0.7rem;   line-height: 0.95rem; }
+.text-4xs  { font-size: 0.6875rem; line-height: 0.9rem; }
+
+/* ─── Universal WCAG 2.2 AA Focus Rings ─── */
+:focus-visible {
+  outline: 2px solid #00D2EE !important;
+  outline-offset: 2px !important;
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none !important;
+}
 
 /* ─── Custom Scrollbar (dark themed with cyan glow) ─── */
 .custom-scrollbar::-webkit-scrollbar {
