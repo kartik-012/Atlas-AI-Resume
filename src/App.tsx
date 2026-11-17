@@ -106,7 +106,7 @@ export default function App() {
       )}
 
       {/* ─── Main Viewport (Fixed 100vh, NO outer page scrollbar) ─── */}
-      <div className={`h-screen max-h-screen w-screen overflow-hidden flex flex-col font-sans transition-colors duration-300 ${
+      <div className={`h-[100dvh] max-h-[100dvh] w-screen overflow-hidden flex flex-col font-sans transition-colors duration-300 ${
         isDarkMode 
           ? "bg-[#080D1A] text-slate-100 selection:bg-[#1B6B93]/35 selection:text-white" 
           : "bg-[#FAFBFD] text-slate-800 selection:bg-[#1B6B93]/20 selection:text-[#0E3A52]"
@@ -219,8 +219,8 @@ export default function App() {
           </div>
         </footer>
 
-        {/* Mobile / Floating Chatbot (For mobile devices or when closed on desktop) */}
-        {(!isChatOpen || currentView !== "pdf") && (
+        {/* Mobile Floating / Bottom-Sheet Chatbot (Always accessible on touch viewports < lg) */}
+        <div className="lg:hidden">
           <Chatbot
             isOpen={isChatOpen}
             setIsOpen={setIsChatOpen}
@@ -230,6 +230,21 @@ export default function App() {
             isDarkMode={isDarkMode}
             isEmbedded={false}
           />
+        </div>
+
+        {/* Desktop Floating Chatbot (Rendered when docked side-by-side mode is collapsed or in other views) */}
+        {(!isChatOpen || currentView !== "pdf") && (
+          <div className="hidden lg:block">
+            <Chatbot
+              isOpen={isChatOpen}
+              setIsOpen={setIsChatOpen}
+              initialQuery={chatInitialQuery}
+              clearInitialQuery={() => setChatInitialQuery(undefined)}
+              onTrackAction={trackAction}
+              isDarkMode={isDarkMode}
+              isEmbedded={false}
+            />
+          </div>
         )}
       </div>
     </>
