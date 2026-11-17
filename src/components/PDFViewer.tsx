@@ -85,16 +85,16 @@ export default function PDFViewer({
           </div>
           <div className="flex flex-col leading-tight">
             <div className="flex items-center space-x-2">
-              <span className="text-xs font-bold text-slate-200 tracking-tight">
+              <span className="text-xs font-bold text-slate-200 tracking-tight font-display">
                 {RESUME_FILENAME}
               </span>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-semibold shadow-sm shadow-emerald-500/15">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                ATS 100% Verified
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-semibold shadow-sm shadow-emerald-500/15">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                Clean Single-Column ATS Layout
               </span>
             </div>
-            <span className="text-[10px] text-slate-400 font-mono">
-              Kartik Raikar • AI Engineer (8.50 CGPA • SPARK IIT Intern • 9 Certs)
+            <span className="text-xs text-slate-300 font-mono">
+              Kartik Raikar • AI Engineer (8.50 CGPA • SPARK IIT Intern • 9 Certifications)
             </span>
           </div>
         </div>
