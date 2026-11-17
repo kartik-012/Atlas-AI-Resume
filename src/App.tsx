@@ -30,7 +30,7 @@ export default function App() {
 
   // Splash screen auto-dismiss (quick fade in 900ms)
   useEffect(() => {
-    const timer = setTimeout(() => setShowSplash(false), 900);
+    const timer = setTimeout(() => setShowSplash(false), 280);
     return () => clearTimeout(timer);
   }, []);
 
@@ -79,7 +79,7 @@ export default function App() {
         <div
           id="splash-screen"
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0B1120] transition-opacity duration-500"
-          style={{ animation: "splashFadeOut 0.9s ease-in-out forwards" }}
+          style={{ animation: "splashFadeOut 0.35s ease-out forwards", pointerEvents: "none" }}
         >
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#1B6B93]/20 blur-[120px]" />
