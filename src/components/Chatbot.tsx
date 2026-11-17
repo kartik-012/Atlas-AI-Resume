@@ -33,6 +33,8 @@ interface Message {
   citations?: { title: string; chunkTitle: string; score: number }[];
   metrics?: ResponseMetrics;
   isStreaming?: boolean;
+  isOfflineFallback?: boolean;
+  isRateLimited?: boolean;
 }
 
 interface ChatbotProps {
@@ -584,7 +586,8 @@ export default function Chatbot({
                   citations: [
                     { title: "Verified Resume & Projects", chunkTitle: "Atlas AI Knowledge Graph", score: 0.98 }
                   ],
-                  isStreaming: false
+                  isStreaming: false,
+                  isOfflineFallback: true
                 }
               : m
           )
@@ -886,6 +889,19 @@ export default function Chatbot({
                       {m.role === "assistant" ? (
                         <div>
                           <MarkdownContent content={m.content} isDarkMode={isDarkMode} chatSize={chatSize} />
+                          {m.isOfflineFallback && (
+                            <div className={`mt-2.5 flex items-center gap-2 px-2.5 py-1.5 rounded-lg border text-[11px] font-mono select-none ${
+                              isDarkMode
+                                ? "bg-amber-500/10 border-amber-500/30 text-amber-300"
+                                : "bg-amber-50 border-amber-200 text-amber-800"
+                            }`}>
+                              <span className="relative flex h-2 w-2 shrink-0">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                              </span>
+                              <span>Offline Engine • Served directly from verified local resume database.</span>
+                            </div>
+                          )}
                         </div>
                       ) : (
                         <p className="whitespace-pre-wrap select-text leading-relaxed font-sans">{m.content}</p>
