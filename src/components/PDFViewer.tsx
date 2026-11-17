@@ -132,45 +132,45 @@ export default function PDFViewer({
           {onToggleChat && (
             <button
               onClick={onToggleChat}
-              className={`flex items-center space-x-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all active:scale-95 border ${
+              className={`flex items-center space-x-2 rounded-xl min-h-[40px] px-3.5 py-2 text-xs font-bold transition-all active:scale-95 border cursor-pointer ${
                 isChatOpen 
-                  ? "bg-cyan-950/40 text-cyan-300 border-cyan-500/30 hover:bg-cyan-900/50" 
-                  : "bg-gradient-to-r from-[#1B6B93] to-[#4FC0D0] text-white border-transparent shadow-md shadow-[#1B6B93]/30 hover:scale-105"
+                  ? "bg-cyan-950/40 text-cyan-300 border-cyan-500/40 hover:bg-cyan-900/50" 
+                  : "bg-gradient-to-r from-[#1B6B93] to-[#4FC0D0] text-white border-transparent shadow-md shadow-[#1B6B93]/30 hover:scale-102"
               }`}
               title={isChatOpen ? "Hide AI Assistant Panel" : "Show AI Assistant Panel"}
             >
-              <Bot className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">
+              <Bot className="h-4 w-4" />
+              <span className="hidden sm:inline font-display">
                 {isChatOpen ? "Chatbot Active" : "Ask AI Chatbot"}
               </span>
               {!isChatOpen && (
-                <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-ping ml-0.5" />
+                <span className="flex h-2 w-2 rounded-full bg-emerald-400 ml-0.5" />
               )}
             </button>
           )}
 
           <button
             onClick={handleOpenTab}
-            className="flex items-center space-x-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cyan-500/30 text-slate-300 hover:text-white px-3 py-1.5 text-xs font-semibold transition-all hover:scale-102 active:scale-98 cursor-pointer"
+            className="flex items-center space-x-1.5 rounded-xl min-h-[40px] bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cyan-500/30 text-slate-200 hover:text-white px-3.5 py-2 text-xs font-semibold transition-all hover:scale-102 active:scale-98 cursor-pointer"
             title="Open PDF in new tab"
           >
-            <ExternalLink className="h-3.5 w-3.5" />
+            <ExternalLink className="h-4 w-4 text-slate-400 group-hover:text-white" />
             <span className="hidden sm:inline">Open</span>
           </button>
 
           <button
             onClick={handleDownload}
-            className="group relative flex items-center space-x-1.5 rounded-lg bg-gradient-to-r from-[#1B6B93] to-[#4FC0D0] hover:from-[#164E6B] hover:to-[#38A8B8] text-white px-3.5 py-1.5 text-xs font-bold transition-all hover:scale-102 active:scale-95 shadow-md shadow-cyan-500/20 hover:shadow-cyan-500/35 overflow-hidden cursor-pointer"
+            className="group relative flex items-center space-x-1.5 rounded-xl min-h-[40px] bg-gradient-to-r from-[#1B6B93] to-[#4FC0D0] hover:from-[#164E6B] hover:to-[#38A8B8] text-white px-4 py-2 text-xs font-bold transition-all hover:scale-102 active:scale-95 shadow-md shadow-cyan-500/20 hover:shadow-cyan-500/35 overflow-hidden cursor-pointer"
             title="Download PDF Copy"
             id="pdf-download"
           >
-            <Download className="h-3.5 w-3.5" />
-            <span className="hidden sm:inline">Download</span>
+            <Download className="h-4 w-4" />
+            <span className="hidden sm:inline font-display">Download</span>
           </button>
 
           <button
             onClick={toggleFullscreen}
-            className="p-2 rounded-lg bg-black/30 border border-white/10 hover:border-cyan-500/30 text-slate-400 hover:text-white transition-all hover:scale-105 active:scale-95 cursor-pointer"
+            className="min-h-[40px] min-w-[40px] flex items-center justify-center rounded-xl bg-black/30 border border-white/10 hover:border-cyan-500/30 text-slate-300 hover:text-white transition-all hover:scale-105 active:scale-95 cursor-pointer"
             title="Toggle Fullscreen"
           >
             {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
