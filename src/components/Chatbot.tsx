@@ -8,7 +8,8 @@ import {
   MessageSquare, Compass, X, Trash2, Send, Check, Copy, 
   FileText, ArrowDown, ArrowUp, Volume2, VolumeX, 
   Maximize2, Minimize2, Minus, Sparkles, User, Bot, ExternalLink,
-  Activity, Zap, Cpu, DollarSign, ChevronDown, ChevronUp, Layers
+  Activity, Zap, Cpu, DollarSign, ChevronDown, ChevronUp, Layers,
+  AlertTriangle, RotateCcw
 } from "lucide-react";
 import { matchChatbotIntent } from "../data/chatbotIntents";
 
@@ -35,6 +36,7 @@ interface Message {
   isStreaming?: boolean;
   isOfflineFallback?: boolean;
   isRateLimited?: boolean;
+  lastFailedQuery?: string;
 }
 
 interface ChatbotProps {
@@ -515,6 +517,23 @@ export default function Chatbot({
         body: JSON.stringify({ query: trimmed, messages: history })
       });
 
+      if (response.status === 429) {
+        setMessages(prev =>
+          prev.map(m =>
+            m.id === assistantMsgId
+              ? {
+                  ...m,
+                  content: "Gemini API rate limit reached. Atlas AI has temporarily paused live token generation to protect quota limits.",
+                  isStreaming: false,
+                  isRateLimited: true,
+                  lastFailedQuery: trimmed
+                }
+              : m
+          )
+        );
+        return;
+      }
+
       if (!response.ok) throw new Error("HTTP connection failed");
       if (!response.body) throw new Error("No readable body");
 
@@ -534,6 +553,24 @@ export default function Chatbot({
             try {
               const data = JSON.parse(line.slice(6));
               
+              if (data.error) {
+                const isLimit = data.error.includes("429") || data.error.toLowerCase().includes("quota") || data.error.includes("RESOURCE_EXHAUSTED");
+                setMessages(prev =>
+                  prev.map(m =>
+                    m.id === assistantMsgId
+                      ? {
+                          ...m,
+                          content: data.error,
+                          isStreaming: false,
+                          isRateLimited: isLimit,
+                          lastFailedQuery: isLimit ? trimmed : undefined
+                        }
+                      : m
+                  )
+                );
+                return;
+              }
+
               if (data.chunk) {
                 aggregatedText += data.chunk;
                 setMessages(prev =>
@@ -900,6 +937,45 @@ export default function Chatbot({
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
                               </span>
                               <span>Offline Engine • Served directly from verified local resume database.</span>
+                            </div>
+                          )}
+                          {m.isRateLimited && (
+                            <div className={`mt-3 p-3 rounded-xl border flex flex-col gap-2 ${
+                              isDarkMode
+                                ? "bg-amber-500/10 border-amber-500/30 text-amber-200"
+                                : "bg-amber-50 border-amber-200 text-amber-900"
+                            }`}>
+                              <div className="flex items-center gap-2">
+                                <AlertTriangle className="h-4 w-4 text-amber-400 shrink-0" />
+                                <span className="font-semibold text-xs">Rate Limit / Token Quota Threshold</span>
+                              </div>
+                              <p className="text-[11.5px] leading-relaxed opacity-90">
+                                Live Gemini API quota threshold reached. You can trigger a 1-click retry or query the offline verified engine immediately.
+                              </p>
+                              <div className="flex items-center gap-2 pt-1">
+                                {m.lastFailedQuery && (
+                                  <button
+                                    onClick={() => handleSendMessage(m.lastFailedQuery!)}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 border border-amber-500/40 transition-all cursor-pointer"
+                                  >
+                                    <RotateCcw className="h-3 w-3" />
+                                    <span>Retry Live Query</span>
+                                  </button>
+                                )}
+                                <button
+                                  onClick={() => {
+                                    if (m.lastFailedQuery) {
+                                      const fallback = matchChatbotIntent(m.lastFailedQuery);
+                                      if (fallback) {
+                                        setMessages(prev => prev.map(msg => msg.id === m.id ? { ...msg, content: fallback, isRateLimited: false, isOfflineFallback: true } : msg));
+                                      }
+                                    }
+                                  }}
+                                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/10 hover:bg-white/15 text-slate-200 transition-all cursor-pointer"
+                                >
+                                  <span>Use Offline Engine</span>
+                                </button>
+                              </div>
                             </div>
                           )}
                         </div>
