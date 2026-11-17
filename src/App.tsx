@@ -190,31 +190,31 @@ export default function App() {
         </main>
 
         {/* Bottom Status Bar */}
-        <footer className={`h-7 border-t px-4 flex items-center justify-between text-[10px] font-semibold select-none z-20 shrink-0 transition-all ${
+        <footer className={`h-8 border-t px-4 flex items-center justify-between text-xs font-medium select-none z-20 shrink-0 transition-all ${
           isDarkMode 
-            ? "bg-[#080D1A]/95 border-white/[0.07] text-slate-400 backdrop-blur-md" 
-            : "bg-white/95 border-slate-200 text-slate-500 backdrop-blur-md shadow-[0_-1px_3px_rgba(0,0,0,0.02)]"
+            ? "bg-[#080D1A]/95 border-white/[0.08] text-slate-300 backdrop-blur-md" 
+            : "bg-white/95 border-slate-200 text-slate-600 backdrop-blur-md shadow-[0_-1px_3px_rgba(0,0,0,0.02)]"
         }`}>
-          <div className="flex items-center gap-3 uppercase tracking-widest text-[9px] font-mono">
+          <div className="flex items-center gap-3 text-xs font-mono">
             <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
               Atlas AI Engine v2.4.0
             </span>
             <span className="hidden sm:inline text-slate-600">•</span>
-            <span className="hidden sm:inline text-slate-400">Gemini 2.5 Flash Connected</span>
+            <span className="hidden sm:inline text-slate-300">Gemini 2.5 Flash Connected</span>
             <span className="hidden md:inline text-slate-600">•</span>
-            <span className="hidden md:inline text-cyan-400/90 font-mono">TTFT &lt;40ms</span>
+            <span className="hidden md:inline text-cyan-400 font-mono">84 Verified Intents</span>
           </div>
           <div className="flex gap-4 items-center">
-            <span className="hidden sm:inline font-mono text-[9px] text-slate-500">
-              © {new Date().getFullYear()} Kartik Raikar • 8.5 CGPA • Jain College of Engineering
+            <span className="hidden sm:inline font-mono text-xs text-slate-400">
+              © {new Date().getFullYear()} Kartik Raikar • 8.50 CGPA • Jain College of Engineering
             </span>
-            <span className={`px-2 py-0.5 rounded text-[9px] font-mono font-bold tracking-wider ${
+            <span className={`px-2.5 py-0.5 rounded text-xs font-mono font-bold tracking-wider ${
               isChatOpen 
-                ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20" 
-                : "bg-white/5 text-slate-400 border border-white/5"
+                ? "bg-cyan-500/15 text-cyan-300 border border-cyan-500/30" 
+                : "bg-white/5 text-slate-300 border border-white/10"
             }`}>
-              {isChatOpen ? "DUAL SPLIT" : "FULL RESUME"}
+              {isChatOpen ? "DUAL VIEW" : "FULL RESUME"}
             </span>
           </div>
         </footer>
