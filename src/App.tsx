@@ -4,7 +4,7 @@
  */ 
  
 import { useState, useEffect } from "react";  
-import Navbar from "./components/Navbar";
+import Navbar, { DashboardTabKey } from "./components/Navbar";
 import RecruiterHero from "./components/RecruiterHero"; 
 import PDFViewer from "./components/PDFViewer";
 import Dashboard from "./components/Dashboard";
@@ -14,6 +14,7 @@ import { Compass } from "lucide-react";
 
 export default function App() {
   const [currentView, setCurrentView] = useState<"pdf" | "dashboard" | "drive">("pdf");
+  const [dashboardTab, setDashboardTab] = useState<DashboardTabKey>("projects");
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     const saved = localStorage.getItem("atlas-dark-mode");
     if (saved !== null) return saved === "true";
@@ -138,6 +139,12 @@ export default function App() {
           <Navbar
             currentView={currentView}
             setCurrentView={handleViewChange}
+            activeDashboardTab={dashboardTab}
+            onSelectDashboardTab={(tab) => {
+              setDashboardTab(tab);
+              handleViewChange("dashboard");
+              trackAction("navbar_select_tab", { tab });
+            }}
             isDarkMode={isDarkMode}
             setIsDarkMode={setIsDarkMode}
             onOpenChat={() => {
@@ -193,6 +200,8 @@ export default function App() {
             ) : currentView === "dashboard" ? (
               <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
                 <Dashboard
+                  initialTab={dashboardTab}
+                  onTabChange={setDashboardTab}
                   onAskAIAboutProject={handleAskAIAboutProject}
                   onTrackAction={trackAction}
                 />

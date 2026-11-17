@@ -13,7 +13,11 @@ import {
 import { resumeData, Project, Certification } from "../data/resumeData";
 
 
+export type DashboardTabKey = "projects" | "experience" | "proof" | "jd" | "blueprint" | "certificates" | "skills" | "analytics" | "admin" | "contact";
+
 interface DashboardProps {
+  initialTab?: DashboardTabKey;
+  onTabChange?: (tab: DashboardTabKey) => void;
   onAskAIAboutProject: (projectTitle: string) => void;
   onTrackAction: (event: string, meta?: any) => void;
 }
@@ -28,8 +32,14 @@ interface AnalyticsData {
   popularQueries: { query: string; count: number }[];
 }
 
-export default function Dashboard({ onAskAIAboutProject, onTrackAction }: DashboardProps) {
-  const [activeTab, setActiveTab] = useState<"projects" | "experience" | "proof" | "jd" | "blueprint" | "certificates" | "skills" | "analytics" | "admin" | "contact">("projects");
+export default function Dashboard({ initialTab, onTabChange, onAskAIAboutProject, onTrackAction }: DashboardProps) {
+  const [activeTab, setActiveTab] = useState<DashboardTabKey>(initialTab || "projects");
+
+  useEffect(() => {
+    if (initialTab && initialTab !== activeTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [loadingAnalytics, setLoadingAnalytics] = useState<boolean>(false);
   const [copiedLabel, setCopiedLabel] = useState<string | null>(null);
