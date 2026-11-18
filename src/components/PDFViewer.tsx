@@ -102,31 +102,33 @@ export default function PDFViewer({
 
         {/* Center/Right: Page Switcher & Actions */}
         <div className="flex items-center space-x-2">
-          {/* Quick Page Jump Pills */}
-          <div className="hidden md:flex items-center space-x-1 rounded-lg bg-black/40 border border-cyan-500/20 p-1">
+          {/* Quick Page Jump Pills (Responsive for Desktop & Mobile) */}
+          <div className="flex items-center space-x-1 rounded-lg bg-black/40 border border-cyan-500/20 p-1">
             <button
               onClick={() => jumpToPage(1)}
               aria-pressed={activePage === 1}
-              className={`px-2.5 py-1 rounded text-3xs font-mono font-bold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 ${
+              className={`min-h-[36px] min-w-[36px] sm:min-h-0 sm:min-w-0 px-2.5 py-1 rounded text-3xs font-mono font-bold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 flex items-center justify-center ${
                 activePage === 1
                   ? "bg-cyan-500/20 text-[#4FC0D0] border border-cyan-500/40 shadow-xs shadow-cyan-500/20"
                   : "text-slate-400 hover:text-white hover:bg-white/5"
               }`}
               title="Page 1: Summary, Skills, SPARK IIT Experience, AIOps RCA, VersionRAG"
             >
-              Page 1 (Experience)
+              <span className="hidden sm:inline">Page 1 (Experience)</span>
+              <span className="sm:hidden font-mono text-xs">P.1</span>
             </button>
             <button
               onClick={() => jumpToPage(2)}
               aria-pressed={activePage === 2}
-              className={`px-2.5 py-1 rounded text-3xs font-mono font-bold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 ${
+              className={`min-h-[36px] min-w-[36px] sm:min-h-0 sm:min-w-0 px-2.5 py-1 rounded text-3xs font-mono font-bold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 flex items-center justify-center ${
                 activePage === 2
                   ? "bg-cyan-500/20 text-[#4FC0D0] border border-cyan-500/40 shadow-xs shadow-cyan-500/20"
                   : "text-slate-400 hover:text-white hover:bg-white/5"
               }`}
               title="Page 2: GitHub MCP, ApexRAG, 9 Certifications, Leadership, LeetCode"
             >
-              Page 2 (Credentials)
+              <span className="hidden sm:inline">Page 2 (Credentials)</span>
+              <span className="sm:hidden font-mono text-xs">P.2</span>
             </button>
           </div>
           {/* AI Assistant Toggle Button (Desktop & Mobile) */}
