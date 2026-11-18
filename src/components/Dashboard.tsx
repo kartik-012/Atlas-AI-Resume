@@ -46,6 +46,12 @@ export default function Dashboard({ initialTab, onTabChange, onAskAIAboutProject
   const [downloadingPacket, setDownloadingPacket] = useState<boolean>(false);
   const [selectedArchSubsystem, setSelectedArchSubsystem] = useState<"rag" | "aiops" | "mcp" | "guardrails">("rag");
 
+  // Admin authentication header helper
+  const getAdminHeaders = (extra: Record<string, string> = {}) => ({
+    "x-admin-key": "kartik-dev",
+    ...extra
+  });
+
   // Admin states
   const [adminTitle, setAdminTitle] = useState<string>("");
   const [adminSource, setAdminSource] = useState<string>("Resume_Extra.pdf");
@@ -291,7 +297,7 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
   const fetchChunks = async () => {
     setLoadingChunks(true);
     try {
-      const res = await fetch("/api/admin/chunks");
+      const res = await fetch("/api/admin/chunks", { headers: getAdminHeaders() });
       if (res.ok) {
         const data = await res.json();
         setChunks(data.chunks || []);
@@ -311,7 +317,7 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
     try {
       const res = await fetch("/api/admin/search", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAdminHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify({ query: testQuery })
       });
       if (res.ok) {
@@ -329,7 +335,7 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
   // Delete a specific chunk
   const handleDeleteChunk = async (id: string) => {
     try {
-      const res = await fetch(`/api/admin/chunks/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/admin/chunks/${id}`, { method: "DELETE", headers: getAdminHeaders() });
       if (res.ok) {
         setAdminStatus({ type: "success", message: "RAG document chunk successfully deleted from index!" });
         fetchChunks();
@@ -560,7 +566,7 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
     try {
       const res = await fetch("/api/admin/upload", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAdminHeaders({ "Content-Type": "application/json" }),
         body: JSON.stringify({ title: adminTitle, source: adminSource, content: adminContent })
       });
 
@@ -584,7 +590,10 @@ Unlike standard portfolio developers, Kartik's engineering profile demonstrates 
   const handleAdminReset = async () => {
     setRebuilding(true);
     try {
-      const res = await fetch("/api/admin/reset", { method: "POST" });
+      const res = await fetch("/api/admin/reset", {
+        method: "POST",
+        headers: getAdminHeaders()
+      });
       if (res.ok) {
         setAdminStatus({ type: "success", message: "In-memory RAG database successfully reset to clean Resume.pdf defaults!" });
         streamIndexingLogs("reset");
