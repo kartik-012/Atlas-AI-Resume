@@ -8,7 +8,7 @@ import {
   Compass, Navigation, Milestone, MessageSquare, Activity, Layers, Flag, 
   Globe, Github, Linkedin, ExternalLink, Sparkles, Send, Upload, RefreshCw, 
   Trash2, Mail, Phone, MapPin, Check, Copy, Zap, ShieldAlert, Cpu, GitCompare, Play, Terminal,
-  Download, FileText, Network, CheckCircle2, Briefcase, AlertTriangle, AlertTriangle
+  Download, FileText, Network, CheckCircle2, Briefcase, AlertTriangle
 } from "lucide-react";
 import { resumeData, Project, Certification } from "../data/resumeData";
 
@@ -46,15 +46,13 @@ export default function Dashboard({ initialTab, onTabChange, onAskAIAboutProject
   const [downloadingPacket, setDownloadingPacket] = useState<boolean>(false);
   const [selectedArchSubsystem, setSelectedArchSubsystem] = useState<"rag" | "aiops" | "mcp" | "guardrails">("rag");
 
-  // Admin authentication header helper
-  const getAdminHeaders = (extra: Record<string, string> = {}) => ({
-    "x-admin-key": "kartik-dev",
-    ...extra
-  });
+  // Admin protection state
+  const [isAdminUnlocked, setIsAdminUnlocked] = useState<boolean>(false);
+  const [adminPasscode, setAdminPasscode] = useState<string>("");
+  const [adminAuthError, setAdminAuthError] = useState<string>("");
 
-  // Admin authentication header helper
   const getAdminHeaders = (extra: Record<string, string> = {}) => ({
-    "x-admin-key": "kartik-dev",
+    "x-admin-key": adminPasscode.trim() || "kartik-dev",
     ...extra
   });
 
