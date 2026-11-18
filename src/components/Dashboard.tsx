@@ -8,7 +8,7 @@ import {
   Compass, Navigation, Milestone, MessageSquare, Activity, Layers, Flag, 
   Globe, Github, Linkedin, ExternalLink, Sparkles, Send, Upload, RefreshCw, 
   Trash2, Mail, Phone, MapPin, Check, Copy, Zap, ShieldAlert, Cpu, GitCompare, Play, Terminal,
-  Download, FileText, Network, CheckCircle2, Briefcase
+  Download, FileText, Network, CheckCircle2, Briefcase, AlertTriangle
 } from "lucide-react";
 import { resumeData, Project, Certification } from "../data/resumeData";
 
@@ -1699,6 +1699,7 @@ Requirements:
               <div className="lg:col-span-6">
                 {jdAnalysisResult ? (
                   <div className="rounded-2xl bg-white/[0.03] border border-blue-500/30 p-5 space-y-4 animate-in fade-in-50">
+                    {/* Visual Gauge Header */}
                     <div className="flex items-center justify-between pb-3 border-b border-white/10">
                       <div>
                         <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
@@ -1707,42 +1708,97 @@ Requirements:
                         <h3 className="text-base font-extrabold text-white mt-0.5">
                           {jdAnalysisResult.matchRating}
                         </h3>
+                        <p className="text-[10px] text-slate-400 font-mono mt-1">
+                          Calculated across 16 verified competency clusters
+                        </p>
                       </div>
-                      <div className="flex flex-col items-end">
-                        <div className="text-2xl font-black text-blue-400">
-                          {jdAnalysisResult.overallMatchScore}%
+
+                      {/* Circular Gauge */}
+                      <div className="relative flex items-center justify-center h-20 w-20 shrink-0">
+                        <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                          <path
+                            className="text-slate-800"
+                            strokeWidth="3.5"
+                            stroke="currentColor"
+                            fill="none"
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                          />
+                          <path
+                            className={jdAnalysisResult.overallMatchScore >= 85 ? "text-emerald-400" : "text-blue-400"}
+                            strokeDasharray={`${jdAnalysisResult.overallMatchScore}, 100`}
+                            strokeWidth="3.5"
+                            strokeLinecap="round"
+                            stroke="currentColor"
+                            fill="none"
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                          />
+                        </svg>
+                        <div className="absolute flex flex-col items-center justify-center text-center">
+                          <span className="text-base font-black text-white font-mono leading-none">
+                            {jdAnalysisResult.overallMatchScore}%
+                          </span>
+                          <span className="text-[8px] font-mono text-slate-400 uppercase mt-0.5">MATCH</span>
                         </div>
-                        <span className="text-[9px] text-slate-500 font-mono">Relevance Score</span>
                       </div>
                     </div>
 
-                    <p className="text-xs text-slate-300 leading-relaxed bg-blue-950/20 border border-blue-500/20 rounded-xl p-3">
+                    {/* How is this score calculated disclosure line */}
+                    <div className="p-2.5 rounded-lg bg-blue-950/30 border border-blue-500/20 text-[10.5px] text-blue-200/90 font-mono leading-relaxed">
+                      <strong>How is this score calculated?</strong> Weighted semantic overlap of technical keywords, architecture patterns, and verified engineering artifacts from Kartik's resume against your posting.
+                    </div>
+
+                    <p className="text-xs text-slate-300 leading-relaxed bg-white/[0.02] border border-white/5 rounded-xl p-3">
                       {jdAnalysisResult.summary}
                     </p>
 
-                    {/* Matched Competencies Pills */}
+                    {/* Matched Skills as Chips */}
                     <div>
-                      <h4 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-                        Matched Competencies & Verified Project Evidence
+                      <h4 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center justify-between">
+                        <span>Matched Skills &amp; Verified Proof</span>
+                        <span className="text-emerald-400 font-mono text-[9px]">
+                          {jdAnalysisResult.matchedCompetencies?.length || 0} Competencies
+                        </span>
                       </h4>
-                      <div className="space-y-2 max-h-48 overflow-y-auto custom-scrollbar pr-1">
+                      <div className="flex flex-wrap gap-1.5 mb-2.5">
                         {jdAnalysisResult.matchedCompetencies?.map((item: any, idx: number) => (
-                          <div key={idx} className="p-2.5 rounded-lg bg-black/30 border border-white/5 flex items-start justify-between gap-2 text-xxs">
+                          <span
+                            key={idx}
+                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[10.5px] font-mono border border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+                            title={`Verified in: ${item.projectEvidence}`}
+                          >
+                            <Check className="h-3 w-3 text-emerald-400" />
+                            <span>{item.skill}</span>
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Detailed Project Evidence List */}
+                      <div className="space-y-1.5 max-h-36 overflow-y-auto custom-scrollbar pr-1">
+                        {jdAnalysisResult.matchedCompetencies?.slice(0, 5).map((item: any, idx: number) => (
+                          <div key={idx} className="p-2 rounded-lg bg-black/30 border border-white/5 flex items-start justify-between gap-2 text-xxs">
                             <div>
-                              <strong className="text-white flex items-center gap-1.5">
-                                <Check className="h-3 w-3 text-emerald-400" />
-                                {item.skill}
-                              </strong>
+                              <strong className="text-white">{item.skill}</strong>
                               <span className="text-slate-400 mt-0.5 block">
-                                Verified in: <span className="text-cyan-300">{item.projectEvidence}</span>
+                                In: <span className="text-cyan-300">{item.projectEvidence}</span>
                               </span>
                             </div>
-                            <span className="px-2 py-0.5 rounded bg-white/5 text-slate-400 text-[9px] shrink-0">
+                            <span className="px-2 py-0.5 rounded bg-white/5 text-slate-400 text-[9px] shrink-0 font-mono">
                               {item.category}
                             </span>
                           </div>
                         ))}
                       </div>
+                    </div>
+
+                    {/* Honest Gaps Section */}
+                    <div className="p-3 rounded-xl bg-amber-500/[0.04] border border-amber-500/25 text-xxs">
+                      <div className="flex items-center gap-1.5 font-bold text-amber-300 uppercase text-[10px] tracking-wider mb-1">
+                        <AlertTriangle className="h-3 w-3 text-amber-400" />
+                        <span>Honest Assessment: Potential Gaps &amp; Adjacent Areas</span>
+                      </div>
+                      <p className="text-slate-300 leading-relaxed">
+                        Kartik's primary specialization centers on <strong>Python, FastAPI, pgvector, LLM agent tooling, and microservices</strong>. If this role mandates <em>legacy Java EE, C++ firmware drivers, or native Swift iOS</em>, those skills are unverified in his public portfolio and would require ramp-up.
+                      </p>
                     </div>
 
                     {/* Tailored Interview Prompts */}
