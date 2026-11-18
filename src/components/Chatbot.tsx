@@ -431,6 +431,38 @@ export default function Chatbot({
   };
 
   
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  // Phase 3 Toast Notifications System
+  interface ToastItem {
+    id: string;
+    type: "success" | "error" | "warning" | "info";
+    title: string;
+  }
+  const [toasts, setToasts] = useState<ToastItem[]>([]);
+
+  const showToast = (toast: Omit<ToastItem, "id">) => {
+    const id = `toast-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+    setToasts(prev => [...prev, { ...toast, id }]);
+    setTimeout(() => {
+      setToasts(prev => prev.filter(t => t.id !== id));
+    }, 3200);
+  };
+
+  // Phase 3 Generation Control: Stop Streaming
+  const handleStopGeneration = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+    setIsTyping(false);
+    setActiveResponseId(null);
+    setMessages(prev => prev.map(m => m.isStreaming ? { ...m, isStreaming: false } : m));
+    showToast({ type: "warning", title: "Generation stopped by user" });
+    onTrackAction("chat_stop_generation");
+  };
+
+  
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const latestMessageRef = useRef<HTMLDivElement>(null);
@@ -522,6 +554,17 @@ export default function Chatbot({
       }
     };
   }, []);
+
+  // Global Escape keyboard shortcut to stop streaming or dismiss
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isTyping) {
+        handleStopGeneration();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isTyping]);
 
   // Global Escape keyboard shortcut to stop streaming or dismiss
   useEffect(() => {
@@ -672,6 +715,1423 @@ export default function Chatbot({
                 );
 
                 // Auto-scroll rule: follow stream only if user is at the bottom
+                if (!userScrolledUpRef.current && chatContainerRef.current) {
+                  chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+                }
+              }
+
+              if (data.done) {
+                setMessages(prev =>
+                  prev.map(m =>
+                    m.id === assistantMsgId
+                      ? {
+                          ...m,
+                          isStreaming: false,
+                          confidence: data.confidence,
+                          citations: data.citations,
+                          metrics: data.metrics
+                        }
+                      : m
+                  )
+                );
+                updateSuggestions(trimmed);
+              }
+            } catch (err) {
+              console.warn("Failed to parse stream JSON line", line, err);
+            }
+          }
+        }
+      }
+    } catch (e: any) {
+      if (e.name === "AbortError") {
+        console.log("Chat streaming aborted by user.");
+        return;
+      }
+      showToast({ type: "warning", title: "API offline: Served from local verified engine" });
+      console.warn("Server connection failed, falling back to local grounded intent engine...", e);
+      const localAnswer = matchChatbotIntent(trimmed);
+      if (localAnswer) {
+        setMessages(prev =>
+          prev.map(m =>
+            m.id === assistantMsgId
+              ? {
+                  ...m,
+                  content: localAnswer,
+                  confidence: 0.98,
+                  citations: [
+                    { title: "Verified Resume & Projects", chunkTitle: "Atlas AI Knowledge Graph", score: 0.98 }
+                  ],
+                  isStreaming: false,
+                  isOfflineFallback: true
+                }
+              : m
+          )
+        );
+        updateSuggestions(trimmed);
+      } else {
+        setMessages(prev =>
+          prev.map(m =>
+            m.id === assistantMsgId
+              ? {
+                  ...m,
+                  content: `*(A communication error occurred with the Atlas AI server. Please start the development server using \`npm run dev\` or ask any resume/project question).*`,
+                  isStreaming: false
+                }
+              : m
+          )
+        );
+      }
+    } finally {
+      setIsTyping(false);
+    }
+  };
+
+  // Dynamically update suggested follow-up questions based on query context
+  const updateSuggestions = (query: string) => {
+    const qLower = query.toLowerCase();
+    if (qLower.includes("project") || qLower.includes("aiops") || qLower.includes("versionrag") || qLower.includes("mcp") || qLower.includes("apexrag")) {
+      setSuggestedQuestions([
+        "⚡ Tell me about AIOps Root Cause Correlator.",
+        "📚 Tell me about VersionRAG.",
+        "🔧 Tell me about GitHub MCP Toolkit.",
+        "📊 Tell me about ApexRAG."
+      ]);
+    } else if (qLower.includes("hire") || qLower.includes("why") || qLower.includes("interview") || qLower.includes("challenge")) {
+      setSuggestedQuestions([
+        "Tell me about a technical challenge",
+        "How does he mitigate hallucinations?",
+        "📜 Show all certifications.",
+        "💼 Why should I hire Kartik?"
+      ]);
+    } else if (qLower.includes("skill") || qLower.includes("tech") || qLower.includes("stack") || qLower.includes("database")) {
+      setSuggestedQuestions([
+        "💻 What programming languages and frameworks does he know?",
+        "How does VersionRAG use pgvector and AST diffing?",
+        "Tell me about his education & 8.5 CGPA",
+        "Why hire Kartik?"
+      ]);
+    } else if (qLower.includes("cert") || qLower.includes("oracle") || qLower.includes("aws") || qLower.includes("tata")) {
+      setSuggestedQuestions([
+        "Explain his Oracle AI certification",
+        "Explain his AWS ML & AI certification",
+        "What is his Tata GenAI simulation?",
+        "💼 Why should I hire Kartik?"
+      ]);
+    } else {
+      setSuggestedQuestions([
+        "💼 Why should I hire Kartik?",
+        "⚡ Tell me about AIOps Root Cause Correlator.",
+        "📚 Tell me about VersionRAG.",
+        "📄 Summarize Kartik's resume."
+      ]);
+    }
+  };
+
+  // Clear chat session
+  const handleClearChat = () => {
+    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    setSpeakingMessageId(null);
+    setMessages([
+      {
+        id: "welcome",
+        role: "assistant",
+        content: WELCOME_MESSAGE_CONTENT,
+        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+      }
+    ]);
+    setSuggestedQuestions(RECRUITER_SUGGESTED_PROMPTS);
+    onTrackAction("clear_chat");
+  };
+
+  return (
+    <>
+      {/* ─── 1. MINIMIZED FLOATING ACTION BUTTON (BOTTOM RIGHT WIDGET) ─── */}
+      {!isOpen && !isEmbedded && (
+        <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 animate-in fade-in slide-in-from-bottom-4 duration-300">
+          {/* Helpful callout badge */}
+          <div className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold shadow-lg border backdrop-blur-md cursor-pointer select-none transition-transform hover:scale-105 active:scale-95 ${
+            isDarkMode 
+              ? "bg-[#0B1120]/90 border-cyan-500/30 text-cyan-300 shadow-cyan-950/50" 
+              : "bg-white/95 border-slate-200 text-slate-700 shadow-slate-200/80"
+          }`}
+          onClick={() => {
+            setIsOpen(true);
+            onTrackAction("chatbot_open_callout");
+          }}
+          >
+            <Sparkles className="h-3.5 w-3.5 text-[#4FC0D0]" />
+            <span>Ask Kartik's AI Rep</span>
+          </div>
+
+          <button
+            onClick={() => {
+              setIsOpen(true);
+              onTrackAction("chatbot_open");
+            }}
+            className="flex h-13 w-13 sm:h-14 sm:w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#1B6B93] via-[#2282A8] to-[#4FC0D0] shadow-2xl shadow-cyan-500/40 hover:scale-110 active:scale-95 transition-all duration-300 group border border-cyan-400/50 relative animate-glow-pulse"
+            id="chatbot-trigger"
+            title="Open Atlas AI Candidate Assistant (⌘K)"
+          >
+            <div className="absolute inset-0 rounded-2xl bg-[#4FC0D0]/20 animate-ping duration-1000" />
+            <MessageSquare className="h-6 w-6 text-white group-hover:rotate-6 transition-transform" />
+            <div className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 border-2 border-[#0B1120] shadow-md">
+              <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+            </div>
+          </button>
+        </div>
+      )}
+
+      {/* ─── 2. EXPANDED CHATBOT WINDOW (BOTTOM RIGHT REAL WEBSITE CHATBOT) ─── */}
+      {isOpen && (() => {
+        const s = sizeClasses[chatSize];
+        const containerClasses = isEmbedded
+          ? "flex flex-col h-full w-full border rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 backdrop-blur-2xl"
+          : `fixed inset-x-0 bottom-0 h-[88dvh] max-h-[88dvh] w-full rounded-t-3xl rounded-b-none sm:inset-auto sm:bottom-5 sm:right-5 sm:w-[385px] sm:h-[590px] sm:rounded-2xl z-50 flex flex-col border shadow-2xl overflow-hidden transition-all duration-300 backdrop-blur-2xl animate-in fade-in-50 slide-in-from-bottom-6`;
+
+        return (
+          <div
+            className={`${containerClasses} ${
+              isDarkMode 
+                ? "bg-[#0B1120]/95 border-cyan-500/25 text-white shadow-cyan-950/40" 
+                : "bg-white/95 border-slate-200 text-slate-900 shadow-2xl"
+            }`}
+            id={isEmbedded ? "chatbot-embedded" : "chatbot-window"}
+          >
+            {/* Mobile Sheet Drag Handle */}
+            {!isEmbedded && (
+              <div className="sm:hidden flex justify-center pt-2 pb-1 select-none">
+                <div className="w-10 h-1 rounded-full bg-slate-600/70" />
+              </div>
+            )}
+
+            {/* Top Glowing Header Accent Bar */}
+            <div className="absolute inset-x-0 top-0 h-[2.5px] bg-gradient-to-r from-[#1B6B93] via-[#4FC0D0] to-[#A2D2DF]" />
+
+            {/* ─── Chat Panel Header ─── */}
+            <div className={`flex items-center justify-between border-b select-none px-3.5 py-2.5 ${
+              isDarkMode 
+                ? "bg-gradient-to-r from-[#1B6B93]/15 via-[#0B1120] to-[#0B1120] border-cyan-500/20" 
+                : "bg-gradient-to-r from-slate-50 to-white border-slate-200"
+            }`}>
+              {/* Left Identity Info */}
+              <div className="flex items-center space-x-2">
+                <div className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#1B6B93] to-[#4FC0D0] shadow-md shadow-[#1B6B93]/30 shrink-0">
+                  <Compass className="h-4 w-4 text-white" />
+                  <div className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-emerald-500 border border-[#0B1120]" />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center space-x-1.5">
+                    <span className="font-bold text-[13px] text-white tracking-tight">Atlas AI</span>
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 px-1.5 py-0.2 text-[8.5px] font-bold uppercase tracking-wider text-emerald-400">
+                      <span className="h-1 w-1 rounded-full bg-emerald-400 animate-pulse" />
+                      Candidate Rep
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    <span 
+                      className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 px-2 py-0.5 text-xs font-semibold text-emerald-400 cursor-help"
+                      title="Responses are generated only from verified resume knowledge using Retrieval-Augmented Generation."
+                    >
+                      <span className="font-bold text-xs">✓</span>
+                      <span>Verified RAG</span>
+                    </span>
+                    <span 
+                      className="hidden sm:inline-flex items-center gap-1 rounded-full bg-cyan-500/10 border border-cyan-500/25 px-2 py-0.5 text-xs font-mono text-cyan-300"
+                      title="Server-Sent Events streaming with low first-token latency"
+                    >
+                      <span>SSE Stream</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Header Actions (Sizing, Reset, Minimize, Close) */}
+              <div className="flex items-center space-x-1">
+                {/* Sizing switchers */}
+                <div className={`flex items-center rounded-lg border p-0.5 mr-0.5 ${isDarkMode ? "border-white/10 bg-white/5" : "border-slate-200 bg-slate-100"}`}>
+                  <button
+                    onClick={() => setChatSize("compact")}
+                    className={`px-1.5 py-0.5 rounded text-[9.5px] font-semibold transition ${
+                      chatSize === "compact"
+                        ? "bg-[#1B6B93] text-white shadow-sm"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                    title="Compact"
+                  >
+                    S
+                  </button>
+                  <button
+                    onClick={() => setChatSize("normal")}
+                    className={`px-1.5 py-0.5 rounded text-[9.5px] font-semibold transition ${
+                      chatSize === "normal"
+                        ? "bg-[#1B6B93] text-white shadow-sm"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                    title="Standard"
+                  >
+                    M
+                  </button>
+                  <button
+                    onClick={() => setChatSize("wide")}
+                    className={`px-1.5 py-0.5 rounded text-[9.5px] font-semibold transitio
+
+            {/* ─── Floating Toast Notification Overlay ─── */}
+            {toasts.length > 0 && (
+              <div className="absolute top-14 left-4 right-4 z-50 flex flex-col gap-1.5 pointer-events-none">
+                {toasts.map(toast => (
+                  <div
+                    key={toast.id}
+                    className={`pointer-events-auto flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-xs font-medium shadow-xl border backdrop-blur-md ${
+                      toast.type === "success"
+                        ? "bg-emerald-950/95 border-emerald-500/40 text-emerald-200"
+                        : toast.type === "error"
+                        ? "bg-red-950/95 border-red-500/40 text-red-200"
+                        : toast.type === "warning"
+                        ? "bg-amber-950/95 border-amber-500/40 text-amber-200"
+                        : "bg-slate-900/95 border-cyan-500/40 text-cyan-200"
+                    }`}
+                  >
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      {toast.type === "success" && <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0" />}
+                      {toast.type === "error" && <AlertTriangle className="h-3.5 w-3.5 text-red-400 shrink-0" />}
+                      {toast.type === "warning" && <AlertTriangle className="h-3.5 w-3.5 text-amber-400 shrink-0" />}
+                      {toast.type === "info" && <Sparkles className="h-3.5 w-3.5 text-cyan-400 shrink-0" />}
+                      <span className="truncate">{toast.title}</span>
+                    </div>
+                    <button
+                      onClick={() => setToasts(prev => prev.filter(t => t.id !== toast.id))}
+                      className="text-slate-400 hover:text-white p-0.5 cursor-pointer"
+                      title="Dismiss"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* ─── Stop Generation Floating Button (Active During Streaming) ─── */}
+            {isTyping && (
+              <div className="flex justify-center -mb-2 py-1 relative z-20">
+                <button
+                  onClick={handleStopGeneration}
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold shadow-lg transition-all duration-150 active:scale-95 cursor-pointer border ${
+                    isDarkMode
+                      ? "bg-[#0B1120] border-red-500/40 text-slate-200 hover:text-white hover:bg-red-950/40"
+                      : "bg-white border-red-300 text-slate-700 hover:text-red-700 shadow-sm"
+                  }`}
+                  title="Stop generating response (Esc)"
+                >
+                  <span className="h-2 w-2 rounded-xs bg-red-400 animate-pulse" />
+                  <span>Stop generating</span>
+                  <kbd className="text-[9px] font-mono px-1 py-0.2 rounded bg-black/30 text-slate-400">Esc</kbd>
+                </button>
+              </div>
+            )}
+
+            {/* ─── Message Stream Area ─── */}
+            <div
+              ref={chatContainerRef}
+              onScroll={handleScroll}
+              role="log"
+              aria-live="polite"
+              aria-atomic="false"
+              aria-label="Chat conversation history"
+              className={`flex-1 overflow-y-auto custom-scrollbar ${s.container} ${
+                isDarkMode ? "bg-[#090D16]/70" : "bg-slate-50/50"
+              }`}
+            >
+              {messages.map((m, idx) => {
+                const isLatestAssistant = m.role === "assistant" && idx === messages.length - 1;
+                const isSpeaking = speakingMessageId === m.id;
+                const isCopied = copiedMessageId === m.id;
+
+                return (
+                  <div
+                    key={m.id}
+                    ref={isLatestAssistant ? latestMessageRef : undefined}
+                    className={`flex flex-col max-w-[92%] ${
+                      m.role === "user" ? "ml-auto items-end" : "mr-auto items-start animate-in fade-in-30"
+                    }`}
+                  >
+                    {/* Role Header Badge */}
+                    <div className="flex items-center space-x-1.5 mb-1 px-1">
+                      {m.role === "user" ? (
+                        <>
+                          <span className="text-[10px] font-semibold text-indigo-300">You / Interviewer</span>
+                          <User className="h-3 w-3 text-indigo-400" />
+                        </>
+                      ) : (
+                        <>
+                          <Bot className="h-3 w-3 text-[#4FC0D0]" />
+                          <span className="text-[10px] font-bold text-[#4FC0D0]">Atlas AI</span>
+                          <span className="text-[9.5px] text-slate-500">• {m.timestamp}</span>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Message Bubble Card */}
+                    <div
+                      className={`relative border shadow-md transition-all ${s.bubble} ${
+                        m.role === "user"
+                          ? isDarkMode
+                            ? "bg-gradient-to-r from-blue-700/35 to-indigo-700/35 border-blue-500/30 text-white rounded-tr-sm"
+                            : "bg-blue-600 text-white border-blue-600 rounded-tr-sm shadow-blue-500/10"
+                          : isDarkMode
+                            ? "bg-[#111827]/90 border-cyan-500/20 text-slate-100 rounded-tl-sm backdrop-blur-md"
+                            : "bg-white border-slate-200 text-slate-800 rounded-tl-sm shadow-sm"
+                      }`}
+                    >
+                      {/* Left vertical highlight strip for assistant */}
+                      {m.role === "assistant" && (
+                        <div className="absolute top-0 left-0 bottom-0 w-[3px] bg-gradient-to-b from-[#4FC0D0] to-[#1B6B93]" />
+                      )}
+
+                      {/* Content */}
+                      {m.role === "assistant" ? (
+                        <div>
+                          {m.id === "welcome" ? (
+                            <div className="space-y-3">
+                              <div className="flex items-center gap-2 pb-2 border-b border-cyan-500/20">
+                                <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold text-xs shrink-0">
+                                  KR
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="text-[13px] font-bold tracking-tight text-white flex items-center gap-1.5">
+                                    <span className="truncate">Kartik Raikar</span>
+                                    <span className="text-[9.5px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">VERIFIED CANDIDATE</span>
+                                  </div>
+                                  <div className="text-[11px] text-cyan-300/80 font-medium truncate">Target: AI Engineering / Generative AI</div>
+                                </div>
+                              </div>
+                              <MarkdownContent content={m.content} isDarkMode={isDarkMode} chatSize={chatSize} />
+                              <div className="pt-2 border-t border-white/10">
+                                <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1">
+                                  <Sparkles className="w-2.5 h-2.5 text-cyan-400" />
+                                  <span>Quick-Start Recruiter Prompts</span>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                                  {[
+                                    { label: "Why hire Kartik?", query: "Why should we hire Kartik for an AI Engineering role?" },
+                                    { label: "AIOps RCA System", query: "Tell me about AIOps Root Cause Correlator." },
+                                    { label: "VersionRAG Defense", query: "How does VersionRAG defend against doc drift and hallucinations?" },
+                                    { label: "Research Fellowship", query: "Tell me about the SPARK Research Fellowship at IIT Roorkee." }
+                                  ].map((item, idx) => (
+                                    <button
+                                      key={idx}
+                                      onClick={() => handleSendMessage(item.query)}
+                                      className={`text-left text-[11px] px-2.5 py-1.5 rounded-lg border font-medium transition-all duration-150 active:scale-95 cursor-pointer ${
+                                        isDarkMode
+                                          ? "border-cyan-500/25 bg-cyan-950/30 hover:bg-cyan-900/40 text-cyan-200 hover:text-white hover:border-cyan-400/50"
+                                          : "border-slate-200 bg-slate-50 hover:bg-cyan-50 text-slate-700 hover:text-[#1B6B93]"
+                                      }`}
+                                    >
+                                      → {item.label}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            <MarkdownContent content={m.content} isDarkMode={isDarkMode} chatSize={chatSize} />
+                          )}
+                          {m.isOfflineFallback && (
+                            <div className={`mt-2.5 flex items-center gap-2 px-2.5 py-1.5 rounded-lg border text-[11px] font-mono select-none ${
+                              isDarkMode
+                                ? "bg-amber-500/10 border-amber-500/30 text-amber-300"
+                                : "bg-amber-50 border-amber-200 text-amber-800"
+                            }`}>
+                              <span className="relative flex h-2 w-2 shrink-0">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                              </span>
+                              <span>Offline Engine • Served directly from verified local resume database.</span>
+                            </div>
+                          )}
+                          {m.isRateLimited && (
+                            <div className={`mt-3 p-3 rounded-xl border flex flex-col gap-2 ${
+                              isDarkMode
+                                ? "bg-amber-500/10 border-amber-500/30 text-amber-200"
+                                : "bg-amber-50 border-amber-200 text-amber-900"
+                            }`}>
+                              <div className="flex items-center gap-2">
+                                <AlertTriangle className="h-4 w-4 text-amber-400 shrink-0" />
+                                <span className="font-semibold text-xs">Rate Limit / Token Quota Threshold</span>
+                              </div>
+                              <p className="text-[11.5px] leading-relaxed opacity-90">
+                                Live Gemini API quota threshold reached. You can trigger a 1-click retry or query the offline verified engine immediately.
+                              </p>
+                              <div className="flex items-center gap-2 pt-1">
+                                {m.lastFailedQuery && (
+                                  <button
+                                    onClick={() => handleSendMessage(m.lastFailedQuery!)}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 border border-amber-500/40 transition-all cursor-pointer"
+                                  >
+                                    <RotateCcw className="h-3 w-3" />
+                                    <span>Retry Live Query</span>
+                                  </button>
+                                )}
+                                <button
+                                  onClick={() => {
+                                    if (m.lastFailedQuery) {
+                                      const fallback = matchChatbotIntent(m.lastFailedQuery);
+                                      if (fallback) {
+                                        setMessages(prev => prev.map(msg => msg.id === m.id ? { ...msg, content: fallback, isRateLimited: false, isOfflineFallback: true } : msg));
+                                      }
+                                    }
+                                  }}
+                                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/10 hover:bg-white/15 text-slate-200 transition-all cursor-pointer"
+                                >
+                                  <span>Use Offline Engine</span>
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="whitespace-pre-wrap select-text leading-relaxed font-sans">{m.content}</p>
+                      )}
+
+                      {/* Grounded in: Source Chips Row */}
+                      {m.role === "assistant" && !m.isStreaming && m.citations && m.citations.length > 0 && (
+                        <div className="mt-2.5 pt-2 border-t border-white/10 flex flex-wrap items-center gap-1.5 select-none">
+                          <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 flex items-center gap-1">
+                            <Compass className="w-2.5 h-2.5 text-cyan-400" /> Grounded in:
+                          </span>
+                          {m.citations.map((c, cIdx) => (
+                            <span
+                              key={cIdx}
+                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono border border-cyan-500/25 bg-cyan-950/40 text-cyan-300"
+                              title={`Relevance: ${(c.score * 100).toFixed(0)}%`}
+                            >
+                              <span>{c.chunkTitle || c.title}</span>
+                              <span className="text-cyan-400/80 font-bold">{(c.score * 100).toFixed(0)}%</span>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Assistant Bottom Utility Bar (Copy, TTS Listen, Regenerate, Provenance Badge) */}
+                      {m.role === "assistant" && !m.isStreaming && m.id !== "welcome" && (
+                        <div className={`mt-2.5 pt-2 border-t text-[10.5px] ${
+                          isDarkMode ? "border-white/10 text-slate-400" : "border-slate-100 text-slate-500"
+                        }`}>
+                          <div className="flex flex-wrap items-center justify-between gap-1.5">
+                            <div className="flex items-center space-x-1.5">
+                              {/* Copy button */}
+                              <button
+                                onClick={() => handleCopyMessage(m.content, m.id)}
+                                aria-label={isCopied ? "Response copied to clipboard" : "Copy full response"}
+                                className="flex items-center space-x-1 hover:text-white transition-all duration-150 active:scale-95 cursor-pointer px-2 py-0.5 rounded hover:bg-white/5"
+                                title="Copy full response"
+                              >
+                                {isCopied ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
+                                <span>{isCopied ? "Copied" : "Copy"}</span>
+                              </button>
+
+                              {/* Listen / Speak Button */}
+                              <button
+                                onClick={() => handleSpeak(m.content, m.id)}
+                                aria-label={isSpeaking ? "Stop speaking" : "Listen to audio response"}
+                                className={`flex items-center space-x-1 transition-all duration-150 active:scale-95 cursor-pointer px-2 py-0.5 rounded hover:bg-white/5 ${
+                                  isSpeaking ? "text-[#4FC0D0] font-bold animate-pulse" : "hover:text-white"
+                                }`}
+                                title={isSpeaking ? "Stop Speaking" : "Listen to Response"}
+                              >
+                                {isSpeaking ? <VolumeX className="h-3 w-3 text-[#4FC0D0]" /> : <Volume2 className="h-3 w-3" />}
+                                <span>{isSpeaking ? "Pause" : "Listen"}</span>
+                              </button>
+
+                              {/* Regenerate Button */}
+                              <button
+                                onClick={() => handleRegenerate()}
+                                aria-label="Regenerate response"
+                                className="flex items-center space-x-1 hover:text-white transition-all duration-150 active:scale-95 cursor-pointer px-2 py-0.5 rounded hover:bg-white/5"
+                                title="Regenerate this response"
+                              >
+                                <RotateCcw className="h-3 w-3 text-cyan-400" />
+                                <span>Regenerate</span>
+                              </button>
+                            </div>
+
+                            <div className="flex items-center space-x-1.5">
+                              {/* Provenance Badge (From Cache vs Live Answer vs Offline Engine) */}
+                              {m.metrics ? (
+                                m.metrics.retrievalStrategy === "semantic_cache" || m.metrics.ttftMs < 10 ? (
+                                  <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[9px] font-semibold bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 shadow-xs" title="Served directly from semantic vector cache (<1ms)">
+                                    <Zap className="h-2.5 w-2.5 text-emerald-400 fill-emerald-400" /> From Cache ({m.metrics.ttftMs}ms)
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[9px] font-semibold bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 shadow-xs" title="Live streaming answer from Gemini 2.5 Flash">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" /> Live Answer ({m.metrics.totalLatencyMs}ms)
+                                  </span>
+                                )
+                              ) : m.isOfflineFallback ? (
+                                <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[9px] font-semibold bg-amber-500/15 border border-amber-500/30 text-amber-300 shadow-xs">
+                                  Offline Engine
+                                </span>
+                              ) : null}
+
+                              {/* Engineering Diagnostics Toggle */}
+                              {m.metrics && (
+                                <button
+                                  onClick={() => toggleMetrics(m.id)}
+                                  className={`inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[9.5px] font-semibold border transition active:scale-95 ${
+                                    expandedMetricsIds[m.id]
+                                      ? "bg-cyan-500/20 text-cyan-300 border-cyan-400/40 shadow-sm shadow-cyan-500/20"
+                                      : "bg-white/5 text-slate-400 hover:text-cyan-300 border-white/10 hover:border-cyan-500/30"
+                                  }`}
+                                  title="Inspect TTFT, latency, token economics, and retrieval mechanics"
+                                >
+                                  <Activity className="h-3 w-3 text-cyan-400" />
+                                  <span>{m.metrics.totalLatencyMs}ms</span>
+                                  {expandedMetricsIds[m.id] ? (
+                                    <ChevronUp className="h-2.5 w-2.5" />
+                                  ) : (
+                                    <ChevronDown className="h-2.5 w-2.5" />
+                                  )}
+                                </button>
+                              )}
+
+                              {/* Relevance badge */}
+                              {m.confidence && m.confidence > 0 && (
+                                <span className="inline-flex items-center gap-1 rounded bg-cyan-950/60 border border-cyan-500/25 px-1.5 py-0.5 font-mono text-[9.5px] text-[#4FC0D0]">
+                                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+                                  {m.confidence}% Grounded
+                                </span>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* ─── Expandable Production Observability & Token Economics Console ─── */}
+                          {m.metrics && expandedMetricsIds[m.id] && (
+                            <div className={`mt-2.5 p-2.5 rounded-xl border text-[10px] font-mono leading-relaxed animate-in fade-in-50 slide-in-from-top-1 ${
+                              isDarkMode 
+                                ? "bg-[#090D16]/95 border-cyan-500/30 text-slate-300 shadow-inner" 
+                                : "bg-slate-100 border-slate-300 text-slate-700"
+                            }`}>
+                              <div className="flex items-center justify-between pb-1.5 mb-2 border-b border-white/10 text-[10px] font-bold text-cyan-400">
+                                <span className="flex items-center gap-1.5 uppercase tracking-wider">
+                                  <Activity className="h-3 w-3 text-cyan-400" />
+                                  Production Observability & Token Economics
+                                </span>
+                                <span className="px-1.5 py-0.2 rounded bg-cyan-950/80 border border-cyan-500/30 text-[#4FC0D0] text-[9px]">
+                                  {m.metrics.model}
+                                </span>
+                              </div>
+
+                              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                {/* TTFT */}
+                                <div className="p-1.5 rounded-lg bg-white/5 border border-white/5">
+                                  <div className="text-[9px] text-slate-400 flex items-center gap-1">
+                                    <Zap className="h-2.5 w-2.5 text-amber-400" />
+                                    <span>TTFT</span>
+                                  </div>
+                                  <div className="text-[11.5px] font-bold text-amber-300 mt-0.5">
+                                    {m.metrics.ttftMs}ms
+                                  </div>
+                                  <div className="text-[8.5px] text-slate-500">First token arrival</div>
+                                </div>
+
+                                {/* Total Latency */}
+                                <div className="p-1.5 rounded-lg bg-white/5 border border-white/5">
+                                  <div className="text-[9px] text-slate-400 flex items-center gap-1">
+                                    <Activity className="h-2.5 w-2.5 text-emerald-400" />
+                                    <span>End-to-End</span>
+                                  </div>
+                                  <div className="text-[11.5px] font-bold text-emerald-300 mt-0.5">
+                                    {m.metrics.totalLatencyMs}ms
+                                  </div>
+                                  <div className="text-[8.5px] text-slate-500">Total pipeline time</div>
+                                </div>
+
+                                {/* Token Footprint */}
+                                <div className="p-1.5 rounded-lg bg-white/5 border border-white/5">
+                                  <div className="text-[9px] text-slate-400 flex items-center gap-1">
+                                    <Cpu className="h-2.5 w-2.5 text-cyan-400" />
+                                    <span>Tokens</span>
+                                  </div>
+                                  <div className="text-[11.5px] font-bold text-cyan-300 mt-0.5">
+                                    {m.metrics.totalTokens} tok
+                                  </div>
+                                  <div className="text-[8.5px] text-slate-500">
+                                    {m.metrics.promptTokens} in / {m.metrics.completionTokens} out
+                                  </div>
+                                </div>
+
+                                {/* Inference Cost */}
+                                <div className="p-1.5 rounded-lg bg-white/5 border border-white/5">
+                                  <div className="text-[9px] text-slate-400 flex items-center gap-1">
+                                    <DollarSign className="h-2.5 w-2.5 text-violet-400" />
+                                    <span>Est. Cost</span>
+                                  </div>
+                                  <div className="text-[11.5px] font-bold text-violet-300 mt-0.5">
+                                    ${m.metrics.estimatedCostUsd.toFixed(6)}
+                                  </div>
+                                  <div className="text-[8.5px] text-slate-500">Production blended</div>
+                                </div>
+                              </div>
+
+                              {/* Retrieval Telemetry Details */}
+                              <div className="mt-2 pt-1.5 border-t border-white/5 flex flex-wrap items-center justify-between gap-1 text-[9px] text-slate-400">
+                                <span className="flex items-center gap-1">
+                                  <Layers className="h-2.5 w-2.5 text-[#4FC0D0]" />
+                                  <strong className="text-slate-300">Strategy:</strong> {m.metrics.retrievalStrategy || "Hybrid Lexical + Vector Index"}
+                                </span>
+                                {m.metrics.retrievalLatencyMs !== undefined && (
+                                  <span className="text-[#4FC0D0]">
+                                    Retrieval Latency: <strong>{m.metrics.retrievalLatencyMs}ms</strong>
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* Streaming / Typing Indicator */}
+              {isTyping && (
+                <div className="flex flex-col mr-auto items-start max-w-[85%] pl-1">
+                  <div className={`relative overflow-hidden border ${s.bubble} ${
+                    isDarkMode 
+                      ? "bg-[#111827]/90 border-cyan-500/20 text-slate-300 shadow-md" 
+                      : "bg-white border-slate-200 text-slate-700 shadow-sm"
+                  }`}>
+                    <div className="absolute top-0 left-0 bottom-0 w-[3px] bg-[#4FC0D0]" />
+                    <div className="flex items-center space-x-2 py-1 px-1">
+                      <div className="flex items-center space-x-1.5">
+                        <span className="h-2 w-2 rounded-full bg-cyan-400 animate-bounce shadow-sm shadow-cyan-400/50" />
+                        <span className="h-2 w-2 rounded-full bg-blue-500 animate-bounce [animation-delay:150ms] shadow-sm shadow-blue-500/50" />
+                        <span className="h-2 w-2 rounded-full bg-purple-400 animate-bounce [animation-delay:300ms] shadow-sm shadow-purple-400/50" />
+                      </div>
+                      <span className="text-[11px] font-mono text-cyan-300 font-medium tracking-tight">Synthesizing verified knowledge...</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* ─── Scroll Helpers (Top / Bottom) ─── */}
+            <div className="relative">
+              {showScrollDown && (
+                <button
+                  onClick={scrollToBottom}
+                  className="absolute bottom-2 right-4 z-20 flex items-center space-x-1 rounded-full px-3 py-1 text-[11px] font-semibold transition shadow-xl border bg-[#0B1120] border-cyan-500/40 text-cyan-300 hover:bg-[#1B6B93] hover:text-white"
+                  title="Scroll to bottom"
+                >
+                  <span>Jump to Latest</span>
+                  <ArrowDown className="h-3 w-3" />
+                </button>
+              )}
+              {showScrollToTop && (
+                <button
+                  onClick={scrollToTopOfLatestAnswer}
+                  className="absolute bottom-2 left-4 z-20 flex items-center space-x-1 rounded-full px-3 py-1 text-[11px] font-semibold transition shadow-xl border bg-[#0B1120] border-cyan-500/40 text-cyan-300 hover:bg-[#1B6B93] hover:text-white"
+                  title="Scroll to top of answer"
+                >
+                  <ArrowUp className="h-3 w-3" />
+                  <span>Top of Answer</span>
+                </button>
+              )}
+            </div>
+
+            {/* ─── Suggested Recruiter Prompts ─── */}
+            <div className={`border-t select-none shrink-0 overflow-y-auto custom-scrollbar p-2.5 transition-colors ${
+              isDarkMode ? "border-cyan-500/15 bg-[#080C14]/95" : "border-slate-200 bg-slate-50/95"
+            }`}>
+              <div className="flex items-center justify-between mb-1.5 px-0.5">
+                <span className={`text-[10px] font-mono uppercase tracking-wider font-semibold flex items-center gap-1 ${
+                  isDarkMode ? "text-cyan-400" : "text-[#1B6B93]"
+                }`}>
+                  <Sparkles className="w-2.5 h-2.5 text-cyan-400" /> Recruiter Quick Questions
+                </span>
+                <span className={`text-[9px] font-mono ${isDarkMode ? "text-slate-500" : "text-slate-400"}`}>
+                  1-click prompt
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                {suggestedQuestions.slice(0, 4).map((q, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => handleSendMessage(q)}
+                    disabled={isTyping}
+                    className={`group text-left text-[11px] leading-snug p-2 rounded-lg border font-medium transition-all duration-150 active:scale-[0.98] disabled:opacity-40 cursor-pointer focus-visible:outline-none focus-visible:ring-2 ${
+                      isDarkMode 
+                        ? "border-cyan-500/20 bg-cyan-950/20 hover:bg-cyan-900/35 hover:border-cyan-400/50 text-slate-200 hover:text-white focus-visible:ring-cyan-400/60" 
+                        : "border-slate-200 bg-white hover:bg-cyan-50/70 hover:border-[#1B6B93]/40 text-slate-700 hover:text-[#1B6B93] focus-visible:ring-[#1B6B93]/50 shadow-xs"
+                    }`}
+                  >
+                    <span className="line-clamp-2">{q}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* ─── Trust Indicator (Above Input Box) ─── */}
+            <div className={`flex items-center gap-1.5 px-3.5 py-1.5 border-t select-none transition-colors ${
+              isDarkMode 
+                ? "bg-[#080D1A]/90 border-cyan-500/15 text-slate-300" 
+                : "bg-slate-50 border-slate-200 text-slate-600"
+            }`}>
+              <span className="text-emerald-400 font-bold text-[11px] leading-none">✓</span>
+              <span className="text-[10px] sm:text-[10.5px] font-medium tracking-tight leading-none">
+                Responses are grounded only in verified resume data.
+              </span>
+            </div>
+
+            {/* ─── Input Box ─── */}
+            <div className={`border-t shrink-0 ${s.inputBox} ${
+              isDarkMode ? "border-cyan-500/20 bg-[#0B1120]" : "border-slate-200 bg-white"
+            }`}>
+              <div className={`relative flex items-center border rounded-2xl focus-within:ring-2 focus-within:ring-[#4FC0D0]/50 focus-within:border-cyan-400/50 focus-within:shadow-[0_0_15px_rgba(79,192,208,0.18)] transition-all ${
+                isDarkMode ? "bg-[#121827] border-cyan-500/25" : "bg-slate-50 border-slate-200"
+              }`}>
+                <textarea
+                  rows={1}
+                  placeholder="Ask anything about Kartik's engineering, projects, or interview Q&A..."
+                  value={inputQuery}
+                  onChange={(e) => setInputQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSendMessage(inputQuery);
+                    }
+                  }}
+                  className={`flex-1 bg-transparent border-0 outline-none focus:ring-0 resize-none custom-scrollbar ${s.inputArea} ${
+                    isDarkMode ? "text-white placeholder:text-slate-500" : "text-slate-900 placeholder:text-slate-400"
+                  }`}
+                />
+                <button
+                  onClick={() => handleSendMessage(inputQuery)}
+                  disabled={!inputQuery.trim() || isTyping}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-r from-[#1B6B93] to-[#4FC0D0] text-white disabled:opacity-40 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-cyan-400/30 transition-all cursor-pointer shadow-md shadow-[#1B6B93]/30"
+                  title="Send message (Enter)"
+                >
+                  <Send className="h-3.5 w-3.5" />
+                </button>
+              </div>
+
+              {/* Bottom Keyboard Hint & Branding */}
+              <div className="flex items-center justify-between select-none mt-2 px-1 text-[10px] text-slate-500 font-medium">
+                <span>Press <strong>Enter</strong> to send • <strong>Shift+Enter</strong> for newline</span>
+                <span className="flex items-center space-x-1 font-mono text-[9.5px] text-slate-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  <span>RAG Engine Active</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+    </>
+  );
+}n ${
+                      chatSize === "wide"
+                        ? "bg-[#1B6B93] text-white shadow-sm"
+                        : "text-slate-400 hover:text-white"
+                    }`}
+                    title="Wide"
+                  >
+                    L
+                  </button>
+                </div>
+
+                {/* Clear Chat */}
+                <button
+                  onClick={handleClearChat}
+                  className="p-1 rounded-lg text-slate-400 hover:bg-white/10 hover:text-red-400 transition"
+                  title="Clear Chat History"
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </button>
+
+                {/* Minimize Button */}
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-1 rounded-lg text-slate-400 hover:bg-white/10 hover:text-white transition"
+                  title="Minimize Assistant"
+                >
+                  <Minus className="h-3.5 w-3.5" />
+                </button>
+
+                {/* Close Button */}
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-1 rounded-lg text-slate-400 hover:bg-white/10 hover:text-white transition"
+                  title="Close Assistant"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            </div>
+
+            {/* ─── Floating Toast Notification Overlay ─── */}
+            {toasts.length > 0 && (
+              <div className="absolute top-14 left-4 right-4 z-50 flex flex-col gap-1.5 pointer-events-none">
+                {toasts.map(toast => (
+                  <div
+                    key={toast.id}
+                    className={`pointer-events-auto flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-xs font-medium shadow-xl border backdrop-blur-md ${
+                      toast.type === "success"
+                        ? "bg-emerald-950/95 border-emerald-500/40 text-emerald-200"
+                        : toast.type === "error"
+                        ? "bg-red-950/95 border-red-500/40 text-red-200"
+                        : toast.type === "warning"
+                        ? "bg-amber-950/95 border-amber-500/40 text-amber-200"
+                        : "bg-slate-900/95 border-cyan-500/40 text-cyan-200"
+                    }`}
+                  >
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      {toast.type === "success" && <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0" />}
+                      {toast.type === "error" && <AlertTriangle className="h-3.5 w-3.5 text-red-400 shrink-0" />}
+                      {toast.type === "warning" && <AlertTriangle className="h-3.5 w-3.5 text-amber-400 shrink-0" />}
+                      {toast.type === "info" && <Sparkles className="h-3.5 w-3.5 text-cyan-400 shrink-0" />}
+                      <span className="truncate">{toast.title}</span>
+                    </div>
+                    <button
+                      onClick={() => setToasts(prev => prev.filter(t => t.id !== toast.id))}
+                      className="text-slate-400 hover:text-white p-0.5 cursor-pointer"
+                      title="Dismiss"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* ─── Stop Generation Floating Button (Active During Streaming) ─── */}
+            {isTyping && (
+              <div className="flex justify-center -mb-2 py-1 relative z-20">
+                <button
+                  onClick={handleStopGeneration}
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold shadow-lg transition-all duration-150 active:scale-95 cursor-pointer border ${
+                    isDarkMode
+                      ? "bg-[#0B1120] border-red-500/40 text-slate-200 hover:text-white hover:bg-red-950/40"
+                      : "bg-white border-red-300 text-slate-700 hover:text-red-700 shadow-sm"
+                  }`}
+                  title="Stop generating response (Esc)"
+                >
+                  <span className="h-2 w-2 rounded-xs bg-red-400 animate-pulse" />
+                  <span>Stop generating</span>
+                  <kbd className="text-[9px] font-mono px-1 py-0.2 rounded bg-black/30 text-slate-400">Esc</kbd>
+                </button>
+              </div>
+            )}
+
+            {/* ─── Message Stream Area ─── */}
+            <div
+              ref={chatContainerRef}
+              onScroll={handleScroll}
+              role="log"
+              aria-live="polite"
+              aria-atomic="false"
+              aria-label="Chat conversation history"
+              className={`flex-1 overflow-y-auto custom-scrollbar ${s.container} ${
+                isDarkMode ? "bg-[#090D16]/70" : "bg-slate-50/50"
+              }`}
+            >
+              {messages.map((m, idx) => {
+                const isLatestAssistant = m.role === "assistant" && idx === messages.length - 1;
+                const isSpeaking = speakingMessageId === m.id;
+                const isCopied = copiedMessageId === m.id;
+
+                return (
+                  <div
+                    key={m.id}
+                    ref={isLatestAssistant ? latestMessageRef : undefined}
+                    className={`flex flex-col max-w-[92%] ${
+                      m.role === "user" ? "ml-auto items-end" : "mr-auto items-start animate-in fade-in-30"
+                    }`}
+                  >
+                    {/* Role Header Badge */}
+                    <div className="flex items-center space-x-1.5 mb-1 px-1">
+                      {m.role === "user" ? (
+                        <>
+                          <span className="text-[10px] font-semibold text-indigo-300">You / Interviewer</span>
+                          <User className="h-3 w-3 text-indigo-400" />
+                        </>
+                      ) : (
+                        <>
+                          <Bot className="h-3 w-3 text-[#4FC0D0]" />
+                          <span className="text-[10px] font-bold text-[#4FC0D0]">Atlas AI</span>
+                          <span className="text-[9.5px] text-slate-500">• {m.timestamp}</span>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Message Bubble Card */}
+                    <div
+                      className={`relative border shadow-md transition-all ${s.bubble} ${
+                        m.role === "user"
+                          ? isDarkMode
+                            ? "bg-gradient-to-r from-blue-700/35 to-indigo-700/35 border-blue-500/30 text-white rounded-tr-sm"
+                            : "bg-blue-600 text-white border-blue-600 rounded-tr-sm shadow-blue-500/10"
+                          : isDarkMode
+                            ? "bg-[#111827]/90 border-cyan-500/20 text-slate-100 rounded-tl-sm backdrop-blur-md"
+                            : "bg-white border-slate-200 text-slate-800 rounded-tl-sm shadow-sm"
+                      }`}
+                    >
+                      {/* Left vertical highlight strip for assistant */}
+                      {m.role === "assistant" && (
+                        <div className="absolute top-0 left-0 bottom-0 w-[3px] bg-gradient-to-b from-[#4FC0D0] to-[#1B6B93]" />
+                      )}
+
+                      {/* Content */}
+                      {m.role === "assistant" ? (
+                        <div>
+                          {m.id === "welcome" ? (
+                            <div className="space-y-3">
+                              <div className="flex items-center gap-2 pb-2 border-b border-cyan-500/20">
+                                <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold text-xs shrink-0">
+                                  KR
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="text-[13px] font-bold tracking-tight text-white flex items-center gap-1.5">
+                                    <span className="truncate">Kartik Raikar</span>
+                                    <span className="text-[9.5px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">VERIFIED CANDIDATE</span>
+                                  </div>
+                                  <div className="text-[11px] text-cyan-300/80 font-medium truncate">Target: AI Engineering / Generative AI</div>
+                                </div>
+                              </div>
+                              <MarkdownContent content={m.content} isDarkMode={isDarkMode} chatSize={chatSize} />
+                              <div className="pt-2 border-t border-white/10">
+                                <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1">
+                                  <Sparkles className="w-2.5 h-2.5 text-cyan-400" />
+                                  <span>Quick-Start Recruiter Prompts</span>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                                  {[
+                                    { label: "Why hire Kartik?", query: "Why should we hire Kartik for an AI Engineering role?" },
+                                    { label: "AIOps RCA System", query: "Tell me about AIOps Root Cause Correlator." },
+                                    { label: "VersionRAG Defense", query: "How does VersionRAG defend against doc drift and hallucinations?" },
+                                    { label: "Research Fellowship", query: "Tell me about the SPARK Research Fellowship at IIT Roorkee." }
+                                  ].map((item, idx) => (
+                                    <button
+                                      key={idx}
+                                      onClick={() => handleSendMessage(item.query)}
+                                      className={`text-left text-[11px] px-2.5 py-1.5 rounded-lg border font-medium transition-all duration-150 active:scale-95 cursor-pointer ${
+                                        isDarkMode
+                                          ? "border-cyan-500/25 bg-cyan-950/30 hover:bg-cyan-900/40 text-cyan-200 hover:text-white hover:border-cyan-400/50"
+                                          : "border-slate-200 bg-slate-50 hover:bg-cyan-50 text-slate-700 hover:text-[#1B6B93]"
+                                      }`}
+                                    >
+                                      → {item.label}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            <MarkdownContent content={m.content} isDarkMode={isDarkMode} chatSize={chatSize} />
+                          )}
+                          {m.isOfflineFallback && (
+                            <div className={`mt-2.5 flex items-center gap-2 px-2.5 py-1.5 rounded-lg border text-[11px] font-mono select-none ${
+                              isDarkMode
+                                ? "bg-amber-500/10 border-amber-500/30 text-amber-300"
+                                : "bg-amber-50 border-amber-200 text-amber-800"
+                            }`}>
+                              <span className="relative flex h-2 w-2 shrink-0">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                              </span>
+                              <span>Offline Engine • Served directly from verified local resume database.</span>
+                            </div>
+                          )}
+                          {m.isRateLimited && (
+                            <div className={`mt-3 p-3 rounded-xl border flex flex-col gap-2 ${
+                              isDarkMode
+                                ? "bg-amber-500/10 border-amber-500/30 text-amber-200"
+                                : "bg-amber-50 border-amber-200 text-amber-900"
+                            }`}>
+                              <div className="flex items-center gap-2">
+                                <AlertTriangle className="h-4 w-4 text-amber-400 shrink-0" />
+                                <span className="font-semibold text-xs">Rate Limit / Token Quota Threshold</span>
+                              </div>
+                              <p className="text-[11.5px] leading-relaxed opacity-90">
+                                Live Gemini API quota threshold reached. You can trigger a 1-click retry or query the offline verified engine immediately.
+                              </p>
+                              <div className="flex items-center gap-2 pt-1">
+                                {m.lastFailedQuery && (
+                                  <button
+                                    onClick={() => handleSendMessage(m.lastFailedQuery!)}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 border border-amber-500/40 transition-all cursor-pointer"
+                                  >
+                                    <RotateCcw className="h-3 w-3" />
+                                    <span>Retry Live Query</span>
+                                  </button>
+                                )}
+                                <button
+                                  onClick={() => {
+                                    if (m.lastFailedQuery) {
+                                      const fallback = matchChatbotIntent(m.lastFailedQuery);
+                                      if (fallback) {
+                                        setMessages(prev => prev.map(msg => msg.id === m.id ? { ...msg, content: fallback, isRateLimited: false, isOfflineFallback: true } : msg));
+                                      }
+                                    }
+                                  }}
+                                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/10 hover:bg-white/15 text-slate-200 transition-all cursor-pointer"
+                                >
+                                  <span>Use Offline Engine</span>
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="whitespace-pre-wrap select-text leading-relaxed font-sans">{m.content}</p>
+                      )}
+
+                      {/* Grounded in: Source Chips Row */}
+                      {m.role === "assistant" && !m.isStreaming && m.citations && m.citations.length > 0 && (
+                        <div className="mt-2.5 pt-2 border-t border-white/10 flex flex-wrap items-center gap-1.5 select-none">
+                          <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 flex items-center gap-1">
+                            <Compass className="w-2.5 h-2.5 text-cyan-400" /> Grounded in:
+                          </span>
+                          {m.citations.map((c, cIdx) => (
+                            <span
+                              key={cIdx}
+                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono border border-cyan-500/25 bg-cyan-950/40 text-cyan-300"
+                              title={`Relevance: ${(c.score * 100).toFixed(0)}%`}
+                            >
+                              <span>{c.chunkTitle || c.title}</span>
+                              <span className="text-cyan-400/80 font-bold">{(c.score * 100).toFixed(0)}%</span>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Assistant Bottom Utility Bar (Copy, TTS Listen, Regenerate, Provenance Badge) */}
+                      {m.role === "assistant" && !m.isStreaming && m.id !== "welcome" && (
+                        <div className={`mt-2.5 pt-2 border-t text-[10.5px] ${
+                          isDarkMode ? "border-white/10 text-slate-400" : "border-slate-100 text-slate-500"
+                        }`}>
+                          <div className="flex flex-wrap items-center justify-between gap-1.5">
+                            <div className="flex items-center space-x-1.5">
+                              {/* Copy button */}
+                              <button
+                                onClick={() => handleCopyMessage(m.content, m.id)}
+                                aria-label={isCopied ? "Response copied to clipboard" : "Copy full response"}
+                                className="flex items-center space-x-1 hover:text-white transition-all duration-150 active:scale-95 cursor-pointer px-2 py-0.5 rounded hover:bg-white/5"
+                                title="Copy full response"
+                              >
+                                {isCopied ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
+                                <span>{isCopied ? "Copied" : "Copy"}</span>
+                              </button>
+
+                              {/* Listen / Speak Button */}
+                              <button
+                                onClick={() => handleSpeak(m.content, m.id)}
+                                aria-label={isSpeaking ? "Stop speaking" : "Listen to audio response"}
+                                className={`flex items-center space-x-1 transition-all duration-150 active:scale-95 cursor-pointer px-2 py-0.5 rounded hover:bg-white/5 ${
+                                  isSpeaking ? "text-[#4FC0D0] font-bold animate-pulse" : "hover:text-white"
+                                }`}
+                                title={isSpeaking ? "Stop Speaking" : "Listen to Response"}
+                              >
+                                {isSpeaking ? <VolumeX className="h-3 w-3 text-[#4FC0D0]" /> : <Volume2 className="h-3 w-3" />}
+                                <span>{isSpeaking ? "Pause" : "Listen"}</span>
+                              </button>
+
+                              {/* Regenerate Button */}
+                              <button
+                                onClick={() => handleRegenerate()}
+                                aria-label="Regenerate response"
+                                className="flex items-center space-x-1 hover:text-white transition-all duration-150 active:scale-95 cursor-pointer px-2 py-0.5 rounded hover:bg-white/5"
+                                title="Regenerate this response"
+                              >
+                                <RotateCcw className="h-3 w-3 text-cyan-400" />
+                                <span>Regenerate</span>
+                              </button>
+                            </div>
+
+                            <div className="flex items-center space-x-1.5">
+                              {/* Provenance Badge (From Cache vs Live Answer vs Offline Engine) */}
+                              {m.metrics ? (
+                                m.metrics.retrievalStrategy === "semantic_cache" || m.metrics.ttftMs < 10 ? (
+                                  <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[9px] font-semibold bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 shadow-xs" title="Served directly from semantic vector cache (<1ms)">
+                                    <Zap className="h-2.5 w-2.5 text-emerald-400 fill-emerald-400" /> From Cache ({m.metrics.ttftMs}ms)
+                                  </span>
+                                ) : (
+                                  <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[9px] font-semibold bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 shadow-xs" title="Live streaming answer from Gemini 2.5 Flash">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" /> Live Answer ({m.metrics.totalLatencyMs}ms)
+                                  </span>
+                                )
+                              ) : m.isOfflineFallback ? (
+                                <span className="inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[9px] font-semibold bg-amber-500/15 border border-amber-500/30 text-amber-300 shadow-xs">
+                                  Offline Engine
+                                </span>
+                              ) : null}
+
+                              {/* Engineering Diagnostics Toggle */}
+                              {m.metrics && (
+                                <button
+                                  onClick={() => toggleMetrics(m.id)}
+                                  className={`inline-flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[9.5px] font-semibold border transition active:scale-95 ${
+                                    expandedMetricsIds[m.id]
+                                      ? "bg-cyan-500/20 text-cyan-300 border-cyan-400/40 shadow-sm shadow-cyan-500/20"
+                                      : "bg-white/5 text-slate-400 hover:text-cyan-300 border-white/10 hover:border-cyan-500/30"
+                                  }`}
+                                  title="Inspect TTFT, latency, token economics, and retrieval mechanics"
+                                >
+                                  <Activity className="h-3 w-3 text-cyan-400" />
+                                  <span>{m.metrics.totalLatencyMs}ms</span>
+                                  {expandedMetricsIds[m.id] ? (
+                                    <ChevronUp className="h-2.5 w-2.5" />
+                                  ) : (
+                                    <ChevronDown className="h-2.5 w-2.5" />
+                                  )}
+                                </button>
+                              )}
+
+                              {/* Relevance badge */}
+                              {m.confidence && m.confidence > 0 && (
+                                <span className="inline-flex items-center gap-1 rounded bg-cyan-950/60 border border-cyan-500/25 px-1.5 py-0.5 font-mono text-[9.5px] text-[#4FC0D0]">
+                                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+                                  {m.confidence}% Grounded
+                                </span>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* ─── Expandable Production Observability & Token Economics Console ─── */}
+                          {m.metrics && expandedMetricsIds[m.id] && (
+                            <div className={`mt-2.5 p-2.5 rounded-xl border text-[10px] font-mono leading-relaxed animate-in fade-in-50 slide-in-from-top-1 ${
+                              isDarkMode 
+                                ? "bg-[#090D16]/95 border-cyan-500/30 text-slate-300 shadow-inner" 
+                                : "bg-slate-100 border-slate-300 text-slate-700"
+                            }`}>
+                              <div className="flex items-center justify-between pb-1.5 mb-2 border-b border-white/10 text-[10px] font-bold text-cyan-400">
+                                <span className="flex items-center gap-1.5 uppercase tracking-wider">
+                                  <Activity className="h-3 w-3 text-cyan-400" />
+                                  Production Observability & Token Economics
+                                </span>
+                                <span className="px-1.5 py-0.2 rounded bg-cyan-950/80 border border-cyan-500/30 text-[#4FC0D0] text-[9px]">
+                                  {m.metrics.model}
+                                </span>
+                              </div>
+
+                              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                {/* TTFT */}
+                                <div className="p-1.5 rounded-lg bg-white/5 border border-white/5">
+                                  <div className="text-[9px] text-slate-400 flex items-center gap-1">
+                                    <Zap className="h-2.5 w-2.5 text-amber-400" />
+                                    <span>TTFT</span>
+                                  </div>
+                                  <div className="text-[11.5px] font-bold text-amber-300 mt-0.5">
+                                    {m.metrics.ttftMs}ms
+                                  </div>
+                                  <div className="text-[8.5px] text-slate-500">First token arrival</div>
+                                </div>
+
+                                {/* Total Latency */}
+                                <div className="p-1.5 rounded-lg bg-white/5 border border-white/5">
+                                  <div className="text-[9px] text-slate-400 flex items-center gap-1">
+                                    <Activity className="h-2.5 w-2.5 text-emerald-400" />
+                                    <span>End-to-End</span>
+                                  </div>
+                                  <div className="text-[11.5px] font-bold text-emerald-300 mt-0.5">
+                                    {m.metrics.totalLatencyMs}ms
+                                  </div>
+                                  <div className="text-[8.5px] text-slate-500">Total pipeline time</div>
+                                </div>
+
+                                {/* Token Footprint */}
+                                <div className="p-1.5 rounded-lg bg-white/5 border border-white/5">
+                                  <div className="text-[9px] text-slate-400 flex items-center gap-1">
+                                    <Cpu className="h-2.5 w-2.5 text-cyan-400" />
+                                    <span>Tokens</span>
+                                  </div>
+                                  <div className="text-[11.5px] font-bold text-cyan-300 mt-0.5">
+                                    {m.metrics.totalTokens} tok
+                                  </div>
+                                  <div className="text-[8.5px] text-slate-500">
+                                    {m.metrics.promptTokens} in / {m.metrics.completionTokens} out
+                                  </div>
+                                </div>
+
+                                {/* Inference Cost */}
+                                <div className="p-1.5 rounded-lg bg-white/5 border border-white/5">
+                                  <div className="text-[9px] text-slate-400 flex items-center gap-1">
+                                    <DollarSign className="h-2.5 w-2.5 text-violet-400" />
+                                    <span>Est. Cost</span>
+                                  </div>
+                                  <div className="text-[11.5px] font-bold text-violet-300 mt-0.5">
+                                    ${m.metrics.estimatedCostUsd.toFixed(6)}
+                                  </div>
+                                  <div className="text-[8.5px] text-slate-500">Production blended</div>
+                                </div>
+                              </div>
+
+                              {/* Retrieval Telemetry Details */}
+                              <div className="mt-2 pt-1.5 border-t border-white/5 flex flex-wrap items-center justify-between gap-1 text-[9px] text-slate-400">
+                                <span className="flex items-center gap-1">
+                                  <Layers className="h-2.5 w-2.5 text-[#4FC0D0]" />
+                                  <strong className="text-slate-300">Strategy:</strong> {m.metrics.retrievalStrategy || "Hybrid Lexical + Vector Index"}
+                                </span>
+                                {m.metrics.retrievalLatencyMs !== undefined && (
+                                  <span className="text-[#4FC0D0]">
+                                    Retrieval Latency: <strong>{m.metrics.retrievalLatencyMs}ms</strong>
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* Streaming / Typing Indicator */}
+              {isTyping && (
+                <div className="flex flex-col mr-auto items-start max-w-[85%] pl-1">
+                  <div className={`relative overflow-hidden border ${s.bubble} ${
+                    isDarkMode 
+                      ? "bg-[#111827]/90 border-cyan-500/20 text-slate-300 shadow-md" 
+                      : "bg-white border-slate-200 text-slate-700 shadow-sm"
+                  }`}>
+                    <div className="absolute top-0 left-0 bottom-0 w-[3px] bg-[#4FC0D0]" />
+                    <div className="flex items-center space-x-2 py-1 px-1">
+                      <div className="flex items-center space-x-1.5">
+                        <span className="h-2 w-2 rounded-full bg-cyan-400 animate-bounce shadow-sm shadow-cyan-400/50" />
+                        <span className="h-2 w-2 rounded-full bg-blue-500 animate-bounce [animation-delay:150ms] shadow-sm shadow-blue-500/50" />
+                        <span className="h-2 w-2 rounded-full bg-purple-400 animate-bounce [animation-delay:300ms] shadow-sm shadow-purple-400/50" />
+                      </div>
+                      <span className="text-[11px] font-mono text-cyan-300 font-medium tracking-tight">Synthesizing verified knowledge...</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* ─── Scroll Helpers (Top / Bottom) ─── */}
+            <div className="relative">
+              {showScrollDown && (
+                <button
+                  onClick={scrollToBottom}
+                  className="absolute bottom-2 right-4 z-20 flex items-center space-x-1 rounded-full px-3 py-1 text-[11px] font-semibold transition shadow-xl border bg-[#0B1120] border-cyan-500/40 text-cyan-300 hover:bg-[#1B6B93] hover:text-white"
+                  title="Scroll to bottom"
+                >
+                  <span>Jump to Latest</span>
+                  <ArrowDown className="h-3 w-3" />
+                </button>
+              )}
+              {showScrollToTop && (
+                <button
+                  onClick={scrollToTopOfLatestAnswer}
+                  className="absolute bottom-2 left-4 z-20 flex items-center space-x-1 rounded-full px-3 py-1 text-[11px] font-semibold transition shadow-xl border bg-[#0B1120] border-cyan-500/40 text-cyan-300 hover:bg-[#1B6B93] hover:text-white"
+                  title="Scroll to top of answer"
+                >
+                  <ArrowUp className="h-3 w-3" />
+                  <span>Top of Answer</span>
+                </button>
+              )}
+            </div>
+
+            {/* ─── Suggested Recruiter Prompts ─── */}
+            <div className={`border-t select-none shrink-0 overflow-y-auto custom-scrollbar p-2.5 transition-colors ${
+              isDarkMode ? "border-cyan-500/15 bg-[#080C14]/95" : "border-slate-200 bg-slate-50/95"
+            }`}>
+              <div className="flex items-center justify-between mb-1.5 px-0.5">
+                <span className={`text-[10px] font-mono uppercase tracking-wider font-semibold flex items-center gap-1 ${
+                  isDarkMode ? "text-cyan-400" : "text-[#1B6B93]"
+                }`}>
+                  <Sparkles className="w-2.5 h-2.5 text-cyan-400" /> Recruiter Quick Questions
+                </span>
+                <span className={`text-[9px] font-mono ${isDarkMode ? "text-slate-500" : "text-slate-400"}`}>
+                  1-click prompt
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                {suggestedQuestions.slice(0, 4).map((q, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => handleSendMessage(q)}
+                    disabled={isTyping}
+                    className={`group text-left text-[11px] leading-snug p-2 rounded-lg border font-medium transition-all duration-150 active:scale-[0.98] disabled:opacity-40 cursor-pointer focus-visible:outline-none focus-visible:ring-2 ${
+                      isDarkMode 
+                        ? "border-cyan-500/20 bg-cyan-950/20 hover:bg-cyan-900/35 hover:border-cyan-400/50 text-slate-200 hover:text-white focus-visible:ring-cyan-400/60" 
+                        : "border-slate-200 bg-white hover:bg-cyan-50/70 hover:border-[#1B6B93]/40 text-slate-700 hover:text-[#1B6B93] focus-visible:ring-[#1B6B93]/50 shadow-xs"
+                    }`}
+                  >
+                    <span className="line-clamp-2">{q}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* ─── Trust Indicator (Above Input Box) ─── */}
+            <div className={`flex items-center gap-1.5 px-3.5 py-1.5 border-t select-none transition-colors ${
+              isDarkMode 
+                ? "bg-[#080D1A]/90 border-cyan-500/15 text-slate-300" 
+                : "bg-slate-50 border-slate-200 text-slate-600"
+            }`}>
+              <span className="text-emerald-400 font-bold text-[11px] leading-none">✓</span>
+              <span className="text-[10px] sm:text-[10.5px] font-medium tracking-tight leading-none">
+                Responses are grounded only in verified resume data.
+              </span>
+            </div>
+
+            {/* ─── Input Box ─── */}
+            <div className={`border-t shrink-0 ${s.inputBox} ${
+              isDarkMode ? "border-cyan-500/20 bg-[#0B1120]" : "border-slate-200 bg-white"
+            }`}>
+              <div className={`relative flex items-center border rounded-2xl focus-within:ring-2 focus-within:ring-[#4FC0D0]/50 focus-within:border-cyan-400/50 focus-within:shadow-[0_0_15px_rgba(79,192,208,0.18)] transition-all ${
+                isDarkMode ? "bg-[#121827] border-cyan-500/25" : "bg-slate-50 border-slate-200"
+              }`}>
+                <textarea
+                  rows={1}
+                  placeholder="Ask anything about Kartik's engineering, projects, or interview Q&A..."
+                  value={inputQuery}
+                  onChange={(e) => setInputQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSendMessage(inputQuery);
+                    }
+                  }}
+                  className={`flex-1 bg-transparent border-0 outline-none focus:ring-0 resize-none custom-scrollbar ${s.inputArea} ${
+                    isDarkMode ? "text-white placeholder:text-slate-500" : "text-slate-900 placeholder:text-slate-400"
+                  }`}
+                />
+                <button
+                  onClick={() => handleSendMessage(inputQuery)}
+                  disabled={!inputQuery.trim() || isTyping}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-r from-[#1B6B93] to-[#4FC0D0] text-white disabled:opacity-40 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-cyan-400/30 transition-all cursor-pointer shadow-md shadow-[#1B6B93]/30"
+                  title="Send message (Enter)"
+                >
+                  <Send className="h-3.5 w-3.5" />
+                </button>
+              </div>
+
+              {/* Bottom Keyboard Hint & Branding */}
+              <div className="flex items-center justify-between select-none mt-2 px-1 text-[10px] text-slate-500 font-medium">
+                <span>Press <strong>Enter</strong> to send • <strong>Shift+Enter</strong> for newline</span>
+                <span className="flex items-center space-x-1 font-mono text-[9.5px] text-slate-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  <span>RAG Engine Active</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+    </>
+  );
+}<button
+                    onClick={() => handleRegenerate(msg.content)}
+                    className="p-1 rounded hover:bg-white/10 text-slate-400 hover:text-cyan-300 transition-colors cursor-pointer"
+                    title="Regenerate Answer"
+                    aria-label="Regenerate this response"
+                  >
+                    <RefreshCw className="h-3 w-3" />
+                  </button>
+                  // Auto-scroll rule: follow stream only if user is at the bottom
                 if (!userScrolledUpRef.current && chatContainerRef.current) {
                   chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
                 }
