@@ -3,14 +3,15 @@
  * SPDX-License-Identifier: Apache-2.0 
  */ 
  
-import { useState, useEffect } from "react";  
+import { useState, useEffect, lazy, Suspense } from "react";  
 import Navbar, { DashboardTabKey } from "./components/Navbar";
 import RecruiterHero from "./components/RecruiterHero"; 
 import PDFViewer from "./components/PDFViewer";
-import Dashboard from "./components/Dashboard";
-import DriveExplorer from "./components/DriveExplorer";
 import Chatbot from "./components/Chatbot";
-import { Compass } from "lucide-react"; 
+import { Compass, RefreshCw } from "lucide-react"; 
+
+const Dashboard = lazy(() => import("./components/Dashboard"));
+const DriveExplorer = lazy(() => import("./components/DriveExplorer")); 
 
 export default function App() {
   const [currentView, setCurrentView] = useState<"pdf" | "dashboard" | "drive">("pdf");
@@ -200,20 +201,34 @@ export default function App() {
               </div>
             ) : currentView === "dashboard" ? (
               <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
-                <Dashboard
-                  initialTab={dashboardTab}
-                  onTabChange={setDashboardTab}
-                  onAskAIAboutProject={handleAskAIAboutProject}
-                  onTrackAction={trackAction}
-                />
+                <Suspense fallback={
+                  <div className="flex h-64 items-center justify-center text-cyan-400 gap-2 font-mono text-xs">
+                    <RefreshCw className="h-4 w-4 animate-spin" />
+                    <span>Loading interactive dashboard & verifiers...</span>
+                  </div>
+                }>
+                  <Dashboard
+                    initialTab={dashboardTab}
+                    onTabChange={setDashboardTab}
+                    onAskAIAboutProject={handleAskAIAboutProject}
+                    onTrackAction={trackAction}
+                  />
+                </Suspense>
               </div>
             ) : (
               <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
-                <DriveExplorer
-                  isDarkMode={isDarkMode}
-                  onTrackAction={trackAction}
-                  onViewChange={handleViewChange}
-                />
+                <Suspense fallback={
+                  <div className="flex h-64 items-center justify-center text-cyan-400 gap-2 font-mono text-xs">
+                    <RefreshCw className="h-4 w-4 animate-spin" />
+                    <span>Loading Drive File Explorer...</span>
+                  </div>
+                }>
+                  <DriveExplorer
+                    isDarkMode={isDarkMode}
+                    onTrackAction={trackAction}
+                    onViewChange={handleViewChange}
+                  />
+                </Suspense>
               </div>
             )}
           </div>
