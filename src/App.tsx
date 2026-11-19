@@ -8,6 +8,7 @@ import Navbar, { DashboardTabKey } from "./components/Navbar";
 import RecruiterHero from "./components/RecruiterHero"; 
 import PDFViewer from "./components/PDFViewer";
 import Chatbot from "./components/Chatbot";
+import BookingModal from "./components/BookingModal";
 import { Compass, RefreshCw } from "lucide-react"; 
 
 const Dashboard = lazy(() => import("./components/Dashboard"));
@@ -23,6 +24,7 @@ export default function App() {
   });
   const [isChatOpen, setIsChatOpen] = useState<boolean>(true); // Open chatbot by default on open!
   const [chatInitialQuery, setChatInitialQuery] = useState<string | undefined>(undefined);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState<boolean>(false);
   const [showSplash, setShowSplash] = useState<boolean>(true);
   const [viewKey, setViewKey] = useState<number>(0);
 
@@ -152,6 +154,10 @@ export default function App() {
               setIsChatOpen(true);
               trackAction("navbar_ask_ai");
             }}
+            onOpenBooking={() => {
+              setIsBookingModalOpen(true);
+              trackAction("navbar_open_booking");
+            }}
           />
           <RecruiterHero
             onAskAI={() => {
@@ -159,6 +165,10 @@ export default function App() {
               trackAction("hero_ask_ai");
             }}
             onDownloadResume={handleDownloadPDF}
+            onOpenBooking={() => {
+              setIsBookingModalOpen(true);
+              trackAction("hero_open_booking");
+            }}
             isChatOpen={isChatOpen}
           />
         </div>
@@ -212,6 +222,10 @@ export default function App() {
                     onTabChange={setDashboardTab}
                     onAskAIAboutProject={handleAskAIAboutProject}
                     onTrackAction={trackAction}
+                    onOpenBooking={() => {
+                      setIsBookingModalOpen(true);
+                      trackAction("dashboard_open_booking");
+                    }}
                   />
                 </Suspense>
               </div>
@@ -291,6 +305,13 @@ export default function App() {
             />
           </div>
         )}
+
+        {/* 1-Click Cal.com Interview Booker Modal */}
+        <BookingModal
+          isOpen={isBookingModalOpen}
+          onClose={() => setIsBookingModalOpen(false)}
+          isDarkMode={isDarkMode}
+        />
       </div>
     </>
   );

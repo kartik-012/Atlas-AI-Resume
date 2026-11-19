@@ -8,7 +8,7 @@ import {
   Compass, Navigation, Milestone, MessageSquare, Activity, Layers, Flag, 
   Globe, Github, Linkedin, ExternalLink, Sparkles, Send, Upload, RefreshCw, 
   Trash2, Mail, Phone, MapPin, Check, Copy, Zap, ShieldAlert, Cpu, GitCompare, Play, Terminal,
-  Download, FileText, Network, CheckCircle2, Briefcase, AlertTriangle, Database, ShieldCheck, Scale, SlidersHorizontal, BarChart3, Code2
+  Download, FileText, Network, CheckCircle2, Briefcase, AlertTriangle, Database, ShieldCheck, Scale, SlidersHorizontal, BarChart3, Code2, Calendar
 } from "lucide-react";
 import { resumeData, Project, Certification } from "../data/resumeData";
 
@@ -20,6 +20,7 @@ interface DashboardProps {
   onTabChange?: (tab: DashboardTabKey) => void;
   onAskAIAboutProject: (projectTitle: string) => void;
   onTrackAction: (event: string, meta?: any) => void;
+  onOpenBooking?: () => void;
 }
 
 interface AnalyticsData {
@@ -32,7 +33,7 @@ interface AnalyticsData {
   popularQueries: { query: string; count: number }[];
 }
 
-export default function Dashboard({ initialTab, onTabChange, onAskAIAboutProject, onTrackAction }: DashboardProps) {
+export default function Dashboard({ initialTab, onTabChange, onAskAIAboutProject, onTrackAction, onOpenBooking }: DashboardProps) {
   const [activeTab, setActiveTab] = useState<DashboardTabKey>(initialTab || "projects");
 
   useEffect(() => {
@@ -2340,6 +2341,16 @@ Requirements:
                         <Mail className="h-3.5 w-3.5" />
                         <span>Invite to Screen</span>
                       </a>
+                      {onOpenBooking && (
+                        <button
+                          onClick={onOpenBooking}
+                          className="w-full sm:w-auto flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-xxs shadow transition cursor-pointer"
+                          title="Open 1-click Cal.com booking modal"
+                        >
+                          <Calendar className="h-3.5 w-3.5" />
+                          <span>Book 15m Sync</span>
+                        </button>
+                      )}
                       <button
                         onClick={() => onAskAIAboutProject(`Can you explain why Kartik Raikar is a great fit for the ${targetRole} role?`)}
                         className="w-full sm:w-auto py-2.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-cyan-300 font-bold text-xxs transition flex items-center justify-center gap-1.5"

@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from "react";
-import { Github, Linkedin, ExternalLink, Sun, Moon, FileText, LayoutDashboard, HardDrive, MessageCircle, Compass, Menu, X, ShieldAlert, Briefcase } from "lucide-react";
+import { Github, Linkedin, ExternalLink, Sun, Moon, FileText, LayoutDashboard, HardDrive, MessageCircle, Compass, Menu, X, ShieldAlert, Briefcase, Calendar } from "lucide-react";
 import { resumeData } from "../data/resumeData";
 
 export type DashboardTabKey = "projects" | "experience" | "proof" | "jd" | "blueprint" | "certificates" | "skills" | "analytics" | "admin" | "contact";
@@ -17,6 +17,7 @@ interface NavbarProps {
   isDarkMode: boolean;
   setIsDarkMode: (val: boolean) => void;
   onOpenChat: () => void;
+  onOpenBooking?: () => void;
 }
 
 export interface NavTabItem {
@@ -48,7 +49,8 @@ export default function Navbar({
   onSelectDashboardTab,
   isDarkMode,
   setIsDarkMode,
-  onOpenChat
+  onOpenChat,
+  onOpenBooking
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -206,6 +208,24 @@ export default function Navbar({
 
         {/* ── Right Actions ── */}
         <div className="flex items-center space-x-1.5 sm:space-x-2">
+          {onOpenBooking && (
+            <button
+              onClick={onOpenBooking}
+              className={`
+                group flex items-center space-x-1.5 rounded-lg px-2.5 py-1.5 text-[12.5px] font-semibold
+                transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 cursor-pointer
+                ${isDarkMode
+                  ? "bg-white/5 hover:bg-white/10 text-cyan-300 border border-cyan-500/30"
+                  : "bg-slate-100 hover:bg-slate-200 text-cyan-700 border border-slate-300"
+                }
+              `}
+              title="Schedule a 15-min chat on Cal.com"
+            >
+              <Calendar className="h-3.5 w-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
+              <span className="hidden lg:inline">Schedule</span>
+            </button>
+          )}
+
           {/* Ask AI trigger */}
           <button
             onClick={onOpenChat}
